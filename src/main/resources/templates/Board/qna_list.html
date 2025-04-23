@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/board/qna_list.css">
+<!--    <link rel="stylesheet" href="../bootstrap-3.4.1-dist/css/bootstrap.css">-->
+    <script src="../../static/bootstrap-3.4.1-dist/js/jquery-3.7.1.min.js"></script>
+    <script src="../../static/bootstrap-3.4.1-dist/js/bootstrap.js"></script>
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
+</head>
+<body>
+
+<div th:replace="include/header :: headerFragment"></div>
+    
+    <div class="hi">
+        <div class="header_box">
+            <p class="header_box_left"><img src="../image/free-icon-chat-16689507 1.png" alt="채팅이미지"></p>
+            <p class="header_box_mid">무엇을 도와드릴까요?</p>
+            <p class="header_box_right"><img src="../image/free-icon-consulting-services-12285773 1.png" alt="헤드셋이미지지"></p>
+        </div>
+    </div>
+    <section>
+        <div class="section_upper">
+            <div class="section_upper_left">1:1 문의</div>
+            <div class="section_upper_right">
+                <input type="text" class="search_box" placeholder="키워드 검색" name="">
+                <a href="#" class="searchBtn"><img src="../image/Search.png" alt="검색"></a>
+            </div>
+        </div>
+        <div class="section_under">
+
+            <!-- 질문 칸 1개당 ul 하나 -->
+            <ul th:each="qna : ${qnaList}" class="question">
+                <li class="li_title">
+                    <div class="question_title_box">
+                        <p class="question_title" th:text="${qna.inquiryTitle}">제목</p>
+                        <p class="question_date" th:text="${#temporals.format(qna.inquiryCreateAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+                    </div>
+                    <div class="question_isanswered_date"
+                         th:text="${#strings.equals(qna.inquiryStatus, '답변완료') ? #temporals.format(qna.inquiryUpdateAt, 'yyyy-MM-dd HH:mm') : ''}">
+                    </div>
+                    <div class="question_isanswered"
+                         th:text="${qna.inquiryStatus}"
+                         th:style="${qna.inquiryStatus == '답변완료' ? 'color:#255EEE;' : 'color:#eea825;'}">
+                    </div>
+                </li>
+                <li>
+                    <div class="question_content tohide in" th:text="${qna.inquiryContent}">내용</div>
+                </li>
+                <li>
+                    <div class="question_answer_box tohide in" th:if="${qna.inquiryReply != null}">
+                        <p class="question_answer_date" th:text="${#temporals.format(qna.inquiryUpdateAt, 'yyyy-MM-dd HH:mm')}">답변날짜</p>
+                        <p class="question_answer_content" th:text="${qna.inquiryReply}">답변내용</p>
+                    </div>
+                </li>
+            </ul>
+
+
+            <!-- 문의하기 버튼 -->
+             <input type="button" value="문의하기" class="questionBtn">
+
+            <div class="question_pagenation">
+                <p><i class="bi bi-chevron-left pg"></i></p>
+                <p><a href="#">  1  </a></p>
+                <p><a href="#">  2  </a></p>
+                <p><a href="#">  3  </a></p>
+                <p><i class="bi bi-chevron-right pg"></i></p>
+            </div>
+        </div>
+
+
+        <div th:replace="include/footer :: footerFragment"></div>
+    </section>
+
+    <script>
+        var ul_question = document.querySelectorAll(".question");
+        ul_question.forEach(function(questionEl) {
+
+            questionEl.addEventListener("click", function(event) {
+                var parent = event.target.closest(".question");
+                parent.firstElementChild.firstElementChild.nextElementSibling.classList.toggle("in");
+                parent.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.classList.toggle("in");
+                
+                parent.firstElementChild.nextElementSibling.firstElementChild.classList.toggle("in");
+                parent.firstElementChild.nextElementSibling.nextElementSibling.firstElementChild.classList.toggle("in");
+            })
+        })
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project2.worklet.qna.service.QnaMapper">
+    <insert id="qnaForm" parameterType="com.project2.worklet.component.QnaVO">
+        INSERT INTO inquiry (
+            user_num,
+            inquiry_title,
+            inquiry_content,
+            inquiry_status,
+            inquiry_create_at,
+            inquiry_update_at,
+            inquiry_reply
+        ) VALUES (
+                     #{userNum},
+                     #{inquiryTitle},
+                     #{inquiryContent},
+                     #{inquiryStatus},
+                     #{inquiryCreateAt},
+                     #{inquiryUpdateAt},
+                     #{inquiryReply}
+                 )
+    </insert>
+
+    <select id="qnalist" resultType="com.project2.worklet.component.QnaVO">
+        SELECT
+            inquiry_id,
+            user_num,
+            inquiry_title,
+            inquiry_content,
+            inquiry_status,
+            inquiry_create_at,
+            inquiry_update_at,
+            inquiry_reply
+        FROM inquiry
+        ORDER BY inquiry_create_at DESC
+    </select>
+
+
+
+</mapper>

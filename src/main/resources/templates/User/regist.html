@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <link rel="stylesheet" href="../css/user/regiest.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<div th:replace="include/header :: headerFragment"></div>
+
+<div class="wrap">
+  <div class="form-container">
+    <h2 class="title">WORKLET</h2>
+    <h2>회원가입</h2>
+    <form action="/user/regist" method="post" name="registForm">
+      <div class="form">
+        <div class="form-row">
+          <label class="username">아이디</label>
+          <input type="text" name="userId" id="id" placeholder="6~20자 영문자 또는 숫자">
+
+          <span id="check-result"></span>
+
+        </div>
+
+        <div class="form-row">
+          <label for="password">비밀번호</label>
+          <input type="password" name="userPw" id="password" placeholder="8~16자 영문, 숫자, 특수문자 포함">
+        </div>
+
+        <div class="form-row">
+          <label for="passwordCheck">비밀번호 확인</label>
+          <input type="password" id="passwordCheck" placeholder="비밀번호 재입력">
+        </div>
+
+        <div class="form-row">
+          <label>이름</label>
+          <input type="text" id="name" name="userName">
+        </div>
+
+        <div class="form-row">
+          <label>성별</label>
+          <div class="radio-group">
+            <label><input type="radio" name="userGender" value="남성"> 남성</label>
+            <label><input type="radio" name="userGender" value="여성"> 여성</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>생년월일</label>
+          <div class="birth-row">
+            <input type="text" class="small" id="birthYear" placeholder="년">
+            <input type="text" class="small" id="birthMonth" placeholder="월">
+            <input type="text" class="small" id="birthDay" placeholder="일">
+            <input type="hidden" name="userBirthday" id="userBirthday">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>연락처</label>
+          <input type="text" placeholder="000-0000-0000" name="userPhone">
+        </div>
+
+        <div class="form-row">
+          <label>이메일</label>
+          <input type="email" placeholder="example@email.com" name="userEmail">
+        </div>
+
+        <div class="form-row">
+          <label>희망고용형태 (최대 3개)</label>
+          <div class="option-group">
+            <label><input type="checkbox" name="wantJobType" value="정규직"> 정규직</label>
+            <label><input type="checkbox" name="wantJobType" value="계약직"> 계약직</label>
+            <label><input type="checkbox" name="wantJobType" value="인턴"> 인턴</label>
+            <label><input type="checkbox" name="wantJobType" value="아르바이트"> 아르바이트</label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>희망직종경력</label>
+          <div class="option-group">
+            <label><input type="radio" name="wantJobWorkexpHowlong" value="0"> 없음</label>
+            <label><input type="radio" name="wantJobWorkexpHowlong" value="1"> 1년 이하</label>
+            <label><input type="radio" name="wantJobWorkexpHowlong" value="2"> 1년~2년</label>
+            <label><input type="radio" name="wantJobWorkexpHowlong" value="3"> 2년 이상</label>
+          </div>
+        </div>
+
+        <div class="form-group terms-box">
+          <label class="terms-title">가입 약관</label>
+          <div class="terms-inner-box">
+            <div class="terms-item">
+              <label><input type="checkbox" class="agree" required> 개인회원 약관 동의(필수)</label>
+            </div>
+            <div class="terms-item">
+              <label><input type="checkbox" class="agree" required> 개인정보 수집 및 이용 동의(필수)</label>
+            </div>
+            <div class="terms-item">
+              <label><input type="checkbox" class="agree"> 마케팅 정보 수신 동의 - 이메일(선택)</label>
+            </div>
+            <div class="terms-item">
+              <label><input type="checkbox" class="agree"> 마케팅 정보 수신 동의 - MMS(선택)</label>
+            </div>
+          </div>
+          <div class="terms-all">
+            <label><input type="checkbox" id="checkAll"> <strong>전체 동의</strong></label>
+            <p class="terms-desc">위의 약관에 모두 동의합니다.</p>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">회원 가입하기</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("checkAll").addEventListener("change", function () {
+    document.querySelectorAll(".agree").forEach(chk => chk.checked = this.checked);
+  });
+
+  document.querySelectorAll(".agree").forEach(chk => {
+    chk.addEventListener("change", function () {
+      const allChecked = Array.from(document.querySelectorAll(".agree")).every(cb => cb.checked);
+      document.getElementById("checkAll").checked = allChecked;
+    });
+  });
+
+  document.querySelector(".submit-btn").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const id = document.getElementById("id");
+    const pw = document.getElementById("password");
+    const pwCheck = document.getElementById("passwordCheck");
+    const name = document.getElementById("name");
+    const gender = document.querySelector('input[name="userGender"]:checked');
+    const birthYear = document.getElementById("birthYear").value.trim();
+    const birthMonth = document.getElementById("birthMonth").value.trim();
+    const birthDay = document.getElementById("birthDay").value.trim();
+    const userBirthday = document.getElementById("userBirthday");
+
+    const phone = document.querySelector('input[name="userPhone"]');
+    const email = document.querySelector('input[name="userEmail"]');
+    const employmentTypes = document.querySelectorAll('.option-group input[type="checkbox"]');
+    const career = document.querySelector('input[name="wantJobWorkexpHowlong"]:checked');
+
+    const redId = /^[a-z]+[a-z0-9]{5,19}$/g;
+    const redPw = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+]).{8,16}$/;
+    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!id.value || !redId.test(id.value)) return alert("올바른 아이디를 입력해주세요");
+    if (!pw.value || !redPw.test(pw.value)) return alert("올바른 비밀번호를 입력해주세요");
+    if (pw.value !== pwCheck.value) return alert("비밀번호가 일치하지 않습니다");
+    if (!name.value) return alert("이름을 입력해주세요");
+    if (!gender) return alert("성별을 선택해주세요");
+
+    if (!/^\d{4}$/.test(birthYear) || birthYear < 1900) return alert("출생년도를 올바르게 입력해주세요");
+    if (birthMonth < 1 || birthMonth > 12) return alert("월은 1~12 사이여야 합니다");
+    if (birthDay < 1 || birthDay > 31) return alert("일은 1~31 사이여야 합니다");
+    const maxDay = new Date(birthYear, birthMonth, 0).getDate();
+    if (birthDay > maxDay) return alert(`${birthMonth}월은 ${maxDay}일까지 있습니다`);
+    userBirthday.value = `${birthYear}-${birthMonth.padStart(2, '0')}-${birthDay.padStart(2, '0')}`;
+
+    if (!phoneRegex.test(phone.value)) return alert("전화번호 형식을 확인해주세요 (예: 010-1234-5678)");
+    if (!emailRegex.test(email.value)) return alert("이메일 형식을 확인해주세요");
+
+    const checkedEmployment = Array.from(employmentTypes).filter(cb => cb.checked);
+    if (checkedEmployment.length === 0 || checkedEmployment.length > 3) return alert("고용형태는 1~3개 선택해주세요");
+    if (!career) return alert("경력을 선택해주세요");
+
+    alert("회원가입이 완료되었습니다! 🎉");
+    document.forms["registForm"].submit();
+  });
+
+
+
+
+    const userIdInput = document.getElementById('id');
+    const resultSpan = document.getElementById('check-result');
+
+    userIdInput.addEventListener('input', function () {
+      const userId = userIdInput.value;
+
+      // 입력 안 했으면 리셋
+      if (userId.trim() === '') {
+        resultSpan.textContent = '';
+        resultSpan.style.color = '';
+        return;
+      }
+
+      fetch(`/user/check-id?userId=${encodeURIComponent(userId)}`)
+              .then(response => response.text())
+              .then(data => {
+                console.log('서버 응답:', data);
+
+                if (data === 'duplicate') {
+                  resultSpan.textContent = '사용 중인 아이디입니다.';
+                  resultSpan.style.color = 'red';
+                } else if (data === 'available') {
+                  resultSpan.textContent = '사용 가능한 아이디입니다.';
+                  resultSpan.style.color = 'green';
+                } else {
+                  resultSpan.textContent = '알 수 없는 응답입니다.';
+                  resultSpan.style.color = 'gray';
+                }
+              })
+              .catch(error => {
+                console.error('에러 발생:', error);
+                resultSpan.textContent = '서버 오류입니다.';
+                resultSpan.style.color = 'orange';
+              });
+    });
+
+
+
+</script>
+
+<div th:replace="include/footer :: footerFragment"></div>
+
+<script src="../css/js/header.js"></script>
+</body>
+</html>
