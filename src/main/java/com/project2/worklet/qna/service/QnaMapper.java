@@ -8,5 +8,5 @@ import java.util.List;
 public interface QnaMapper {
     int qnaForm(QnaVO vo);
     List<QnaVO> qnalist();
-    void updateReply(QnaVO vo);
+
 }
