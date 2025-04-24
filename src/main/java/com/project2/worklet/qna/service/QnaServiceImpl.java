@@ -24,5 +24,7 @@ public class QnaServiceImpl implements QnaService {
     public List<QnaVO> qnalist() {
         return qnaMapper.qnalist();
     }
+
+
 }
 

@@ -1,16 +1,66 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+.flex {
+    display: flex;
+}
+
+.wrap {
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard-Regular';
+}
+
+li, ol, ul, dd, dl {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+
+}
+
+
+img {
+    vertical-align: top;
+}
+
+:root {
+    --main-color1: #255EEE;
+    --sub-color1: #87A9FF;
+    --sub-color2: #D2DFFF;
+    --text-color: #1d1d1d;
+    --text-color2:#D0D0D0;
+    --text-color3:#F5F5F0;
+}
 
 /* PC (데스크탑) 버전 */
 @media (min-width: 768px) {
 
+    .forMargin{
+        margin-top: 100px;
+    }
+
     .ham-menu {
         display: none;
     }
-
-    .wrap {
-        background-color: #FAFAFA;
-        height: 100%;
-    }
-
 
     header {
         width: 100%;
@@ -69,6 +119,8 @@
         padding: 0 10px;
         text-align: center;
         font-size: 16px;
+        text-decoration: none;
+        color: black;
     }
 
     header .login,
@@ -225,7 +277,8 @@
         background-size: 25%;
         background-image: url("../image/left1.png");
         background-repeat: no-repeat;
-        background-position: 17px;
+        background-position: 15px;
+        border: 1px solid red;
     }
 
     .pageChangeRightArrow {
@@ -233,16 +286,17 @@
         background-image: url("../image/right1.png");
         background-repeat: no-repeat;
         background-position: 0.5px;
+        border: 1px solid red;
     }
 
-    .pageChange > div > span {
+    .pageChange > ul > li {
         width: 30px;
         height: 30px;
         /*padding: auto;*/
         display: inline-block;
         line-height: 30px;
         margin: 0px;
-        
+        border: 1px solid green;
     }
 
     .searchResultsInfo {

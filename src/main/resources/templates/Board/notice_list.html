@@ -47,7 +47,7 @@
             <div class="notice_card">
                 <!-- 총 개수 출력 -->
                 <div class="notice_card_upper">
-                    총 <span th:text="${noticeList != null ? noticeList.size() : 0}">0</span>개
+                    총 <span th:text="${total}">0</span>개
                 </div>
 
                 <!-- 공지 리스트 반복 출력 -->
@@ -59,10 +59,9 @@
                         <span class="title_cont regdate" th:text="${#temporals.format(notice.noticeCreatedAt, 'yyyy-MM-dd')}">등록일</span>
                         <span class="title_cont down">
                     <i class="bi bi-chevron-down"></i>
-                    <i class="bi bi-chevron-up in"></i>
                 </span>
                     </div>
-                    <div class="notice_card_content in" th:text="${notice.noticeContent}">공지 내용</div>
+                    <div class="notice_card_content" th:text="${notice.noticeContent}">공지 내용</div>
                 </div>
             </div>
 
@@ -112,27 +111,24 @@
 
 
 
-<script>
-    var titles = document.querySelectorAll(".notice_card_title");
-    titles.forEach(function (titleEl) {
-        titleEl.addEventListener("click", function(event) {
-            var parent = event.target.closest(".notice_card_title");
-            if (parent && parent.nextElementSibling) {
-                parent.nextElementSibling.classList.toggle("in");
-                parent.firstElementChild.nextElementSibling
-                    .nextElementSibling.nextElementSibling.nextElementSibling
-                    .firstElementChild.classList.toggle("in");
+-
+    <script>
+        const noticeTitles = document.querySelectorAll('.notice_card_title');
 
-                parent.firstElementChild.nextElementSibling
-                    .nextElementSibling.nextElementSibling.nextElementSibling
-                    .firstElementChild.nextElementSibling.classList.toggle("in");
+        noticeTitles.forEach(title => {
+            title.addEventListener('click', function() {
+                const content = title.nextElementSibling; // 해당 제목 바로 아래의 내용을 찾음
+                content.classList.toggle('active'); // 내용에 .active 클래스 토글
+            });
+        });
 
-            }
-        })
-    });
-</script>
 
-<script src="../css/js/header.js"></script>
+    </script>
+-
+
+
+
+<script th:src="@{/css/js/header.js}"></script>
 
 </body>
 </html>

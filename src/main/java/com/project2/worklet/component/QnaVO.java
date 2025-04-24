@@ -18,4 +18,5 @@ public class QnaVO {
     private LocalDateTime inquiryCreateAt;
     private LocalDateTime inquiryUpdateAt;
     private String inquiryReply;
+
 }

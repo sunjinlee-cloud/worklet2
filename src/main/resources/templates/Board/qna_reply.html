@@ -3,242 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>1:1문의 답변 관리자 페이지</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: #fff;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .page-title {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 32px;
-            margin-top: 24px;
-            letter-spacing: -1px;
-        }
-        .qna-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            margin-bottom: 32px;
-        }
-        .qna-table th, .qna-table td {
-            padding: 12px 8px;
-            border-bottom: 1px solid #e5e5e5;
-            font-size: 1rem;
-            text-align: center;
-        }
-        .qna-table th {
-            background: #f7f7f7;
-            font-weight: 600;
-        }
-        .qna-table td.title {
-            text-align: left;
-            font-weight: 500;
-        }
-        .qna-table tr.toggle-row {
-            cursor: pointer;
-            background: #fff;
-            transition: background 0.15s;
-        }
-        .qna-table tr.toggle-row:hover {
-            background: #f0f3fa;
-        }
-        .qna-table td.arrow {
-            width: 32px;
-            font-size: 1.2rem;
-            color: #222;
-            cursor: pointer;
-        }
-        .qna-detail-row {
-            display: none;
-            background: #fafbfc;
-        }
-        .qna-detail-row.open {
-            display: table-row;
-            animation: fadeIn 0.2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .qna-detail-content {
-            padding: 18px 16px 20px 16px;
-            text-align: left;
-            font-size: 1rem;
-            color: #222;
-            line-height: 1.6;
-        }
-        .answer-textarea {
-            width: 100%;
-            min-height: 90px;
-            border: 1px solid #d4d4d4;
-            border-radius: 6px;
-            padding: 12px;
-            font-size: 1rem;
-            margin-top: 12px;
-            margin-bottom: 14px;
-            resize: vertical;
-            box-sizing: border-box;
-        }
-        .submit-btn {
-            float: right;
-            background: #255EEE;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 28px;
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-            margin-bottom: 10px;
-        }
-        .submit-btn:hover {
-            background: #163ea7;
-        }
-        .pagination {
-            text-align: center;
-            margin: 32px 0 0 0;
-            font-size: 1.1rem;
-            user-select: none;
-        }
-        .pagination a,
-        .pagination span {
-            display: inline-block;
-            margin: 0 6px;
-            padding: 2px 8px;
-            color: #222;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        .pagination a:hover {
-            background: #f0f3fa;
-        }
-        .pagination .active {
-            background: #255EEE;
-            color: #fff;
-            font-weight: bold;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap Icons CDN (for chevron) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="inquiry_admin.css">
+    <link rel="stylesheet" href="/css/board/qna_reply.css">
 </head>
 <body>
 <div class="container">
-    <div class="page-title">1:1문의 답변 관리자 페이지</div>
-    <table class="qna-table">
-        <thead>
-        <tr>
-            <th style="width:60px">번호</th>
-            <th style="width:280px">제목</th>
-            <th style="width:80px">작성자</th>
-            <th style="width:120px">작성일</th>
-            <th style="width:80px">상태</th>
-            <th style="width:32px"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- 문의 1 (펼쳐진 상태 예시) -->
-        <tr class="toggle-row">
-            <td>200</td>
-            <td class="title">문의드려요</td>
-            <td>유지1</td>
-            <td>2025-04-11</td>
-            <td>답변대기</td>
-            <td class="arrow"><i class="bi bi-chevron-up"></i></td>
-        </tr>
-        <tr class="qna-detail-row">
-            <td colspan="6">
-                <div class="qna-detail-content">
-                    저의 꿈의 직장은 집계리야입니다. 집계리안에 취직하고계신분과 패턴 10개 한번에 외기도 매번 연습해요. 그런데 직업분류란에 집계리 항목이 없어 요. 어떻게 되지죠 ㅠ
-                    <textarea class="answer-textarea" placeholder="답변내용을 입력하세요"></textarea>
-                    <button class="submit-btn">답변등록</button>
+    <h1>1:1문의 답변 관리자 페이지</h1>
+    <div class="inquiry-list">
+        <!-- 문의 반복 영역 시작 -->
+        <div class="inquiry-item active">
+            <div class="inquiry-title">
+                <span class="inquiry-num">200</span>
+                <span class="inquiry-subject">문의드려요</span>
+                <span class="inquiry-user">유저1</span>
+                <span class="inquiry-date">2025-04-11</span>
+                <span class="inquiry-status">답변대기</span>
+                <span class="toggle-icon"><i class="bi bi-chevron-up"></i></span>
+            </div>
+            <div class="inquiry-content">
+                <div class="inquiry-question">
+                    저의 특성 직장은 직제라인입니다. 직제라인에 취직하려고 최상위과 패턴 10개 안에만 들게끔 면접을 연습했습...
                 </div>
-            </td>
-        </tr>
-        <!-- 문의 2~6 (접힌 상태) -->
-        <tr class="toggle-row">
-            <td>199</td>
-            <td class="title">문의드려요</td>
-            <td>유지1</td>
-             <td>2025-04-11</td>
-            <td>답변대기</td>
-            <td class="arrow"><i class="bi bi-chevron-down"></i></td>
-        </tr>
-        <tr class="qna-detail-row">
-            <td colspan="6">
-                <div class="qna-detail-content">
-                    문의 내용 예시입니다.<br>
-                    <textarea class="answer-textarea" placeholder="답변내용을 입력하세요"></textarea>
-                    <button class="submit-btn">답변등록</button>
+                <textarea class="inquiry-answer" placeholder="답변내용을 입력하세요"></textarea>
+                <button class="answer-submit-btn">답변등록</button>
+            </div>
+        </div>
+        <!-- 문의 반복 영역 끝 -->
+
+        <!-- 아래는 반복 예시 -->
+        <div class="inquiry-item">
+            <div class="inquiry-title">
+                <span class="inquiry-num">199</span>
+                <span class="inquiry-subject">문의드려요</span>
+                <span class="inquiry-user">유저1</span>
+                <span class="inquiry-date">2025-04-11</span>
+                <span class="inquiry-status">답변대기</span>
+                <span class="toggle-icon"><i class="bi bi-chevron-down"></i></span>
+            </div>
+            <div class="inquiry-content">
+                <div class="inquiry-question">
+                    문의 내용이 들어갑니다.
                 </div>
-            </td>
-        </tr>
-        <!-- 반복 ... -->
-        <tr class="toggle-row">
-            <td>198</td>
-            <td class="title">문의드려요</td>
-            <td>유지1</td>
-            <td>2025-04-11</td>
-            <td>답변대기</td>
-            <td class="arrow"><i class="bi bi-chevron-down"></i></td>
-        </tr>
-        <tr class="qna-detail-row">
-            <td colspan="6">
-                <div class="qna-detail-content">
-                    문의 내용 예시입니다.<br>
-                    <textarea class="answer-textarea" placeholder="답변내용을 입력하세요"></textarea>
-                    <button class="submit-btn">답변등록</button>
-                </div>
-            </td>
-        </tr>
-        <!-- ...더 추가 가능 -->
-        </tbody>
-    </table>
-    <!-- 페이지네이션 -->
+                <textarea class="inquiry-answer" placeholder="답변내용을 입력하세요"></textarea>
+                <button class="answer-submit-btn">답변등록</button>
+            </div>
+        </div>
+        <!-- 반복 끝 -->
+    </div>
+
     <div class="pagination">
-        <a href="#"><i class="bi bi-chevron-double-left"></i></a>
-        <a href="#"><i class="bi bi-chevron-left"></i></a>
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#"><i class="bi bi-chevron-right"></i></a>
-        <a href="#"><i class="bi bi-chevron-double-right"></i></a>
+        <span class="page-arrow">&lt;&lt;</span>
+        <span class="page-arrow">&lt;</span>
+        <span class="page-number active">1</span>
+        <span class="page-number">2</span>
+        <span class="page-number">3</span>
+        <span class="page-number">4</span>
+        <span class="page-number">5</span>
+        <span class="page-arrow">&gt;</span>
+        <span class="page-arrow">&gt;&gt;</span>
     </div>
 </div>
+
 <script>
-    document.querySelectorAll('.toggle-row').forEach(function(row) {
-        row.addEventListener('click', function() {
-            var detailRow = row.nextElementSibling;
-            var isOpen = detailRow.classList.contains('open');
-
-            // 모두 닫기
-            document.querySelectorAll('.qna-detail-row').forEach(function(r) {
-                r.classList.remove('open');
-            });
-            document.querySelectorAll('.toggle-row .arrow i').forEach(function(i) {
-                i.className = 'bi bi-chevron-down';
-            });
-
-            // 이미 열려있던 거면 닫기만 하고 끝
-            if (isOpen) return;
-
-            // 아니면 열기
-            detailRow.classList.add('open');
-            row.querySelector('.arrow i').className = 'bi bi-chevron-up';
+    // 아코디언 토글
+    document.querySelectorAll('.inquiry-title').forEach(title => {
+        title.addEventListener('click', function() {
+            const item = title.parentElement;
+            const alreadyActive = item.classList.contains('active');
+            document.querySelectorAll('.inquiry-item').forEach(i => i.classList.remove('active'));
+            if (!alreadyActive) item.classList.add('active');
         });
     });
-
 </script>
 </body>
 </html>

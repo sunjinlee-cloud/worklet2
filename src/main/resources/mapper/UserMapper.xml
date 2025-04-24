@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
      <mapper namespace="com.project2.worklet.user.service.UserMapper">
         <insert id="insertUser" parameterType="com.project2.worklet.component.UserVO">
             INSERT INTO member (
@@ -42,6 +43,8 @@
                        #{joinDate}
                    )
         </insert>
+
+
 
     <select id="loginUser" resultType="com.project2.worklet.component.UserVO">
         select *

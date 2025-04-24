@@ -10,4 +10,5 @@ public interface JobPostingService {
     public String postList();//매일 정해진 시간에 채용공고 api 100개씩 불러와서 db에 저장
     public int postDetail(List<String> list);
     public List<JobPostingVO2> getList(Criteria cri);
+    int getTotal(Criteria cri);
 }

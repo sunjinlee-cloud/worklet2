@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h3>항목에 맞게 작성하신 이력서 내용을 ai로 다듬어 드려요.</h3>
+    <h5>성장과정</h5>
+    <form action="/submitresume" method="post">
+        <textarea name="content" rows="10" cols="200"></textarea>
+        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
+    </form>
+    <h5>강점과 약점</h5>
+    <form action="/submitresume" method="post">
+        <textarea name="content" rows="10" cols="200"></textarea>
+        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
+    </form>
+    <h5>직무 관련 경험</h5>
+    <form action="/submitresume" method="post">
+        <textarea name="content" rows="10" cols="200"></textarea>
+        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
+    </form>
+    <h5>미래 포부</h5>
+    <form action="/submitresume" method="post">
+        <textarea name="content" rows="10" cols="200"></textarea>
+        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
+    </form>
+
+    <script>
+        var resumeSubmitBtn = document.querySelectorAll(".resumeSubmitBtn");
+        resumeSubmitBtn.forEach((element) => {
+            element.addEventListener('click', (e) => {
+                fetch("submitresume", {
+                    method: "post",
+                    headers: {"Content-Type" : "application/json"},
+                    body: Json.stringify({})
+                })
+            })
+        })
+
+    </script>
+
+</body>
+</html>

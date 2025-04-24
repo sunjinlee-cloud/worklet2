@@ -57,7 +57,11 @@ img {
 
 /*데스크탑*/
 @media(min-width: 767px) {
-    .ham-menu {
+    .wrap{
+        margin-top: 50px;
+    }
+
+    .ham-menu{
         display: none;
     }
 
@@ -76,9 +80,9 @@ img {
         z-index: 999;
     }
 
-    header .logout {
-        display: none;
-    }
+    /*header .logout {*/
+    /*    display: none;*/
+    /*}*/
 
     header h1 {
         width: 170px;
@@ -101,26 +105,15 @@ img {
     header .menu {
         background-color: #fff;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    ;
         height: 50px;
         align-items: center;
         border-radius: 50px;
         gap: 50px;
         padding: 20px;
         min-width: 548px;
-
     }
 
-    header ul li a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        padding: 0 10px;
-        text-align: center;
-        font-size: 16px;
-        text-decoration: none;
-        color: black;
-    }
 
     header .login,
     header .logout {
@@ -320,8 +313,47 @@ img {
     }
 
     .notice_card_content {
-        padding: 20px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, padding 0.5s;
+        background: #f7f9fa;
+        padding: 0 20px;
+        border-radius: 8px;
+        margin-bottom: 8px;
     }
+    .notice_card_content.active {
+        opacity: 1;
+        padding: 20px;
+        max-height: 1000px;
+    }
+
+
+
+    .notice_card_title {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 16px 0;
+    }
+
+    .title_cont.arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        transition: transform 0.3s ease; /* 부드러운 회전 애니메이션 */
+    }
+
+    .notice_card_title.open .arrow-icon {
+        transform: rotate(180deg); /* 아래에서 위로 */
+    }
+
+
+
+
 
     .pagenation {
         margin-top: 40px;
@@ -346,18 +378,15 @@ img {
         display: inline-block; width: 10px; height: 10px;
     }
 
-    .notice_card_content {
-        display: inline-block;
-    }
 
-    .in {
-        display: none;
-    }
+
+
+
 
     /* --------footer----------- */
     footer {
         width: 100%;
-        height: 200px;
+        height: 250px;
         background-color: #D9D9D9;
         align-items: center;
         justify-content: space-between;
@@ -394,12 +423,11 @@ img {
         top: 0;
         left: 0;
         z-index: 999;
-
     }
 
-    header .logout {
-        display: none;
-    }
+    /*header .logout {*/
+    /*    display: none;*/
+    /*}*/
 
     header h1 {
         width: 130px;
@@ -467,14 +495,7 @@ img {
         height: 100vh;
         background-color: #fff;
         transition: .4s;
-
     }
-
-    /*.ham-menu ul {*/
-    /*  width: 100%;*/
-    /*  max-width: 400px;*/
-    /*  margin: 10px auto;*/
-    /*}*/
 
     .ham-menu.on {
         right: 0;
@@ -506,7 +527,6 @@ img {
     .ham-menu .ham-logout li,
     .ham-login li {
         margin: 10px 0;
-        font-size: 17px;
     }
 
     .search-wrapper {
@@ -705,7 +725,46 @@ img {
     }
 
     .notice_card_content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, padding 0.5s;
+        background: #f7f9fa;
+        padding: 0 20px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        will-change: max-height, opacity, padding;
+    }
+    .notice_card_content.active {
+        opacity: 1;
         padding: 20px;
+
+    }
+
+
+    .notice_card_title {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 16px 0;
+    }
+
+    .title_cont.arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        padding: 4px;
+        transform: rotate(45deg);
+        transition: transform 0.3s;
+    }
+
+    .notice_card_title.open .arrow-icon {
+        transform: rotate(-135deg); /* 아래에서 위로 */
 
     }
 
