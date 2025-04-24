@@ -93,28 +93,29 @@
                 <p>회원정보</p>
                 <div class="info flex">
                     <div class="my-info">
-                        <h3 class="name">김나연</h3>
-                        <div class="birth">
-                            2000-12-07 <span>만 24세</span>
+                        <h3 class="name" th:text="${userVO.userName}">이름</h3>
+                        <div class="birth flex" th:if="${userVO.userBirthday != null}">
+                            <p th:text="${userVO.userBirthday}">2000-12-07</p>
+                            <span th:if="${age != null}" th:text="'만 ' + ${age} + '세'">만 24세</span>
                         </div>
-                        <p class="gender">여</p>
+                        <p class="gender" th:text="${userVO.userGender}">여</p>
                         <div class="email flex">
                             <figure>
                                 <img src="../image/email.png" alt="">
                             </figure>
-                            <p>SRCF@naver.com</p>
+                            <p th:text="${userVO.userEmail}">SRCF@naver.com</p>
                         </div>
                         <div class="phone flex">
                             <figure>
                                 <img src="../image/phone.png" alt="">
                             </figure>
-                            <p>010-1111-1111</p>
+                            <p th:text="${userVO.userPhone}">010-1111-1111</p>
                         </div>
                         <div class="address flex ">
                             <figure>
                                 <img src="../image/home.png" alt="">
                             </figure>
-                            <p>서울특별시 강남구 어쩌고</p>
+                            <p  th:text="${userVO.userAddress}">서울특별시 강남구 어쩌고</p>
                         </div>
                     </div>
                     <div class="my-picture">

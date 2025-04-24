@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +106,7 @@ public class UserController {
             model.addAttribute("userVO", fullUser);
             return "User/mypage";
         }else {
-            return "redirect:/user/login";
+            return "redirect:/User/login";
         }
 
     }
@@ -115,8 +118,35 @@ public class UserController {
     }
 
     @GetMapping("/resume")
-    public String resume() {
-        return "User/resume";
+    public String resume(HttpSession session, Model model) {
+
+        UserVO vo = (UserVO) session.getAttribute("loginUser");
+
+        if(vo != null){
+            UserVO fullUser = userService.getUserById(vo.getUserId());
+
+            // String을 LocalDate로 변환
+            // 생일이 있을 경우 만나이 계산
+            if (fullUser.getUserBirthday() != null && !fullUser.getUserBirthday().isEmpty()) {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate birthday = LocalDate.parse(fullUser.getUserBirthday(), formatter);
+                    int age = Period.between(birthday, LocalDate.now()).getYears();
+
+                    model.addAttribute("userBirthday", birthday); // 생일 자체도 넘기고
+                    model.addAttribute("age", age); // 만나이도 넘김
+                } catch (Exception e) {
+                    e.printStackTrace(); // 파싱 실패 시 로그
+                }
+            }
+
+            model.addAttribute("userVO", fullUser);
+            return "User/resume";
+        }else{
+            return "redirect:/User/login";
+        }
+
+
     }
 
 
