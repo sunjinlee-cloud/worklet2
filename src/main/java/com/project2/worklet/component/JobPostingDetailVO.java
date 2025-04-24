@@ -18,4 +18,5 @@ public class JobPostingDetailVO {
     private String jobsCd;
     private String jobsCdKorNm;
 
+
 }
