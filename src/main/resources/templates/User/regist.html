@@ -6,6 +6,35 @@
   <title>회원가입</title>
   <link rel="stylesheet" href="../css/user/regiest.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <!-- 카카오 주소 API -->
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <!-- 카카오 지도 API -->
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0f0c892be57f61276f534d3ff4c7601b&libraries=services"></script>
+  <script>
+    // 전역 변수로 map 선언
+    var map;
+
+    window.onload = function() {
+      if (typeof kakao !== "undefined") {
+        // 지도 생성
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                  center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울의 위도와 경도 (기본 값)
+                  level: 3 // 지도 확대 레벨
+                };
+
+        map = new kakao.maps.Map(mapContainer, mapOption); // 지도 생성
+        console.log("map: ", map);
+      } else {
+        console.log("카카오 맵 API가 로드되지 않았습니다.");
+      }
+    };
+
+  </script>
+
+
+
 </head>
 <body>
 <div th:replace="include/header :: headerFragment"></div>
@@ -65,6 +94,21 @@
         <div class="form-row">
           <label>이메일</label>
           <input type="email" placeholder="example@email.com" name="userEmail">
+        </div>
+
+        <div class="form-row flex  address">
+          <label for="userAddress">주소</label>
+          <div class="flex">
+            <input type="text" id="userAddress" name="userAddress" readonly placeholder="주소를 찾으세요">
+            <button type="button" id="findAddressBtn" onclick="openPostcode()">주소 찾기</button> <!-- 주소 찾기 버튼 -->
+          </div>
+
+
+          <!-- 지도 표시할 영역 -->
+          <div id="map" style="width:100%; height:300px;"></div>
+
+          <!-- 선택한 주소를 보여줄 영역 -->
+          <div id="address"></div>
         </div>
 
         <div class="form-row">
@@ -145,7 +189,7 @@
     const employmentTypes = document.querySelectorAll('.option-group input[type="checkbox"]');
     const career = document.querySelector('input[name="wantJobWorkexpHowlong"]:checked');
 
-    const redId = /^[a-z]+[a-z0-9]{5,19}$/g;
+    const redId = /^[a-z0-9]{6,20}$/i;
     const redPw = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+]).{8,16}$/;
     const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -220,5 +264,34 @@
 <div th:replace="include/footer :: footerFragment"></div>
 
 <script src="../css/js/header.js"></script>
+
+<script>
+  // 주소 찾기 함수
+  function openPostcode() {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        var address = data.roadAddress;
+        document.getElementById('userAddress').value = address;
+
+        // 주소의 위도, 경도를 가져와 지도에 표시
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(address, function(result, status) {
+          if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            console.log(coords);
+            map.setCenter(coords);
+            var marker = new kakao.maps.Marker({
+              position: coords
+            });
+            marker.setMap(map);
+          } else{
+            console.log("주소 변환 실패");
+          }
+        });
+      }
+    }).open();
+  }
+</script>
 </body>
 </html>
