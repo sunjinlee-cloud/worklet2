@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class UserController {
     public String regist(UserVO user, @RequestParam("wantJobType") String[] wantJobTypes) {
 
         log.info( user.toString() );
+        user.setJoinDate(LocalDateTime.now());
 
         user.setWantJobType1(wantJobTypes.length > 0 ? wantJobTypes[0] : null);
         user.setWantJobType2(wantJobTypes.length > 1 ? wantJobTypes[1] : null);
@@ -54,6 +56,8 @@ public class UserController {
 
         return "redirect:/user/login";  // 로그인 페이지로 리다이렉트
     }
+
+
     @GetMapping("/login")
     public String login() {
         return "User/login";
@@ -169,6 +173,63 @@ public class UserController {
 
         System.out.println("아이디 중복 여부: " + isDuplicate);
         return isDuplicate ? "duplicate" : "available";
+    }
+
+    @GetMapping("/idSearch")
+    public String idSearch(Model model) {
+
+
+        UserVO userVO = new UserVO();
+        model.addAttribute("userVO", userVO);
+
+        return "User/idSearch";
+    }
+
+    @GetMapping("/pwSearch")
+    public String pwSearch(Model model) {
+        return "User/pwSearch";
+    }
+
+    @GetMapping("/pwEdit")
+    public String pwEditForm() {
+        return "User/pwEdit";
+    }
+
+    @PostMapping("/pwEdit")
+    public String pwEdit(){
+        return "User/pwEdit";
+    }
+
+    @GetMapping("/pwOk")
+    public String pwOk() {
+        return "User/pwOk";
+    }
+
+    @PostMapping("/pwOk")
+    public String pwOk(HttpSession session) {
+       return "User/pwOk";
+    }
+
+    @GetMapping("/idOk")
+    public String idOk() {
+        return "User/idOk";
+    }
+
+    @PostMapping("/idOk")
+    public String idOk(@RequestParam("userEmail") String email,
+                       @RequestParam("userPhone") String phone,
+                       Model model) {
+
+        UserVO vo = userService.findUserByUserId(email, phone);
+
+        if (vo != null) {
+
+            model.addAttribute("userVO", vo);
+        } else {
+
+            model.addAttribute("errorMessage", "아이디를 찾을 수 없습니다.");
+        }
+        return "User/idSearch";
     }
 
 }

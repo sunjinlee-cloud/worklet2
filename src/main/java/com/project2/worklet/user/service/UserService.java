@@ -20,4 +20,7 @@ public interface UserService {
     boolean existsByUserId(String userId);
 
 
+    // 아이디 찾기
+    UserVO findUserByUserId(String email, String phone);
+
 }
