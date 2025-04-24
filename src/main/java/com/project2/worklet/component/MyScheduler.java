@@ -19,31 +19,21 @@ public class MyScheduler {
     }
 
      //매일 오전 7시에 실행
-    @Scheduled(cron = "30 03 12 * * *")
-    public void runEveryMorningAt7() {
-        System.out.println(jobPostingService.postList());
-    }
-
-    //매일 오후 7시에 실행 - 공채공고량이 생각보다 많아서 오전/오후에 한번씩 db 입력
-//    @Scheduled(cron = "00 00 19 * * *")
-//    public void runEveryEveningAt7() {
+//    @Scheduled(cron = "00 2 12 * * *")
+//    public void runEveryMorningAt7() {
 //        System.out.println(jobPostingService.postList());
 //    }
 
     //디테일 가져오는거 되는지 테스트
-    @Scheduled(cron = "35 41 17 * * *")
-    public void getDetailTest() {
-        List<String> list = new ArrayList<>();
-//        list.add("122397");
-        list.add("122396");
-        list.add("122395");
-        list.add("122394");
-        list.add("122393");
-        list.add("122392");
-        list.add("122391");
-        list.add("122390");
-        System.out.println(jobPostingService.postDetail(list));
-    }
+//    @Scheduled(cron = "30 57 11 * * *")
+//    public void getDetailTest() {
+//        List<String> list = new ArrayList<>();
+//        for(int i = 122383; i<=122389; i++) {
+//            list.add(String.valueOf(i));
+//        }
+//
+//        System.out.println(jobPostingService.postDetail(list));
+//    }
 
 
 

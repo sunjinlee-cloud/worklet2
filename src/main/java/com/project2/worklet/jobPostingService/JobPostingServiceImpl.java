@@ -86,6 +86,7 @@ public class JobPostingServiceImpl implements JobPostingService {
                     list.add(vo2);
                 }
             }
+            System.out.println("리스트 길이 : "+list.size());
             if (list.size() > 0) {
                 result = mapper.postList(list);
                 detailResult = postDetail(seqList);
@@ -106,7 +107,7 @@ public class JobPostingServiceImpl implements JobPostingService {
 
         List<JobPostingDetailVO> dlist = new ArrayList<>();
         int result = -1;
-        int jobsCd;
+        String jobsCd;
 
         String empRecrNm;
         String empWantedCareerNm;
@@ -148,11 +149,21 @@ public class JobPostingServiceImpl implements JobPostingService {
                 Object object = root.getJSONObject("empJobsList").get("empJobsListInfo");
                 if (object instanceof JSONArray) {
                     JSONObject empJobs = root.getJSONObject("empJobsList").getJSONArray("empJobsListInfo").getJSONObject(0);
-                    jobsCd = empJobs.getInt("jobsCd");
+                    Object obj3 = empJobs.get("jobsCd");
+                    if (obj3 instanceof String) {
+                        jobsCd = obj3.toString();
+                    } else {
+                        jobsCd = String.valueOf(empJobs.getInt("jobsCd"));
+                    }
                     jobsCdKorNm = empJobs.getString("jobsCdKorNm");
                 } else {
                     JSONObject empJobs = root.getJSONObject("empJobsList").getJSONObject("empJobsListInfo");
-                    jobsCd = empJobs.getInt("jobsCd");
+                    Object obj3 = empJobs.get("jobsCd");
+                    if (obj3 instanceof String) {
+                        jobsCd = obj3.toString();
+                    } else {
+                        jobsCd = String.valueOf(empJobs.getInt("jobsCd"));
+                    }
                     jobsCdKorNm = empJobs.getString("jobsCdKorNm");
                 }
 
@@ -173,7 +184,12 @@ public class JobPostingServiceImpl implements JobPostingService {
     @Override
     public List<JobPostingVO2> getList(Criteria cri) {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return mapper.getList(cri, date);
+        return mapper.getList(cri);
+    }
+
+    @Override
+    public int getTotal(Criteria cri) {
+        return mapper.getTotal(cri);
     }
 
 
