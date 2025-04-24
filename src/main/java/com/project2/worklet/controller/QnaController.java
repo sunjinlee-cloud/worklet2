@@ -30,10 +30,15 @@ public class QnaController {
     }
 
 
-    @GetMapping("/qna_reply")
-    public String qna_reply() {
-        return "Board/qna_reply";
+    @PostMapping("/qna_reply")
+    public String qnaReply(QnaVO vo) {
+        // 답변 등록 시간, 상태, 답변 내용 업데이트
+        vo.setInquiryUpdateAt(LocalDateTime.now());
+        vo.setInquiryStatus("답변완료");
+        qnaService.updateReply(vo); // 답변 저장 서비스 호출
+        return "redirect:/qna/qna_list"; // 리스트로 이동
     }
+
 
     @GetMapping("/qna_write")
     public String qna_write() {
