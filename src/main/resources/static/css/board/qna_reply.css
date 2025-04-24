@@ -36,6 +36,130 @@ img {
 }
 
 @media(min-width: 767px) {
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+        background: #fff;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+    .page-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 32px;
+        margin-top: 24px;
+        letter-spacing: -1px;
+    }
+    .qna-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        margin-bottom: 32px;
+    }
+    .qna-table th, .qna-table td {
+        padding: 12px 8px;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 1rem;
+        text-align: center;
+    }
+    .qna-table th {
+        background: #f7f7f7;
+        font-weight: 600;
+    }
+    .qna-table td.title {
+        text-align: left;
+        font-weight: 500;
+    }
+    .qna-table tr.toggle-row {
+        cursor: pointer;
+        background: #fff;
+        transition: background 0.15s;
+    }
+    .qna-table tr.toggle-row:hover {
+        background: #f0f3fa;
+    }
+    .qna-table td.arrow {
+        width: 32px;
+        font-size: 1.2rem;
+        color: #222;
+        cursor: pointer;
+    }
+    .qna-detail-row {
+        display: none;
+        background: #fafbfc;
+    }
+    .qna-detail-row.open {
+        display: table-row;
+        animation: fadeIn 0.2s;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .qna-detail-content {
+        padding: 18px 16px 20px 16px;
+        text-align: left;
+        font-size: 1rem;
+        color: #222;
+        line-height: 1.6;
+    }
+    .answer-textarea {
+        width: 100%;
+        min-height: 90px;
+        border: 1px solid #d4d4d4;
+        border-radius: 6px;
+        padding: 12px;
+        font-size: 1rem;
+        margin-top: 12px;
+        margin-bottom: 14px;
+        resize: vertical;
+        box-sizing: border-box;
+    }
+    .submit-btn {
+        float: right;
+        background: #255EEE;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 28px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+        margin-bottom: 10px;
+    }
+    .submit-btn:hover {
+        background: #163ea7;
+    }
+    .pagination {
+        text-align: center;
+        margin: 32px 0 0 0;
+        font-size: 1.1rem;
+        user-select: none;
+    }
+    .pagination a,
+    .pagination span {
+        display: inline-block;
+        margin: 0 6px;
+        padding: 2px 8px;
+        color: #222;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background 0.2s;
+    }
+    .pagination a:hover {
+        background: #f0f3fa;
+    }
+    .pagination .active {
+        background: #255EEE;
+        color: #fff;
+        font-weight: bold;
+    }
 
 }
 

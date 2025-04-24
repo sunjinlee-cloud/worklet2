@@ -15,6 +15,7 @@ headerLogo.addEventListener('click',function (){
     location.href="/Board/mainPage ";
 })
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const headerCalendar = document.querySelector(".flex > li:nth-child(3) > a");
     headerCalendar.addEventListener('click', function () {
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
         location.href = "/calendar";
     });
 });
+
 
 
 

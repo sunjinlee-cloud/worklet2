@@ -1,8 +1,5 @@
 
 package com.project2.worklet.component;
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
