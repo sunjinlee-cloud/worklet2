@@ -14,3 +14,6 @@ let headerLogo=document.querySelector(".headerLogo");
 headerLogo.addEventListener('click',function (){
     location.href="/Board/mainPage ";
 })
+
+
+
