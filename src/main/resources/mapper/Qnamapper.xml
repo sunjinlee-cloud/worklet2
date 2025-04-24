@@ -36,6 +36,14 @@
         ORDER BY inquiry_create_at DESC
     </select>
 
+    <update id="updateReply" parameterType="com.project2.worklet.component.QnaVO">
+        UPDATE qna
+        SET inquiryReply = #{inquiryReply},
+            inquiryStatus = #{inquiryStatus},
+            inquiryUpdateAt = #{inquiryUpdateAt}
+        WHERE inquiryId = #{inquiryId}
+    </update>
+
 
 
 </mapper>

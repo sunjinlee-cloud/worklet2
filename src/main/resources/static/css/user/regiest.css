@@ -12,6 +12,15 @@ input:focus, select:focus {
   border: 1px solid #777 !important;
 }
 
+#findAddressBtn{
+  border-style: none;
+  background-color: var(--main-color1);
+  padding: 13px 15px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
 /* PC (데스크탑) 버전 */
  @media (min-width: 768px) {
 
@@ -225,6 +234,12 @@ input:focus, select:focus {
      accent-color: var(--main-color1);
      width: 16px;
      height: 16px;
+   }
+
+   div.address > .flex{
+     justify-content: space-between;
+     gap: 10px;
+     width: 75%;
    }
 
    .terms-box {
@@ -543,6 +558,14 @@ input:focus, select:focus {
     margin-bottom: 10px;
     flex-wrap: wrap;
   }
+
+  #findAddressBtn{
+
+  }
+
+  #userAddress{
+    width: 80%;
+  }
   
   .form-row label {
     width: 120px;
@@ -561,8 +584,18 @@ input:focus, select:focus {
     border-radius: 4px;
     width: 100%;
   }
-  
-  
+
+
+  div.address{
+    flex-direction: column;
+  }
+
+  div.address > .flex{
+    gap: 13px;
+  }
+
+
+
   .small {
     width: 60px;
     margin-right: 8px;

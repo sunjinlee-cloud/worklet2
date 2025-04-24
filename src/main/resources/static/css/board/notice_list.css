@@ -57,7 +57,11 @@ img {
 
 /*데스크탑*/
 @media(min-width: 767px) {
-    .ham-menu {
+    .wrap{
+        margin-top: 50px;
+    }
+
+    .ham-menu{
         display: none;
     }
 
@@ -76,9 +80,9 @@ img {
         z-index: 999;
     }
 
-    header .logout {
-        display: none;
-    }
+    /*header .logout {*/
+    /*    display: none;*/
+    /*}*/
 
     header h1 {
         width: 170px;
@@ -101,26 +105,15 @@ img {
     header .menu {
         background-color: #fff;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    ;
         height: 50px;
         align-items: center;
         border-radius: 50px;
         gap: 50px;
         padding: 20px;
         min-width: 548px;
-
     }
 
-    header ul li a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        padding: 0 10px;
-        text-align: center;
-        font-size: 16px;
-        text-decoration: none;
-        color: black;
-    }
 
     header .login,
     header .logout {
@@ -136,16 +129,16 @@ img {
 
     .hi {
         background-color: var(--main-color1);
-        height: 400px;    
+        height: 400px;
     }
-    
+
     .hi > .header_box {
         margin: 0 auto;
         height: 100%;
         width: 70%;
         overflow: hidden;
     }
-    
+
     .hi > .header_box > .header_box_top {
         float: left;
         width: 70%;
@@ -154,9 +147,9 @@ img {
         line-height: 100%;
         font-size: 26px;
         font-weight: 700;
-        margin-top: 100px;        
+        margin-top: 100px;
     }
-    
+
     .hi > .header_box > .header_box_right {
         float: right;
         width: 30%;
@@ -164,12 +157,12 @@ img {
         margin-top: 100px;
         /* border: 1px solid red;         */
     }
-    
+
     .hi > .header_box > .header_box_right > img{
         height: 260px;
-        width: auto;        
+        width: auto;
     }
-    
+
     .header_box_right_upper > img{
         position: absolute;
         width: 130px;
@@ -177,7 +170,7 @@ img {
         top: 50px;
         left: 120px;
     }
-    
+
     .hi > .header_box > .header_box_mid {
         float: left;
         width: 70%;
@@ -188,7 +181,7 @@ img {
         font-weight: 900;
         line-height: 60px;
     }
-    
+
     .hi > .header_box > .header_box_search {
         float: left;
         width: 70%;
@@ -257,14 +250,14 @@ img {
         font-size: 20px;
         border-radius: 15px;
     }
-         
+
     .notice_card {
         margin: 0 auto;
         width: 70%;
-        
+
         font-size: 15px;
     }
-    
+
     .notice_card_upper {
         margin-top: 40px;
         padding-left: 20px;
@@ -272,25 +265,25 @@ img {
         margin-bottom: 5px;
         font-size: 18px;
     }
-    
+
     .notice_card_row {
-        padding: 10px;        
+        padding: 10px;
         border-top: 1px solid var(--text-color2);
         cursor: pointer;
     }
-    
+
     .notice_card_title {
         overflow: hidden;
         padding-bottom: 5px;
         cursor: pointer;
     }
-    
+
     .notice_card_title > span {
         display: inline-block;
         text-align: center;
         font-size: 16px;
     }
-    
+
     .notice_card_title > .title_cont.num {
         width: 5%;
         float: left;
@@ -298,17 +291,17 @@ img {
         font-weight: 700;
         line-height: 22.5px;
     }
-    
+
     .notice_card_title > .title_cont.title {
         width: 60%;
         float: left;
     }
-    
+
     .notice_card_title > .title_cont.writer {
         width: 10%;
         float: left;
     }
-    
+
     .notice_card_title > .title_cont.regdate {
         width: 20%;
         float: left;
@@ -318,18 +311,57 @@ img {
         width: 5%;
         float: left;
     }
-    
+
     .notice_card_content {
-        padding: 20px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, padding 0.5s;
+        background: #f7f9fa;
+        padding: 0 20px;
+        border-radius: 8px;
+        margin-bottom: 8px;
     }
-    
+    .notice_card_content.active {
+        opacity: 1;
+        padding: 20px;
+        max-height: 1000px;
+    }
+
+
+
+    .notice_card_title {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 16px 0;
+    }
+
+    .title_cont.arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        transition: transform 0.3s ease; /* 부드러운 회전 애니메이션 */
+    }
+
+    .notice_card_title.open .arrow-icon {
+        transform: rotate(180deg); /* 아래에서 위로 */
+    }
+
+
+
+
+
     .pagenation {
         margin-top: 40px;
         text-align: center;
         margin-bottom: 40px;
         text-decoration: none;
     }
-    
+
     .pagenation > p {
         display: inline-block;
         margin: 8px;
@@ -341,23 +373,20 @@ img {
     .pagenation > p > a {
         text-decoration: none;
     }
-    
+
     .pg {
         display: inline-block; width: 10px; height: 10px;
     }
-    
-    .notice_card_content {
-        display: inline-block;
-    }
-    
-    .in {
-        display: none;
-    }
+
+
+
+
+
 
     /* --------footer----------- */
     footer {
         width: 100%;
-        height: 200px;
+        height: 250px;
         background-color: #D9D9D9;
         align-items: center;
         justify-content: space-between;
@@ -394,12 +423,11 @@ img {
         top: 0;
         left: 0;
         z-index: 999;
-
     }
 
-    header .logout {
-        display: none;
-    }
+    /*header .logout {*/
+    /*    display: none;*/
+    /*}*/
 
     header h1 {
         width: 130px;
@@ -467,14 +495,7 @@ img {
         height: 100vh;
         background-color: #fff;
         transition: .4s;
-
     }
-
-    /*.ham-menu ul {*/
-    /*  width: 100%;*/
-    /*  max-width: 400px;*/
-    /*  margin: 10px auto;*/
-    /*}*/
 
     .ham-menu.on {
         right: 0;
@@ -506,7 +527,6 @@ img {
     .ham-menu .ham-logout li,
     .ham-login li {
         margin: 10px 0;
-        font-size: 17px;
     }
 
     .search-wrapper {
@@ -547,9 +567,9 @@ img {
     .hi {
         background-color: var(--main-color1);
         height: 300px;
-    
+
     }
-    
+
     .hi > .header_box {
         margin: 0 auto;
         height: 100%;
@@ -557,7 +577,7 @@ img {
         overflow: hidden;
         text-align: center;
     }
-    
+
     .hi > .header_box > .header_box_top {
         float: left;
         width: 100%;
@@ -567,9 +587,9 @@ img {
         font-size: 20px;
         font-weight: 700;
         margin-top: 40px;
-        
+
     }
-    
+
     .hi > .header_box > .header_box_right {
         /* float: right;
         width: 30%;
@@ -577,13 +597,13 @@ img {
         margin-top: 100px; */
         display: none;
     }
-    
+
     .hi > .header_box > .header_box_right > img{
         /* height: 250px;
         width: auto; */
         display: none;
     }
-    
+
     .header_box_right_upper > img{
         /* position: absolute;
         width: 130px;
@@ -592,7 +612,7 @@ img {
         left: 120px; */
         display: none;
     }
-    
+
     .hi > .header_box > .header_box_mid {
         float: left;
         width: 100%;
@@ -603,7 +623,7 @@ img {
         font-weight: 700;
         line-height: 50px;
     }
-    
+
     .hi > .header_box > .header_box_search {
         float: left;
         width: 100%;
@@ -612,7 +632,7 @@ img {
         text-align: center;
         margin-top: 15px;
     }
-    
+
     .header_box_search > p {
         width: 100%;
         height: 40px;
@@ -622,7 +642,7 @@ img {
         border-radius: 5px;
         overflow: hidden;
     }
-    
+
     .header_box_search > p > a{
         /* display: inline-block; */
         width: 19px;
@@ -631,7 +651,7 @@ img {
         line-height: 40px;
         float: left;
     }
-    
+
     .search_box {
         width: 80%;
         height: 40px;
@@ -640,38 +660,38 @@ img {
         font-size: 20px;
         float: right;
     }
-       
+
     .notice_card {
         margin: 0 auto;
         width: 92%;
-        
+
         font-size: 15px;
     }
-    
+
     .notice_card_upper {
         margin-top: 40px;
         padding-left: 10px;
         font-weight: 800;
     }
-    
+
     .notice_card_row {
         padding: 10px;
-        
+
         border-bottom: 1px solid var(--text-color2);
     }
-    
+
     .notice_card_title {
         overflow: hidden;
         padding-bottom: 5px;
         cursor: pointer;
     }
-    
+
     .notice_card_title > span {
         display: inline-block;
         text-align: center;
-    
+
     }
-    
+
     .notice_card_title > .title_cont.num {
         width: 5%;
         float: left;
@@ -679,25 +699,25 @@ img {
         font-weight: 700;
         line-height: 22.5px;
     }
-    
+
     .notice_card_title > .title_cont.title {
         width: 55%;
         float: left;
         cursor: pointer;
     }
-    
+
     .notice_card_title > .title_cont.writer {
         width: 15%;
         float: left;
         font-size: 15px;
     }
-    
+
     .notice_card_title > .title_cont.regdate {
         width: 20%;
         float: left;
         font-size: 10px;
     }
-    
+
     .notice_card_title > .title_cont.down {
         width: 5%;
         float: left;
@@ -705,32 +725,71 @@ img {
     }
 
     .notice_card_content {
-        padding: 20px;
-    
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, padding 0.5s;
+        background: #f7f9fa;
+        padding: 0 20px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        will-change: max-height, opacity, padding;
     }
-    
-    
+    .notice_card_content.active {
+        opacity: 1;
+        padding: 20px;
+
+    }
+
+
+    .notice_card_title {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 16px 0;
+    }
+
+    .title_cont.arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+    }
+
+    .arrow-icon {
+        display: inline-block;
+        border: solid #333;
+        border-width: 0 2px 2px 0;
+        padding: 4px;
+        transform: rotate(45deg);
+        transition: transform 0.3s;
+    }
+
+    .notice_card_title.open .arrow-icon {
+        transform: rotate(-135deg); /* 아래에서 위로 */
+
+    }
+
+
     .pagenation {
         margin-top: 50px;
         text-align: center;
         margin-bottom: 50px;
     }
-    
+
     .pagenation > p {
         display: inline-block;
         margin: 3px;
         font-size: 20px;
         text-decoration: none;
     }
-    
+
     .pg {
         display: inline-block; width: 10px; height: 10px;
     }
-    
+
     .notice_card_content {
         display: inline-block;
     }
-    
+
     .in {
         display: none;
     }
@@ -756,8 +815,6 @@ img {
     footer .footer-logo img {
         width: 250px;
     }
-
-
 
 }
 

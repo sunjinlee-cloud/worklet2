@@ -18,4 +18,8 @@ public class JobPostingVO2 {
     private String empWantedTypeNm;
     private String regLogImgNm;
     private String empWantedHomepgDetail;
+    private String empWantedCareerNm;
+    private String workRegionNm;
+    private String empRecrNm;
+
 }
