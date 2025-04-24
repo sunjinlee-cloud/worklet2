@@ -274,10 +274,11 @@ img {
     }
 
     .pageChangeLeftArrow {
-        /*background-size: 25%;*/
-        /*background-image: url("../image/left1.png");*/
-        /*background-repeat: no-repeat;*/
-        background-position: 17px;
+        background-size: 25%;
+        background-image: url("../image/left1.png");
+        background-repeat: no-repeat;
+        background-position: 15px;
+        border: 1px solid red;
     }
 
     .pageChangeRightArrow {
@@ -285,6 +286,7 @@ img {
         background-image: url("../image/right1.png");
         background-repeat: no-repeat;
         background-position: 0.5px;
+        border: 1px solid red;
     }
 
     .pageChange > ul > li {
@@ -294,7 +296,7 @@ img {
         display: inline-block;
         line-height: 30px;
         margin: 0px;
-        
+        border: 1px solid green;
     }
 
     .searchResultsInfo {

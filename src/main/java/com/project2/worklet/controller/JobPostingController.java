@@ -24,8 +24,7 @@ public class JobPostingController {
 
 
     @GetMapping("/jobposting")
-    public String jobPosting(Model model) {
-        Criteria cri = new Criteria();
+    public String jobPosting(Model model, Criteria cri) {
 
         List<JobPostingVO2> list = jobPostingService.getList(cri);
         System.out.println(list.toString());
