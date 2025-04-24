@@ -24,10 +24,10 @@
 
     <div id="mobileCalendarButton" >
         <div>
-            <button id="mobileOpenJobPosting">공채정보</button>
-            <button id="mobileJobPosting">채용정보</button>
-            <button id="mobileStartDate">시작일</button>
-            <button id="mobileEndDate">종료일</button>
+            <button type="button" id="mobileOpenJobPosting">공채정보</button>
+            <button type="button" id="mobileJobPosting">채용정보</button>
+            <button type="button" id="mobileStartDate">시작일</button>
+            <button type="button" id="mobileEndDate">종료일</button>
         </div>
     </div>
 
@@ -101,31 +101,46 @@
                 text: '시작일',
                 className: 'startDay',
                 click: function() {
-                    alert('시작일만 표시됨!');
+                    ButtonClick('startDay');
+
                 }
             },
             endDay: {
                 text: '종료일',
                 className: 'endDay',
                 click: function() {
-                    alert('종료일만 표시됨!');
+                    ButtonClick('endDay');
                 }
             },
             openJobPosting: {
                 text: '공채정보',
                 className: 'openJobPosting',
                 click: function() {
-                    alert('공채정보만 표시됨!');
+                    ButtonClick('openJobPosting');
                 }
             },
             jobPosting: {
                 text: '채용정보',
                 className: 'jobPosting',
                 click: function() {
-                    alert('채용정보만 표시됨!')
+                    ButtonClick('jobPosting');
                 }
             }
         };
+
+    function ButtonClick(e) {
+        var buttonClasses = ['fc-startDay-button','fc-endDay-button','fc-openJobPosting-button','fc-jobPosting-button'];
+        for(var i = 0; i< buttonClasses.length; i++) {
+            var btn = document.querySelector('.' + buttonClasses[i]);
+            if(btn) {
+                if(buttonClasses[i] === 'fc-' + e + '-button') {
+                    btn.classList.add('bottomline');
+                } else {
+                    btn.classList.remove('bottomline');
+                }
+            }
+        }
+    }
 
 
 
@@ -133,14 +148,14 @@
         locale: 'ko',
         headerToolbar: {
             left: window.innerWidth < 767 ? '' : 'openJobPosting,jobPosting,startDay,endDay',
-            center: window.innerWidth < 767 ? 'prev,title,next' : 'title',
+            center: 'prev,title,next',
             right: 'today'
         },
         initialView: 'dayGridMonth',
         customButtons: customButtons,
         dayCellContent : function(arg) {
             return arg.date.getDate();
-        },ㄴ
+        },
 
 
         dateClick: function(info) {
@@ -227,13 +242,24 @@
         <div>주5일 120시간 연봉 1200만원 프로그래머</div>
     </div>
 
-
-
-
-
-
-
 </div>
+
+<div class="goPostingPageBox">
+    <button type="button" id="goPostingPage">상세검색</button>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const goPostingPage = document.getElementById('goPostingPage');
+        goPostingPage.addEventListener('click', function () {
+            event.preventDefault();
+            location.href = "/jobposting";
+        });
+    });
+
+</script>
+
 
 <div th:replace="~{include/footer :: footerFragment}"></div>
 
