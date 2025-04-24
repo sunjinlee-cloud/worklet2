@@ -43,7 +43,7 @@
 
     <select id="loginUser" resultType="com.project2.worklet.component.UserVO">
         select *
-         from member
+        from member
         where user_id = #{userId} and user_pw = #{userPw} LIMIT 1
     </select>
 
