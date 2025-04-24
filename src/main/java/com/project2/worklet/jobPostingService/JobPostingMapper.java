@@ -15,6 +15,6 @@ public interface JobPostingMapper {
     public int selectSeqMax();
     public int postList(List<JobPostingVO2> list);
     public int postDetail(List<JobPostingDetailVO> list);
-    public List<JobPostingVO2> getList(@Param("cri") Criteria cri,
-                                       @Param("date") String date);
+    public List<JobPostingVO2> getList(Criteria cri);
+    public int getTotal(Criteria cri);
 }

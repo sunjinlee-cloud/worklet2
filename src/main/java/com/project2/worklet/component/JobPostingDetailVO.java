@@ -15,6 +15,7 @@ public class JobPostingDetailVO {
     private String empRecrNm;
     private String empWantedCareerNm;
     private String workRegionNm;
-    private int jobsCd;
+    private String jobsCd;
     private String jobsCdKorNm;
+
 }

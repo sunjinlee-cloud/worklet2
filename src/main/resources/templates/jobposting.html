@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="include/header :: headerFragment"></div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/JobPosting.css">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/JobPosting.css}">
     <script src="/css/js/header.js"></script>
     <script src="/bootstrap-3.4.1-dist/js/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
 
 <!--    <link rel="stylesheet" href="JobPosting_mobile.css">-->
 
 </head>
 <body>
 
+<div th:replace="include/header :: headerFragment"></div>
+    <div class="forMargin">
 
-    <div>
     
         <div class="searchTitle">
             <h2>모집공고 보기</h2>
@@ -326,28 +328,30 @@
 
         <div>
             <div class="searchResults">
-                <ul>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
+                <ul >
+                    <li th:each="vo, status:${list}">
+                        <p>[[${vo.empWantedTitle}]]</p>
+                        <img th:src="@{${vo.regLogImgNm}}" alt="#">
                         <div class="searchResultsInfo">
-                            <p><b>월급 99999만원</b></p>
-                            <p><b>경력무관 | 학력무관 | 정규직</b></p>
-                            <p><b>프로그래밍 & 네트워크 개발자</b></p>
-                            <p><b>주 5일 | 주 120시간 근로</b></p>
-                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>
+<!--                            <p><b>월급 99999만원</b></p>-->
+                            <p><b>[[${vo.empBusiNm}]]</b></p>
+                            <p><b>[[${vo.empRecrNm}]]</b></p>
+                            <p><b>[[${vo.empWantedTypeNm}]]</b></p>
+                            <p><b>[[${vo.empWantedCareerNm}]]</b></p>
+                            <p><b>[[${vo.workRegionNm}]]</b></p>
+<!--                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>-->
                         </div>
                 
                         <div class="searchResultsInfoMobile">
                             <div>
                                 <div>
-                                    <img src="/image/124708.png" alt="#">
+                                    <img th:src="@{${vo.regLogImgNm}}" alt="#">
                                 </div>
                             </div>
                             <div>
-                                <p class="mobileHoverCardTitle"><b>시설관리(기계, 전기), 시공관리(전기),일...</b></p>
+                                <p class="mobileHoverCardTitle"><b>[[${vo.empWantedTitle}]]</b></p>
                                 <hr>
-                                <p class="mobileHoverCardContent">프로그래밍 & 네트워크 개발자</p>
+                                <p class="mobileHoverCardContent">[[${vo.empRecrNm}]]</p>
                                 
                                 <div class="moveButtonBox">
                                     <input type="submit" value="바로가기" class="moveButton">
@@ -359,62 +363,6 @@
 
                     </li>
 
-                    
-                    
-                    
-                    
-                    
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-
-                        <div class="searchResultsInfoMobile">
-                            <p><b>월급 210만원 ~ 400만원</b></p>
-                            <p><b>경력무관 | 학력무관 | 정규직</b></p>
-                            <p><b>프로그래밍 & 네트워크 개발자</b></p>
-                            <p><b>주 5일 | 주 120시간 근로</b></p>
-                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>
-                        </div>
-                    </li>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-
-                        <div class="searchResultsInfoMobile">
-                            <p><b>월급 210만원 ~ 400만원</b></p>
-                            <p><b>경력무관 | 학력무관 | 정규직</b></p>
-                            <p><b>프로그래밍 & 네트워크 개발자</b></p>
-                            <p><b>주 5일 | 주 120시간 근로</b></p>
-                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>
-    
-                        </div>
-                    </li>
-                
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
-                
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
-                    <li>
-                        <p>시설관리(기계, 전기), 시공관리(전기),일...</p>
-                        <img src="/image/124708.png" alt="#">
-                    </li>
                 </ul>
             </div>
             
@@ -469,20 +417,73 @@
         <div class="bottomPageChangeButtonBox">
 
             <div class="pageChange">
-                <span class="pageChangeLeftArrow"></span>
-                <div>
-                    
-                    <span>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                    
-                    
-                </div>
-                <span class="pageChangeRightArrow"></span>
-            </div>
+<!--                <span class="pageChangeLeftArrow"></span>-->
+                    <ul>
+                        <li class="pageChangeLeftArrow"><a th:href="@{jobposting(page=1,
+                                        amount=${pageVO.amount},
+                                        searchRegion1=${pageVO.cri.searchRegion1},
+                                        searchRegion2=${pageVO.cri.searchRegion2},
+                                        searchRegion3=${pageVO.cri.searchRegion3},
+                                        searchJob1=${pageVO.cri.searchJob1},
+                                        searchJob2=${pageVO.cri.searchJob2},
+                                        searchJob3=${pageVO.cri.searchJob3})}">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a></li>
+                        <th:block th:if="${pageVO.prev}">
+                            <li style="margin-right:5px;">
+                                <a th:href="@{productList(page=${(pageVO.start)-1},
+                                            amount=${pageVO.amount},
+                                            searchRegion1=${pageVO.cri.searchRegion1},
+                                            searchRegion2=${pageVO.cri.searchRegion2},
+                                            searchRegion3=${pageVO.cri.searchRegion3},
+                                            searchJob1=${pageVO.cri.searchJob1},
+                                            searchJob2=${pageVO.cri.searchJob2},
+                                            searchJob3=${pageVO.cri.searchJob3})}">
+                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </th:block>
 
+                        <th:block th:each="page:${pageVO.pageList}">
+                            <li th:class="${pageVO.page == page? 'on':''}">
+                                <a th:href="@{jobposting(page=${page},
+                                    amount=${pageVO.amount},
+                                    searchRegion1=${pageVO.cri.searchRegion1},
+                                    searchRegion2=${pageVO.cri.searchRegion2},
+                                    searchRegion3=${pageVO.cri.searchRegion3},
+                                    searchJob1=${pageVO.cri.searchJob1},
+                                    searchJob2=${pageVO.cri.searchJob2},
+                                    searchJob3=${pageVO.cri.searchJob3})}">[[${page}]]
+                                </a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${pageVO.next}">
+                            <li style="margin-left:5px;">
+                                <a th:href="@{jobposting(page=${pageVO.end+1},
+					                            amount=${pageVO.amount},
+					                            searchRegion1=${pageVO.cri.searchRegion1},
+                                                searchRegion2=${pageVO.cri.searchRegion2},
+                                                searchRegion3=${pageVO.cri.searchRegion3},
+                                                searchJob1=${pageVO.cri.searchJob1},
+                                                searchJob2=${pageVO.cri.searchJob2},
+                                                searchJob3=${pageVO.cri.searchJob3})}">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </th:block>
+                        <li class="pageChangeRightArrow"><a th:href="@{jobposting(page=${pageVO.realEnd},
+                                            amount=${pageVO.amount},
+                                            searchRegion1=${pageVO.cri.searchRegion1},
+                                            searchRegion2=${pageVO.cri.searchRegion2},
+                                            searchRegion3=${pageVO.cri.searchRegion3},
+                                            searchJob1=${pageVO.cri.searchJob1},
+                                            searchJob2=${pageVO.cri.searchJob2},
+                                            searchJob3=${pageVO.cri.searchJob3})}">
+                            <i class="fa fa-angle-double-right" aria-hidden="true">
+                            </i></a></li>
+                    </ul>
+            </div>
         </div>
 
 
