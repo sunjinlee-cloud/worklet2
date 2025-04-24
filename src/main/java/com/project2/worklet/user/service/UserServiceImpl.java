@@ -41,4 +41,9 @@ public class UserServiceImpl implements UserService {
         return count > 0;
     }
 
+    @Override
+    public UserVO findUserByUserId(String email, String phone) {
+        return userMapper.findUserByUserId(email, phone);
+    }
+
 }
