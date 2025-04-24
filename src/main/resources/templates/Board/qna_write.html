@@ -32,7 +32,7 @@
                     <div class="qna_write_page_inner_form">
                         <form th:action="@{/qna/qnaForm}" method="post" th:object="${qnaVO}">
                             <div class="formUpper">
-                                <p class="qnaTitleWrap"><span class="pilsoo">*</span>제목</p> 
+                                <p class="qnaTitleWrap"><span class="pilsoo">*</span>제목</p>
                                 <input type="text" class="qnaTitle" name="inquiryTitle" placeholder="제목을 입력해 주세요" required><br>
                             </div>
                             <div class="formMid">
@@ -50,7 +50,6 @@
 
 
     <script>
-
         var key = window.event.keyCode;
         if (key === 13) {
             event.preventDefault();
@@ -60,15 +59,14 @@
         else {
             return true;
         }
-
         var submitBtn = document.querySelector(".qna_submit_btn")
         submitBtn.addEventListener("click", function () {
-            
         })
 
-        
-        
+
+
     </script>
+
 
  <script src="../css/js/header.js}"></script>
 
