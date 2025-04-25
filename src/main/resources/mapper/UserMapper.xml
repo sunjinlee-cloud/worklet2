@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
+
      <mapper namespace="com.project2.worklet.user.service.UserMapper">
         <insert id="insertUser" parameterType="com.project2.worklet.component.UserVO">
             INSERT INTO member (
@@ -21,7 +22,8 @@
                 want_job_type2,
                 want_job_type3,
                 want_job_workexp,
-                want_job_workexp_howlong
+                want_job_workexp_howlong,
+                join_date
             )
             VALUES (
                        #{userNum},
@@ -38,9 +40,11 @@
                        #{wantJobType2},
                        #{wantJobType3},
                        #{wantJobWorkexp},
-                       #{wantJobWorkexpHowlong}
+                       #{wantJobWorkexpHowlong},
+                       #{joinDate}
                    )
         </insert>
+
 
 
 
@@ -58,6 +62,14 @@
     <!--  아이디 찾기  -->
     <select id="existsByUserId" resultType="int">
         SELECT COUNT(*) FROM member WHERE user_id = #{userId}
+    </select>
+
+
+    <!--  사용자 아이디 찾기  -->
+    <select id="findUserByUserId" resultType="com.project2.worklet.component.UserVO">
+        SELECT user_id, user_name, join_date
+        FROM member
+        WHERE user_email = #{userEmail} AND user_phone = #{userPhone}
     </select>
 
 </mapper>
