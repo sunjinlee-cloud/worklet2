@@ -72,4 +72,16 @@
         WHERE user_email = #{userEmail} AND user_phone = #{userPhone}
     </select>
 
+
+    <!--  사용자 아이디 찾기  -->
+    <select id="findUserByUserPw" resultType="com.project2.worklet.component.UserVO">
+        SELECT user_pw, user_name, join_date, user_id
+        FROM member
+        WHERE user_id= #{userId} AND user_email = #{userEmail}
+    </select>
+
+    <!--  비밀번호 바꾸기  -->
+    <update id="updatePw" parameterType="com.project2.worklet.component.UserVO">
+    UPDATE member SET user_pw = #{userPw} WHERE user_id = #{userId}
+    </update>
 </mapper>

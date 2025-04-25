@@ -46,4 +46,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUserByUserId(email, phone);
     }
 
+    @Override
+    public UserVO findUserByUserPw(String userId, String userEmail) {
+        return userMapper.findUserByUserPw(userId, userEmail);
+    }
+
+    @Override
+    public int updatePw(UserVO user) {
+        return userMapper.updatePw(user);
+    }
+
 }
