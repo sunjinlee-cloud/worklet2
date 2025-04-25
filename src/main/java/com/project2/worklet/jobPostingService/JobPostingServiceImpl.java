@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -44,6 +45,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
+    @Transactional
     public String postList() {
 
         StringBuilder sb = new StringBuilder(basicUrlL);

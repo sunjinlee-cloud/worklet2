@@ -47,6 +47,10 @@ img {
     --text-color3:#F5F5F0;
 }
 
+.currentPage {
+    color: var(--main-color1);
+}
+
 /* PC (데스크탑) 버전 */
 @media (min-width: 768px) {
 
@@ -225,7 +229,7 @@ img {
         padding: 30px;
         position: relative;
         overflow: hidden; /* 기준점 설정 */
-
+        cursor: pointer;
     }
 
     .searchResults ul li > img {
@@ -249,9 +253,15 @@ img {
         justify-content: center; /* 좌, 중간, 우로 나누기 */
         align-items: center;
         width: 85%;
-        margin: 0 auto;
+        margin: 20px auto;
+        
+    }
 
-
+    .pageChange > ul {
+        width: 100%;
+        height: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .pageChangeLeftArrow, .pageChangeRightArrow {
@@ -260,23 +270,21 @@ img {
         height: 30px;
         line-height: 30px;
         /* border: 1px solid var(--text-color2); */
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .pageChangeLeftArrow {
-        background-size: 25%;
-        background-image: url("../image/left1.png");
-        background-repeat: no-repeat;
-        background-position: 15px;
-        border: 1px solid red;
+        /* background-size: 25%; */
+        /* background-image: url("../image/left1.png");
+        background-repeat: no-repeat; */
+        /* background-position: 15px; */
     }
 
     .pageChangeRightArrow {
         background-size: 25%;
-        background-image: url("../image/right1.png");
-        background-repeat: no-repeat;
+        /* background-image: url("../image/right1.png");
+        background-repeat: no-repeat; */
         background-position: 0.5px;
-        border: 1px solid red;
     }
 
     .pageChange > ul > li {
@@ -286,7 +294,16 @@ img {
         display: inline-block;
         line-height: 30px;
         margin: 0px;
-        border: 1px solid green;
+        font-size: 20px;
+    }
+
+    .pageChange > ul > li > .recrCard{
+        width: 100%;
+        height: 100%;
+        /*padding: auto;*/
+        display: inline-block;
+        line-height: 30px;
+        margin: 0px;
     }
 
     .searchResultsInfo {
@@ -304,15 +321,16 @@ img {
 
     .searchResultsInfo > p {
         font-size: 18px;
+        margin: 2px;
     }
 
-    .searchResults:hover .searchResultsInfo {
+    /* .searchResults:hover .searchResultsInfo {
         right: -12px;
-    }
+    } */
 
-    .searchResults:hover .searchresultsInfo > p {
+    /* .searchResults:hover .searchresultsInfo > p {
         transform: translateY(-60px);
-    }
+    } */
 
     .searchCheckBoxRemake {
         width: 80%;
@@ -681,13 +699,13 @@ img {
         flex-wrap:wrap;
         width: 100%;
         margin: 0;
-
+        margin-bottom: 40px;
 
     }
 
     .searchResults ul li {
         width: 48%;
-        height: 180px;
+        height: 200px;
         border: 1px solid var(--text-color2);
         border-radius: 20px;
 
@@ -706,6 +724,7 @@ img {
         /* overflow: hidden; 기준점 설정 */
         padding: 5px;
         z-index: 0;
+
     }
 
 
@@ -717,40 +736,46 @@ img {
     }
 
     .bottomPageChangeButtonBox {
-        width: 70%;
+        width: 90%;
         margin: 30px auto;
-        /* text-align: center; */
+        text-align: center;
+
     }
 
     .pageChange {
         display: flex;
         justify-content: center; /* 좌, 중간, 우로 나누기 */
         align-items: center;
-        width: 85%;
+        width: 100%;
         margin: 0 auto;
 
     }
 
+    .pageChange > ul {
+        width: 100%;
+        margin-top: 40px;
+    }
+
     .pageChangeLeftArrow, .pageChangeRightArrow {
         /* border-radius: 50%; */
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
+        width: 14px;
+        height: 14px;
+        line-height: 14px;
         /* border: 1px solid var(--text-color2); */
-        font-size: 25px;
+        font-size: 14px;
     }
 
     .pageChangeLeftArrow {
         background-size: 25%;
-        background-image: url("../image/left1.png");
-        background-repeat: no-repeat;
+        /* background-image: url("../image/left1.png");
+        background-repeat: no-repeat; */
         background-position: 17px;
     }
 
     .pageChangeRightArrow {
         background-size: 25%;
-        background-image: url("../image/right1.png");
-        background-repeat: no-repeat;
+        /* background-image: url("../image/right1.png");
+        background-repeat: no-repeat; */
         background-position: 0.5px;
     }
 
@@ -762,6 +787,25 @@ img {
         line-height: 30px;
         margin: 0px;
 
+    }
+
+    .pageChange > ul > li {
+        width: 14px;
+        height: 14px;
+        /*padding: auto;*/
+        display: inline-block;
+        line-height: 14px;
+        margin: 2px;
+
+    }
+
+    .pageChange > ul > li > .recrCard{
+        width: 100%;
+        height: 100%;
+        /*padding: auto;*/
+        display: inline-block;
+        line-height: 10px;
+        margin: 0px;
     }
 
     .searchResults > ul > li > p {
@@ -872,11 +916,20 @@ img {
         min-width: 120px;
         margin-bottom: 5px;
         display: inline-block;
-        padding: 12px;
-        font-size: 16px;
+        /* padding: 6px; */
+        /* font-size: 16px; */
         text-align: center;
 
     }
+
+    .searchCheckTopCategoryJobType > div > span {
+        margin: 0 auto;
+        height: 44px;
+        line-height: 21px;
+        text-align: center;
+        font-size: 13px;
+    }
+
 
     .searchCheckBoxJobType > div > input[type="checkbox"] {
         margin-right: 10px;
@@ -894,7 +947,7 @@ img {
         height: 44px;
         width: 100%;
         min-width: 120px;
-        margin-bottom: 5px;
+        /* margin-bottom: 5px; */
         display: inline-block;
         padding: 12px;
         font-size: 16px;
@@ -927,39 +980,58 @@ img {
         /* display: none; */
 
         width: 102%;
-        height: 370px;
+        height: 100%;
         position: absolute;
         top: -5px;
         left: -1px;
         opacity: 0;
         background-color: #ffffff;
-        background-image: url('../image/logo_img.png');
-        background-size: contain;
+        /* background-image: url('../image/logo_img.png'); */
+        /* background-size: contain; */
         color: #F5F5F0 ;
-        backdrop-filter: blur(30px);
+        /* backdrop-filter: blur(30px); */
         z-index: -1;
         overflow: hidden;
         /* padding: 7px; */
-        z-index: 5;
+        /* z-index: 1; */
         border-radius:20px;
-
+        
 
     }
 
 
 
-    .searchResults>ul>li:hover {
+     /* .searchResults>ul>li:hover {
         z-index: 10;
+    } */
+
+    /* .searchResults>ul>li:hover .searchResultsInfoMobile {
+        opacity: 1;
+
+    } */
+
+    .proteinBar {
+        opacity: 1; z-index: 10;
     }
 
-    .searchResults>ul>li:hover .searchResultsInfoMobile {
-        opacity: 1;
+    .proteinBar2 {
+        z-index: 10;
+        border: 3px solid var(--main-color1);
+    }
+
+    .searchResultsInfoMobile > div:nth-of-type(1) {
+        text-align: center;
+        padding: 2px;
+
+        padding-bottom: 0px;
+        height: 50px;
+        position: relative;
 
     }
 
     .searchResultsInfoMobile > div:nth-of-type(1) > div {
-        width: 55%;
-        height: 45%;
+        width: 80%;
+        height: auto;
         margin: 0px;
         bottom: -2px;
         left: 20px;
@@ -979,64 +1051,57 @@ img {
         margin: 0px;
         border-radius: 10px 10px 0px 0px;
         /* filter: brightness(0.3); */
-    }
 
-    .searchResultsInfoMobile > div:nth-of-type(1) {
-        text-align: center;
-        padding: 7px;
-
-        padding-bottom: 0px;
-        height: 130px;
-        position: relative;
-
-    }
+    }   
 
     .searchResultsInfoMobile > div:nth-of-type(2) {
         text-align: left;
         background-color: #ffffff;
         color: #000;
         margin: 0;
-        padding: 7px;
+        padding: 2px;
         width: 100%;
-        height: 240px;
+        height: auto;
         font-size: 16px;
         backdrop-filter: blur(30px);
         text-align: center;
-
     }
+
 
     .searchResultsInfoMobile > div:nth-of-type(2) > hr {
         border: none;
         background-color: #e2e2e2;
         height: 1px;
-
     }
 
     .moveButtonBox {
         text-align: center;
+        width: 100%;
+
     }
 
     .moveButton {
-        width: 200px;
+        width: 100%;
         height: 40px;
         background-color: var(--main-color1);
         color: var(--text-color3);
         border: none;
         border-radius: 10px;
         font-size: 16px;
+        cursor: pointer;
     }
 
     .mobileHoverCardTitle {
-        margin-top: 20px ;
-        margin-bottom: 20px;
-        font-size: 20px;
+        margin-top: 5px ;
+        margin-bottom: 4px;
+
     }
 
     .mobileHoverCardContent {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 4px;
+        margin-bottom: 5px;
         font-size: 16px;
-        color: #969696;
+        color: #969696; 
     }
 
 }

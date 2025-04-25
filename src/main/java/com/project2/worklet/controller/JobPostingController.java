@@ -37,10 +37,8 @@ public class JobPostingController {
     public String jobPosting(Model model, Criteria cri) {
 
         List<JobPostingVO2> list = jobPostingService.getList(cri);
-        System.out.println(list.toString());
 
         int total = jobPostingService.getTotal(cri);
-        System.out.println(total);
 
         PageVO pagevo = new PageVO(cri, total);
         model.addAttribute("list", list);
