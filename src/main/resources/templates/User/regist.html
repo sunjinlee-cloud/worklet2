@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="../css/user/regiest.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+  <script src="https://kit.fontawesome.com/599a3a7868.js" crossorigin="anonymous"></script>
+
   <!-- 카카오 주소 API -->
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- 카카오 지도 API -->
@@ -115,10 +117,38 @@
         <div class="form-row">
             <label>희망직종 (선택)</label>
             <button type="button" id="selectJobBtn" onclick="openJobPopup()">희망 직종 선택</button>
+            <div id="jobPopup" class="popup">
+              <h2 style="text-align: center; padding: 20px; border-bottom: 1px solid #eee">희망직무</h2>
+              <div class="searchCheckBoxJobType">
+
+                <!--검색 세부 3개까지 / 가로 7 세로 3-->
+                <div class="searchCheckTopCategoryJobType" id="topCategoryList">
+                  <div>
+                    <input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="01"><span>경영·사무·금융·보험</span><i class="fa-solid fa-chevron-right"></i>
+                  </div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="02"><span>연구 및 공학기술</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="03"><span>교육·법률·사회복지·경찰·소방 및 군인</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="04"><span>보건·의료</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="05"><span>예술·디자인·방송·스포츠</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="06"><span>미용·여행·숙박·음식·경비·돌봄·청소</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="07"><span>영업·판매·운전·운송</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="08"><span>건설·채굴</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="09"><span>설치·정비·생산-기계·금속·재료</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="10"><span>설치·정비·생산-전기·전자·정보통신</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="11"><span>설치·정비·생산-화학·환경·섬유·의복·식품가공</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="12"><span>설치·정비·생산-인쇄·목재·공예 및 제조 단순</span><i class="fa-solid fa-chevron-right"></i></div>
+                  <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="13"><span>농림어업직</span><i class="fa-solid fa-chevron-right"></i></div>
 
 
-        
-      </div>
+                </div>
+                <div class="searchCheckUnderCategoryJobType" id="underCategoryList">
+
+
+                </div>
+
+              </div>
+            </div>
+         </div>
 
         <div class="form-row">
           <label>희망고용형태 (최대 3개)</label>
@@ -265,6 +295,135 @@
                 resultSpan.style.color = 'orange';
               });
     });
+
+
+  // 팝업 열기
+  function openJobPopup() {
+    document.getElementById("jobPopup").style.display = "flex";  // 팝업을 보이게 함
+  }
+
+  // 팝업 닫기
+  function closeJobPopup() {
+    document.getElementById("jobPopup").style.display = "none";  // 팝업을 숨김
+  }
+
+
+  //   팝업 내용
+  var fakeCheckBoxJobType = document.querySelectorAll('.searchCheckUnderCategoryJobType > div')
+
+  var searchCheckTopCategoryJobType = document.querySelectorAll('.searchCheckTopCategoryJobType > div')
+  var searchCheckUnderCategoryJobType = document.querySelector('.searchCheckUnderCategoryJobType')
+
+
+  //대분류
+  for(var i = 0; i<searchCheckTopCategoryJobType.length; i++ ) {
+    (function(index) {
+      searchCheckTopCategoryJobType[index].addEventListener('click', function() {
+
+        for(var j=0; j< searchCheckTopCategoryJobType.length; j++) {
+          searchCheckTopCategoryJobType[j].style.borderColor='#d0d0d0';
+          searchCheckTopCategoryJobType[j].style.backgroundColor='#ffffff';
+          searchCheckTopCategoryJobType[j].style.color='#000000'
+          var icon = searchCheckTopCategoryJobType[j].querySelector("i");
+          if (icon) {
+            icon.style.color = "#fff"; // 원하는 색상으로
+          }
+        }
+
+        var radioBox = searchCheckTopCategoryJobType[index].querySelector('.topCategoryCheckJobType')
+
+        radioBox.checked = true;
+
+
+        searchCheckTopCategoryJobType[index].style.borderColor = '#ffffff';
+        searchCheckTopCategoryJobType[index].style.backgroundColor = '#255EEE';
+        searchCheckTopCategoryJobType[index].style.color = '#ffffff';
+
+
+
+        searchCheckUnderCategoryJobType.style.display = 'inline-block';
+
+        //대분류 나타내기
+        // ✅ 여기에 넣으면 됩니다
+        var selectedCategoryNum = radioBox.value; // 대분류 번호
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/category/secondary?primary=' + selectedCategoryNum, true);
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) { //서버에서 응답이 오면 호출되는 콜백 //4는 요청완료 200은 응답성공
+            var responseData = JSON.parse(xhr.responseText); //json 문자열 객체 변환
+
+            // 👉 여기에 중분류 HTML을 렌더링하는 코드를 추가하면 됩니다
+            searchCheckUnderCategoryJobType.innerHTML = ''; // 기존 것 지우고
+
+            for (var k = 0; k < responseData.length; k++) {
+              var item = responseData[k];
+
+              //빈 컬럼이면 skip
+              if (!item.secondaryCategoryName || item.secondaryCategoryName.trim() === '') {
+                continue;
+              }
+
+              var article = document.createElement('article');
+              article.innerHTML = '<input type="checkbox" class="searchCheckJobType" value="' + item.secondaryCategoryNum + '">' +
+                      '<span>' + item.secondaryCategoryName + '</span>';
+              searchCheckUnderCategoryJobType.appendChild(article);
+            }
+          }
+        };
+        xhr.send();
+
+
+
+
+
+      });
+
+    })(i);
+
+  }
+
+
+  //중분류 3개까지
+
+  searchCheckUnderCategoryJobType.addEventListener('click', function(e) {
+    // 클릭한 대상이 체크박스를 포함하는 div인지 확인
+    var div = e.target.closest('article');
+
+    // 체크박스가 있는 div만 처리
+    if (!fakeCheckBoxJobType) {
+      return;
+    }
+
+    var checkbox = div.querySelector('input[type="checkbox"]');
+
+    // 클릭한 체크박스가 이미 체크되어 있으면 해제
+    if (checkbox.checked) {
+      checkbox.checked = false;
+      div.style.borderColor = '#D0D0D0';  // 기본 스타일로 복원
+      div.style.backgroundColor = '#ffffff';
+      div.style.color = '#000000';
+    } else {
+      var checkedCount = document.querySelectorAll('.searchCheckJobType:checked').length;
+
+      // 최대 3개까지 선택하도록 제한
+      if (checkedCount >= 3) {
+        alert('최대 3개까지 선택할 수 있습니다!');
+        return;
+      }
+
+      checkbox.checked = true;
+      div.style.borderColor = '#ffffff';  // 선택된 스타일 적용
+      div.style.backgroundColor = '#255EEE';
+      div.style.color = '#ffffff';
+      div.style.padding = '3px';
+      div.style.marginTop = '1px';
+    }
+  });
+
+
+
+
 
 
 
