@@ -22,13 +22,14 @@
                 입력해 주세요.</h2>
             <form action="/user/pwEdit" method="post" name="pwEditForm">
                 <div class="form-row">
+                    <input type="hidden" name="userId"  th:value="${userId}">
                     <label for="password">비밀번호</label>
                     <input type="password" name="userPw" id="password" placeholder="8~16자 영문, 숫자, 특수문자 포함">
                 </div>
 
                 <div class="form-row">
                     <label for="passwordCheck">비밀번호 확인</label>
-                    <input type="password" id="passwordCheck" placeholder="비밀번호 재입력">
+                    <input type="password" id="passwordCheck" placeholder="비밀번호 재입력"  name="newPassword">
                 </div>
 
                 <div class="buttons">

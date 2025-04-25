@@ -187,17 +187,41 @@ public class UserController {
 
     @GetMapping("/pwSearch")
     public String pwSearch(Model model) {
+        String userId = (String) model.getAttribute("userId");  // Model에서 userId 가져오기
+
+        if (userId != null) {
+            // userId를 사용하여 추가 로직을 처리할 수 있습니다.
+        }
+
         return "User/pwSearch";
     }
 
     @GetMapping("/pwEdit")
-    public String pwEditForm() {
-        return "User/pwEdit";
+    public String pwEditForm(@RequestParam("userId") String userId, Model model) {
+        model.addAttribute("userId", userId);
+        return "user/pwEdit";
     }
 
     @PostMapping("/pwEdit")
-    public String pwEdit(){
-        return "User/pwEdit";
+    public String pwEdit(@RequestParam String userId,
+                         @RequestParam String newPassword) {
+
+        System.out.println("비밀번호 변경 시 userId: " + userId);
+
+        UserVO vo = new UserVO();
+
+        vo.setUserId(userId);
+        vo.setUserPw(newPassword);
+
+        int result = userService.updatePw(vo);
+        System.out.println("비밀번호 변경 결과: " + result);
+        if(result == 1) {
+            return "redirect:/user/login";
+        }else{
+            return "redirect:/user/pwEdit";
+        }
+
+
     }
 
     @GetMapping("/pwOk")
@@ -206,8 +230,22 @@ public class UserController {
     }
 
     @PostMapping("/pwOk")
-    public String pwOk(HttpSession session) {
-       return "User/pwOk";
+    public String pwOk(@RequestParam("userId") String userId,
+                       @RequestParam("userEmail") String userEmail,
+                       Model model) {
+
+        UserVO vo = userService.findUserByUserPw(userId, userEmail);
+
+        if(vo != null){
+            model.addAttribute("userVO", vo);
+            model.addAttribute("userId", userId);
+            return "User/pwSearch";
+        }else{
+            model.addAttribute("errorMessage", "비밀번호를 찾을 수 없습니다.");
+            return "User/pwOk";
+        }
+
+
     }
 
     @GetMapping("/idOk")
