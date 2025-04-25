@@ -23,4 +23,9 @@ public interface UserService {
     // 아이디 찾기
     UserVO findUserByUserId(String email, String phone);
 
+    // 비밀번호 찾기
+    UserVO findUserByUserPw(String userId, String userEmail);
+
+    // 비밀번호 바꾸기
+    int updatePw(UserVO user);
 }

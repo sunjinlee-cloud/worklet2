@@ -14,26 +14,32 @@
     <h1>1:1문의 답변 관리자 페이지</h1>
     <div class="inquiry-list">
         <!-- 문의 반복 영역 시작 -->
-        <div class="inquiry-item active">
-            <div class="inquiry-title">
-                <span class="inquiry-num">200</span>
-                <span class="inquiry-subject">문의드려요</span>
-                <span class="inquiry-user">유저1</span>
-                <span class="inquiry-date">2025-04-11</span>
-                <span class="inquiry-status">답변대기</span>
-                <span class="toggle-icon"><i class="bi bi-chevron-up"></i></span>
-            </div>
-            <div class="inquiry-content">
-                <div class="inquiry-question">
-                    저의 특성 직장은 직제라인입니다. 직제라인에 취직하려고 최상위과 패턴 10개 안에만 들게끔 면접을 연습했습...
+        <c:forEach var="inquiry" items="${qnaList}">
+            <div class="inquiry-item ${inquiry.inquiryStatus == '답변대기' ? 'active' : ''}">
+                <div class="inquiry-title">
+                    <span class="inquiry-num">${inquiry.inquiryId}</span>
+                    <span class="inquiry-subject">${inquiry.inquiryTitle}</span>
+                    <span class="inquiry-user">유저${inquiry.userNum}</span>
+                    <span class="inquiry-date">${inquiry.inquiryCreateAt}</span>
+                    <span class="inquiry-status">${inquiry.inquiryStatus}</span>
+                    <span class="toggle-icon">
+                    <i class="bi bi-chevron-${inquiry.inquiryStatus == '답변대기' ? 'up' : 'down'}"></i>
+                </span>
                 </div>
-                <textarea class="inquiry-answer" placeholder="답변내용을 입력하세요"></textarea>
-                <button class="answer-submit-btn">답변등록</button>
+                <div class="inquiry-content">
+                    <div class="inquiry-question">
+                        ${inquiry.inquiryContent}
+                    </div>
+                    <textarea class="inquiry-answer" placeholder="답변내용을 입력하세요">${inquiry.inquiryReply}</textarea>
+                    <button class="answer-submit-btn">답변등록</button>
+                </div>
             </div>
-        </div>
+        </c:forEach>
         <!-- 문의 반복 영역 끝 -->
+    </div>
 
-        <!-- 아래는 반복 예시 -->
+
+    <!-- 아래는 반복 예시 -->
         <div class="inquiry-item">
             <div class="inquiry-title">
                 <span class="inquiry-num">199</span>

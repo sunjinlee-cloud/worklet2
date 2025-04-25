@@ -14,4 +14,10 @@ public interface UserMapper {
     // 아이디 찾기
     UserVO findUserByUserId(@Param("userEmail") String userEmail, @Param("userPhone") String userPhone);
 
+    // 비밀번호 찾기
+    UserVO findUserByUserPw(@Param("userId") String userId, @Param("userEmail") String userEmail);
+
+    // 비밀번호 바꾸기
+    int updatePw(UserVO user);
+
 }
