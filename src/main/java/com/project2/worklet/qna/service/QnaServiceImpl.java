@@ -25,6 +25,16 @@ public class QnaServiceImpl implements QnaService {
         return qnaMapper.qnalist();
     }
 
+    @Override
+    public void updateReply(QnaVO vo) {
+     qnaMapper.updateReply(vo);
+    }
+
+    @Override
+    public void qnaReply(QnaVO vo) {
+        qnaMapper.updateReply(vo);
+    }
+
 
 }
 

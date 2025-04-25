@@ -6,7 +6,7 @@ import java.util.List;
 public interface QnaService  {
     int qnaForm(QnaVO vo);
     List<QnaVO> qnalist();
-
-
+    void updateReply(QnaVO vo);
+    void qnaReply(QnaVO vo);
 
 }

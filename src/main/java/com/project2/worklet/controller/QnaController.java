@@ -44,8 +44,21 @@ public class QnaController {
 
 
     @GetMapping("/qna_reply")
-    public String qnaReply() {
-        return "Board/qna_reply";
+    public String qnaReply(Model model) {
+        List<QnaVO> qnaList = qnaService.qnalist(); // 같은 서비스 메서드 재사용 가능
+        model.addAttribute("qnaList", qnaList);     // JSP에서 출력 가능
+        return "qna_reply1";
     }
+
+    @PostMapping("/qna_reply")
+    public String submitReply(QnaVO vo) {
+        // 답변 업데이트 시
+        vo.setInquiryUpdateAt(LocalDateTime.now());  // 수정일시 설정
+        vo.setInquiryStatus("답변완료");               // 상태 변경
+        qnaService.qnaReply(vo);  // 서비스 메서드 호출
+        return "redirect:/qna/qna_reply";  // 다시 답변 관리 페이지로 리다이렉트
+    }
+
+
 
 }
