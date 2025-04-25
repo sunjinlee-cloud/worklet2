@@ -157,6 +157,16 @@
             return arg.date.getDate();
         },
 
+        events:'/calendar/events',
+
+        eventDidMount: function(info) {
+            var mainEl = info.el.querySelector('.fc-event-main');
+            if (mainEl) {
+                mainEl.setAttribute('title', info.event.title);
+            } else {
+                info.el.setAttribute('title', info.event.title);
+            }
+        },
 
         dateClick: function(info) {
         var date = info.date; //선택한 날짜를 date에 넣어서 날짜 구하는 거

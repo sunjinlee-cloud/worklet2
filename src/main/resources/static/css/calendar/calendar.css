@@ -727,5 +727,34 @@ button:focus-visible {
     border-radius: 10px;
   }
 
+  .fc-event-main {
+    position: relative;
+    z-index: 99;
+  }
+  
+  .fc-event-main::after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #777;
+    color: #000;
+
+    display: none;
+    z-index: 999;
+    white-space: nowrap;
+    /*max-width: 200px;*/
+    min-width: 210px;
+    min-height: 18px;
+  }
+
+  .fc-event-main:hover::after {
+    display: block;
+  }
+
+    
+
+  
+  
 }
 
