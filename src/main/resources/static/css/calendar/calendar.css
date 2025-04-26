@@ -727,9 +727,20 @@ button:focus-visible {
     border-radius: 10px;
   }
 
+  .fc-event {
+    z-index: 1000 !important;
+    position: relative;
+  }
+
+  .fc-event-title-container {
+    z-index: -1;
+    position: relative;
+    border: 3px solid green;
+  }
+  
   .fc-event-main {
     position: relative;
-    z-index: 99;
+    z-index: -1;
   }
   
   .fc-event-main::after {
@@ -741,15 +752,17 @@ button:focus-visible {
     color: #000;
 
     display: none;
-    z-index: 999;
+    z-index: 1000;
     white-space: nowrap;
     /*max-width: 200px;*/
-    min-width: 210px;
+    min-width: 303px;
     min-height: 18px;
   }
 
   .fc-event-main:hover::after {
     display: block;
+    z-index: 1000;
+    border: 1px solid red;
   }
 
     
