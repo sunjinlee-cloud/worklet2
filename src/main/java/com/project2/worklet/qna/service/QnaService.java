@@ -8,5 +8,5 @@ public interface QnaService  {
     List<QnaVO> qnalist();
     void updateReply(QnaVO vo);
     void qnaReply(QnaVO vo);
-
+    QnaVO getQnaById(Integer inquiryId);
 }

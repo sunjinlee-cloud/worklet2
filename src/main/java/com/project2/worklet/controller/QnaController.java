@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,17 +49,20 @@ public class QnaController {
     public String qnaReply(Model model) {
         List<QnaVO> qnaList = qnaService.qnalist(); // 같은 서비스 메서드 재사용 가능
         model.addAttribute("qnaList", qnaList);     // JSP에서 출력 가능
-        return "qna_reply1";
+        return "Board/qna_reply";
     }
 
     @PostMapping("/qna_reply")
-    public String submitReply(QnaVO vo) {
-        // 답변 업데이트 시
-        vo.setInquiryUpdateAt(LocalDateTime.now());  // 수정일시 설정
-        vo.setInquiryStatus("답변완료");               // 상태 변경
-        qnaService.qnaReply(vo);  // 서비스 메서드 호출
-        return "redirect:/qna/qna_reply";  // 다시 답변 관리 페이지로 리다이렉트
+    public String submitReply(@RequestParam("inquiryId") Integer inquiryId, @RequestParam("inquiryReply") String inquiryReply) {
+        QnaVO qnaVO = qnaService.getQnaById(inquiryId);  // 문의 ID로 조회
+        qnaVO.setInquiryReply(inquiryReply);               // 답변 내용 설정
+        qnaVO.setInquiryUpdateAt(LocalDateTime.now());    // 수정일시 설정
+        qnaVO.setInquiryStatus("답변완료");                // 상태 변경
+        qnaService.qnaReply(qnaVO);                        // DB에 답변 저장
+        return "redirect:/qna/qna_list";                  // 답변 후 페이지 리다이렉트
     }
+
+
 
 
 

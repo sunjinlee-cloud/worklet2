@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class QnaServiceImpl implements QnaService {
 
@@ -33,6 +34,11 @@ public class QnaServiceImpl implements QnaService {
     @Override
     public void qnaReply(QnaVO vo) {
         qnaMapper.updateReply(vo);
+    }
+
+    @Override
+    public QnaVO getQnaById(Integer inquiryId) {
+        return qnaMapper.getQnaById(inquiryId);
     }
 
 

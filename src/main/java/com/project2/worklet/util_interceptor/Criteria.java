@@ -2,18 +2,16 @@ package com.project2.worklet.util_interceptor;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Criteria {
 
     private int page; //페이지번호
     private int count; //페이지당 보여줄 데이터 개수
 
-    private String searchRegion1;
-    private String searchRegion2;
-    private String searchRegion3;
-    private String searchJob1;
-    private String searchJob2;
-    private String searchJob3;
+    private List<String> searchRegion;
+    private List<String> searchJob;
 
 
     //페이지 처음 진입시 1페이지, 한페이지에 9개 데이터 보여줌

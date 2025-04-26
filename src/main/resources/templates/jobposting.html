@@ -10,6 +10,8 @@
     <link rel="stylesheet" th:href="@{/css/JobPosting.css}">
 
     <script src="/bootstrap-3.4.1-dist/js/jquery-3.7.1.min.js"></script>
+    <script src="/bootstrap-3.4.1-dist/js/bootstap.js"></script>
+    <script src="/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
 
 
@@ -33,74 +35,78 @@
             </div>
 
             <hr class="legionUnderBar"><hr class="jobTypeUnderBar">
+            
+            <form name="jobsearch" action="jobposting" method="get">
 
-            <div class="searchCheckBoxLegion"> <!--검색 세부 3개까지 / 가로 7 세로 3-->
-                <div><input type="checkbox" class="searchCheckLegion">서울</div>
-                <div><input type="checkbox" class="searchCheckLegion">경기</div>
-                <div><input type="checkbox" class="searchCheckLegion">인천</div>
-                <div><input type="checkbox" class="searchCheckLegion">대전</div>
-                <div><input type="checkbox" class="searchCheckLegion">세종</div>
-                <div><input type="checkbox" class="searchCheckLegion">충남</div>
-                <div><input type="checkbox" class="searchCheckLegion">충북</div>
-                <div><input type="checkbox" class="searchCheckLegion">광주</div>
-                <div><input type="checkbox" class="searchCheckLegion">전남</div>
-                <div><input type="checkbox" class="searchCheckLegion">전북</div>
-                <div><input type="checkbox" class="searchCheckLegion">대구</div>
-                <div><input type="checkbox" class="searchCheckLegion">경남</div>
-                <div><input type="checkbox" class="searchCheckLegion">경북</div>
-                <div><input type="checkbox" class="searchCheckLegion">부산</div>
-                <div><input type="checkbox" class="searchCheckLegion">울산</div>
-                <div><input type="checkbox" class="searchCheckLegion">강원</div>
-                <div><input type="checkbox" class="searchCheckLegion">제주</div>
-                <div><input type="checkbox" class="searchCheckLegion">전국</div>
+                <div class="searchCheckBoxLegion"> <!--검색 세부 3개까지 / 가로 7 세로 3-->
+                    <div><input type="checkbox" class="searchCheckLegion" value="서울" name="searchRegion">서울</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="경기" name="searchRegion">경기</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="인천" name="searchRegion">인천</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="대전" name="searchRegion">대전</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="세종" name="searchRegion">세종</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="충남" name="searchRegion">충남</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="충북" name="searchRegion">충북</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="광주" name="searchRegion">광주</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="전남" name="searchRegion">전남</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="전북" name="searchRegion">전북</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="대구" name="searchRegion">대구</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="경남" name="searchRegion">경남</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="경북" name="searchRegion">경북</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="부산" name="searchRegion">부산</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="울산" name="searchRegion">울산</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="강원" name="searchRegion">강원</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="제주" name="searchRegion">제주</div>
+                    <div><input type="checkbox" class="searchCheckLegion" value="전국" name="searchRegion">전국</div>
 
-                
-                
-
-
-            </div>
-
-            <div class="searchCheckBoxJobType"> <!--검색 세부 3개까지 / 가로 7 세로 3-->
-                <div class="searchCheckTopCategoryJobType" id="topCategoryList">
-
-
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="01"><span>경영·사무·금융·보험</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="02"><span>연구 및 공학기술</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="03"><span>교육·법률·사회복지·경찰·소방 및 군인</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="04"><span>보건·의료</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="05"><span>예술·디자인·방송·스포츠</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="06"><span>미용·여행·숙박·음식·경비·돌봄·청소</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="07"><span>영업·판매·운전·운송</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="08"><span>건설·채굴</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="09"><span>설치·정비·생산-기계·금속·재료</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="10"><span>설치·정비·생산-전기·전자·정보통신</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="11"><span>설치·정비·생산-화학·환경·섬유·의복·식품가공</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="12"><span>설치·정비·생산-인쇄·목재·공예 및 제조 단순</span></div>
-                    <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="13"><span>농림어업직</span></div>
+                    
+                    
 
 
                 </div>
-                <div class="searchCheckUnderCategoryJobType" id="underCategoryList">
 
-                    <!--
-                    <div><input type="checkbox" class="searchCheckJobType"><span>행정·경영·금융·보험 관리직</span></div>
+                <div class="searchCheckBoxJobType"> <!--검색 세부 3개까지 / 가로 7 세로 3-->
+                    <div class="searchCheckTopCategoryJobType" id="topCategoryList">
 
-                    -->
+
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="01"><span>경영·사무·금융·보험</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="02"><span>연구 및 공학기술</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="03"><span>교육·법률·사회복지·경찰·소방 및 군인</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="04"><span>보건·의료</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="05"><span>예술·디자인·방송·스포츠</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="06"><span>미용·여행·숙박·음식·경비·돌봄·청소</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="07"><span>영업·판매·운전·운송</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="08"><span>건설·채굴</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="09"><span>설치·정비·생산-기계·금속·재료</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="10"><span>설치·정비·생산-전기·전자·정보통신</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="11"><span>설치·정비·생산-화학·환경·섬유·의복·식품가공</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="12"><span>설치·정비·생산-인쇄·목재·공예 및 제조 단순</span></div>
+                        <div><input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="13"><span>농림어업직</span></div>
+
+
+                    </div>
+                    <div class="searchCheckUnderCategoryJobType" id="underCategoryList">
+
+                        <!--
+                        <div><input type="checkbox" class="searchCheckJobType"><span>행정·경영·금융·보험 관리직</span></div>
+
+                        -->
+
+                    </div>
+                    
 
                 </div>
-                
 
-            </div>
+                <hr>
 
-            <hr>
-
-            <div>
-                <div> 
-                    <div class="searchSubmitButtonBox lastBox">
-                        <input type="submit" value="검색" class="searchSubmitButton">
-                    </div>                
+                <div>
+                    <div> 
+                        <div class="searchSubmitButtonBox lastBox">
+                            <button type="submit" class="searchSubmitButton">검색</button>
+                        </div>                
+                    </div>
                 </div>
-            </div>
+        
+            </form>
 
 
         </div>
@@ -264,10 +270,10 @@
                                         continue;
                                     }
 
-                                    var div = document.createElement('div');
-                                    div.innerHTML = '<input type="checkbox" class="searchCheckJobType" value="' + item.secondaryCategoryNum + '">' +
+                                    var article = document.createElement('article');
+                                    article.innerHTML = '<input type="checkbox" name="searchJob" class="searchCheckJobType" value="' + item.secondaryCategoryNum + '">' +
                                         '<span>' + item.secondaryCategoryName + '</span>';
-                                    searchCheckUnderCategoryJobType.appendChild(div);
+                                    searchCheckUnderCategoryJobType.appendChild(article);
                                 }
                             }
                         };
@@ -287,15 +293,25 @@
             //중분류 3개까지
 
             searchCheckUnderCategoryJobType.addEventListener('click', function(e) {
+
+
+
                 // 클릭한 대상이 체크박스를 포함하는 div인지 확인
-                var div = e.target.closest('div');
+                var div = e.target.closest('article');
 
                 // 체크박스가 있는 div만 처리
-                if (!fakeCheckBoxJobType) {
-                    return;
-                }
+                // if (!fakeCheckBoxJobType) {
+                //     return;
+                // }
 
                 var checkbox = div.querySelector('input[type="checkbox"]');
+
+
+
+
+
+
+
 
                 // 클릭한 체크박스가 이미 체크되어 있으면 해제
                 if (checkbox.checked) {
@@ -305,6 +321,7 @@
                     div.style.color = '#000000';
                 } else {
                     var checkedCount = document.querySelectorAll('.searchCheckJobType:checked').length;
+                    console.log(checkbox);
 
                     // 최대 3개까지 선택하도록 제한
                     if (checkedCount >= 3) {
@@ -386,38 +403,41 @@
         <div>
             <div class="searchResults">
                 <ul >
-                    <li th:each="vo, status:${list}">
-                        <p>[[${vo.empWantedTitle}]]</p>
-                        <img th:src="@{${vo.regLogImgNm}}" alt="#">
-                        <div class="searchResultsInfo">
-<!--                            <p><b>월급 99999만원</b></p>-->
-                            <p><b>[[${vo.empBusiNm}]]</b></p>
-                            <p><b>[[${vo.empRecrNm}]]</b></p>
-                            <p><b>[[${vo.empWantedTypeNm}]]</b></p>
-                            <p><b>[[${vo.empWantedCareerNm}]]</b></p>
-                            <p><b>[[${vo.workRegionNm}]]</b></p>
-<!--                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>-->
-                        </div>
-                
-                        <div class="searchResultsInfoMobile">
-                            <div>
-                                <div>
-                                    <img th:src="@{${vo.regLogImgNm}}" alt="#">
-                                </div>
+                    <li th:each="vo, status:${list}" 
+                    th:data-url="${vo.empWantedHomepgDetail}"
+                    class="clickable-li">
+                    <!-- th:onclick="|window.location.href=this.getAttribute('data-url');|"> -->
+                            <p>[[${vo.empWantedTitle}]]</p>
+                            <img th:src="@{${vo.regLogImgNm}}" alt="#">
+                            <div class="searchResultsInfo">
+    <!--                            <p><b>월급 99999만원</b></p>-->
+                                <p><b>[[${vo.empBusiNm}]]</b></p>
+                                <p><b>[[${vo.empRecrNm}]]</b></p>
+                                <p><b>[[${vo.empWantedTypeNm}]]</b></p>
+                                <p><b>[[${vo.empWantedCareerNm}]]</b></p>
+                                <p><b>[[${vo.workRegionNm}]]</b></p>
+    <!--                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>-->
                             </div>
-                            <div>
-                                <p class="mobileHoverCardTitle"><b>[[${vo.empWantedTitle}]]</b></p>
-                                <hr>
-                                <p class="mobileHoverCardContent">[[${vo.empRecrNm}]]</p>
-                                
-                                <div class="moveButtonBox">
-                                    <input type="submit" value="바로가기" class="moveButton">
+                
+                            <div class="searchResultsInfoMobile">
+                                <div>
+                                    <div>
+                                        <img th:src="@{${vo.regLogImgNm}}" alt="#">
+                                    </div>
                                 </div>
-                    
-                            </div>     
-                            
-                        </div>
-
+                                <div>
+                                    <p class="mobileHoverCardTitle"><b>[[${vo.empWantedTitle}]]</b></p>
+                                    <hr>
+                                    <p class="mobileHoverCardContent">[[${vo.empRecrNm}]]</p>
+                                    
+                                    <div class="moveButtonBox">
+                                        <a th:href="@{${vo.empWantedHomepgDetail}}" target='_blank'>
+                                            <input type="button" value="바로가기" class="moveButton">
+                                        </a>
+                                    </div>
+                        
+                                </div>     
+                            </div>
                     </li>
 
                 </ul>
@@ -427,6 +447,56 @@
         </div>
 
         <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const liItems = document.querySelectorAll(".clickable-li");
+
+                liItems.forEach(function (li) {
+                    li.addEventListener("click", function () {
+                        if (window.innerWidth >= 768) {
+                            const url = li.getAttribute("data-url");
+                            if (url) {
+                                window.location.href = url;
+                            }
+                        } else {
+                            // 클릭한 대상이 내부 버튼이 아닌 경우에만 처리 (필요하면 조건 추가)
+                            const mobileDiv = li.querySelector(".searchResultsInfoMobile");
+
+                            if (mobileDiv) {
+                                mobileDiv.classList.toggle("proteinBar");
+                                li.classList.toggle("proteinBar2");
+                            
+                            }
+                        }
+                    });
+
+                   li.addEventListener("mouseenter", function () {
+                        if (window.innerWidth >= 768) {
+                            const childInfo = li.querySelector(".searchResultsInfo");
+                            childInfo.style.right ='-12px';
+                            const grandchildInfo = childInfo.querySelectorAll('p');
+                            grandchildInfo.forEach(function (p) {
+                                p.style.transform= 'translateY(0px)';
+                            })
+                        }
+                   });
+
+                   li.addEventListener("mouseleave", function () {
+                        if (window.innerWidth >= 768) {
+                            const childInfo = li.querySelector(".searchResultsInfo");
+                            childInfo.style.right ='-400px';
+                            const grandchildInfo = childInfo.querySelectorAll('p');
+                            grandchildInfo.forEach(function (p) {
+                                p.style.transform= 'translateY(-60px)';
+                            })
+                        }
+                   });
+                });
+            });
+
+            
+
+
         //     document.querySelectorAll('.searchResults li').forEach(li => {
         //     li.addEventListener('mouseenter', function () {
         //         const info = document.querySelector('.searchResultsInfoMobile');
@@ -477,40 +547,28 @@
 <!--                <span class="pageChangeLeftArrow"></span>-->
                     <ul>
                         <li class="pageChangeLeftArrow"><a th:href="@{jobposting(page=1,
-                                        amount=${pageVO.amount},
-                                        searchRegion1=${pageVO.cri.searchRegion1},
-                                        searchRegion2=${pageVO.cri.searchRegion2},
-                                        searchRegion3=${pageVO.cri.searchRegion3},
-                                        searchJob1=${pageVO.cri.searchJob1},
-                                        searchJob2=${pageVO.cri.searchJob2},
-                                        searchJob3=${pageVO.cri.searchJob3})}">
-                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                                                        amount=${pageVO.amount},
+                                                        searchRegion=${pageVO.cri.searchRegion},
+                                                        searchJob=${pageVO.cri.searchJob})}">
+                                <i class="bi bi-chevron-double-left"></i>
                         </a></li>
                         <th:block th:if="${pageVO.prev}">
                             <li style="margin-right:5px;">
-                                <a th:href="@{productList(page=${(pageVO.start)-1},
+                                <a th:href="@{jobposting(page=${(pageVO.start)-1},
                                             amount=${pageVO.amount},
-                                            searchRegion1=${pageVO.cri.searchRegion1},
-                                            searchRegion2=${pageVO.cri.searchRegion2},
-                                            searchRegion3=${pageVO.cri.searchRegion3},
-                                            searchJob1=${pageVO.cri.searchJob1},
-                                            searchJob2=${pageVO.cri.searchJob2},
-                                            searchJob3=${pageVO.cri.searchJob3})}">
-                                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                            searchRegion=${pageVO.cri.searchRegion},
+                                            searchJob=${pageVO.cri.searchJob})}">
+                                    <i class="bi bi-chevron-left" aria-hidden="true"></i>
                                 </a>
                             </li>
                         </th:block>
 
                         <th:block th:each="page:${pageVO.pageList}">
-                            <li th:class="${pageVO.page == page? 'on':''}">
+                            <li th:class="${pageVO.page == page? 'currentPage':''}">
                                 <a th:href="@{jobposting(page=${page},
-                                    amount=${pageVO.amount},
-                                    searchRegion1=${pageVO.cri.searchRegion1},
-                                    searchRegion2=${pageVO.cri.searchRegion2},
-                                    searchRegion3=${pageVO.cri.searchRegion3},
-                                    searchJob1=${pageVO.cri.searchJob1},
-                                    searchJob2=${pageVO.cri.searchJob2},
-                                    searchJob3=${pageVO.cri.searchJob3})}">[[${page}]]
+                                            amount=${pageVO.amount},
+                                            searchRegion=${pageVO.cri.searchRegion},
+                                            searchJob=${pageVO.cri.searchJob})}">[[${page}]]
                                 </a>
                             </li>
                         </th:block>
@@ -519,25 +577,17 @@
                             <li style="margin-left:5px;">
                                 <a th:href="@{jobposting(page=${pageVO.end+1},
 					                            amount=${pageVO.amount},
-					                            searchRegion1=${pageVO.cri.searchRegion1},
-                                                searchRegion2=${pageVO.cri.searchRegion2},
-                                                searchRegion3=${pageVO.cri.searchRegion3},
-                                                searchJob1=${pageVO.cri.searchJob1},
-                                                searchJob2=${pageVO.cri.searchJob2},
-                                                searchJob3=${pageVO.cri.searchJob3})}">
-                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+					                            searchRegion=${pageVO.cri.searchRegion},
+                                                searchJob=${pageVO.cri.searchJob})}">
+                                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </li>
                         </th:block>
                         <li class="pageChangeRightArrow"><a th:href="@{jobposting(page=${pageVO.realEnd},
-                                            amount=${pageVO.amount},
-                                            searchRegion1=${pageVO.cri.searchRegion1},
-                                            searchRegion2=${pageVO.cri.searchRegion2},
-                                            searchRegion3=${pageVO.cri.searchRegion3},
-                                            searchJob1=${pageVO.cri.searchJob1},
-                                            searchJob2=${pageVO.cri.searchJob2},
-                                            searchJob3=${pageVO.cri.searchJob3})}">
-                            <i class="fa fa-angle-double-right" aria-hidden="true">
+                                                                        amount=${pageVO.amount},
+                                                                        searchRegion=${pageVO.cri.searchRegion},
+                                                                        searchJob=${pageVO.cri.searchJob})}">
+                            <i class="bi bi-chevron-double-right" aria-hidden="true">
                             </i></a></li>
                     </ul>
             </div>

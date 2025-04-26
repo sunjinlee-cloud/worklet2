@@ -49,6 +49,17 @@
         WHERE inquiry_id = #{inquiryId}
     </update>
 
+    <update id="qnaReply" parameterType="com.project2.worklet.component.QnaVO">
+        UPDATE inquiry
+        SET inquiry_reply = #{inquiryReply},
+            inquiry_update_at = #{inquiryUpdateAt},
+            inquiry_status = '답변완료'
+        WHERE inquiry_id = #{inquiryId}
+    </update>
+
+    <select id="getQnaById" parameterType="Integer" resultType="com.project2.worklet.component.QnaVO">
+        SELECT * FROM inquiry WHERE inquiry_id = #{inquiryId}
+    </select>
 
 
 </mapper>
