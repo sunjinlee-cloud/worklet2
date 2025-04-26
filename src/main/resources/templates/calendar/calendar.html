@@ -68,7 +68,7 @@
 
     <div id='calendar'></div>
 
-
+    <a href=""><div id="titleToolTip"></div></a>
 
     <script th:src="@{/css/js/calendar.js}"></script>
     <script>
@@ -159,14 +159,50 @@
 
         events:'/calendar/events',
 
+
+        dayMaxEvents: true, // 또는 숫자로: dayMaxEvents: 3 //칸 이상은 + 처리
+        
         eventDidMount: function(info) {
             var mainEl = info.el.querySelector('.fc-event-main');
             if (mainEl) {
                 mainEl.setAttribute('title', info.event.title);
+                mainEl.style.color='#000'
             } else {
                 info.el.setAttribute('title', info.event.title);
+                info.el.style.color='#000';
             }
+
+            info.el.style.backgroundColor = '#fff';
+            info.el.style.marginTop='3px';
+            info.el.style.border='none';
+
+
+
         },
+
+        /*풀캘린더 호버 역할 하는 event - mouseenter*/
+
+        eventMouseEnter: function(info) {
+            var tooltip = document.getElementById('titleToolTip');
+            var el = info.el;
+            var title = info.event.title;
+
+            // 위치 계산
+            var rect = el.getBoundingClientRect();
+
+            tooltip.innerHTML = title;
+            tooltip.style.top = (rect.top + window.scrollY) + 'px';
+            tooltip.style.left = (rect.left + window.scrollX) + 'px';
+            tooltip.style.minWidth = rect.width + 'px';
+
+            tooltip.style.display = 'block';
+        },
+
+        eventMouseLeave: function(info) {
+            var tooltip = document.getElementById('titleToolTip');
+            tooltip.style.display = 'none';
+        },
+            
 
         dateClick: function(info) {
         var date = info.date; //선택한 날짜를 date에 넣어서 날짜 구하는 거
