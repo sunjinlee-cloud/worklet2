@@ -728,6 +728,7 @@ button:focus-visible {
     border-radius: 10px;
   }
 
+<<<<<<< HEAD
 
 
   /*hover css 제어*/
@@ -747,6 +748,11 @@ button:focus-visible {
   .fc-event-main {
     position: relative;
     z-index: -1;
+=======
+  .fc-event-main {
+    position: relative;
+    z-index: 99;
+>>>>>>> 137f3fa4368cf43d0b68e8bceafa8b9062a09adc
   }
   
   .fc-event-main::after {
@@ -758,10 +764,12 @@ button:focus-visible {
     color: #000;
 
     display: none;
+
     z-index: 1000;
     white-space: nowrap;
     max-width: 200px;
     min-width: 303px;
+
     min-height: 18px;
   }
 
@@ -802,10 +810,6 @@ button:focus-visible {
   .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
     min-height: 200px;
   }
-
-
-
-
 
 }
 

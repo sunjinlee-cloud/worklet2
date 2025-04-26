@@ -159,8 +159,9 @@
 
         events:'/calendar/events',
 
-        dayMaxEvents: true, // 또는 숫자로: dayMaxEvents: 3 //칸 이상은 + 처리
 
+        dayMaxEvents: true, // 또는 숫자로: dayMaxEvents: 3 //칸 이상은 + 처리
+        
         eventDidMount: function(info) {
             var mainEl = info.el.querySelector('.fc-event-main');
             if (mainEl) {
@@ -201,9 +202,7 @@
             var tooltip = document.getElementById('titleToolTip');
             tooltip.style.display = 'none';
         },
-
-
-
+            
 
         dateClick: function(info) {
         var date = info.date; //선택한 날짜를 date에 넣어서 날짜 구하는 거
