@@ -12,7 +12,7 @@
 @media (max-width: 767px) {
 
     .save-sticky {
-        height: 500vh;
+        height: 746vh;
         position: absolute;
         right: 20px;
         top: 130px;
@@ -670,6 +670,10 @@
         display: flex;
     }
 
+    .sec03 .edit-edu-form h5{
+        margin-bottom: 10px;
+    }
+
     .sec03 .edit-edu-form form>.flex {
         flex-wrap: wrap;
         justify-content: space-between;
@@ -968,6 +972,10 @@
 
     .sec04 .edit-edu-form.add {
         display: flex;
+    }
+
+    .sec04 .edit-edu-form h5{
+        margin-bottom: 10px;
     }
 
     .sec04 .edit-edu-form form>.flex input {
@@ -1818,6 +1826,11 @@
         display: flex;
     }
 
+    .sec03 .add-edu-form h5{
+        margin-bottom: 10px;
+    }
+
+
     /* //////////////////////// */
     .sec03 .add-edu-form form>.flex input {
         width: 19%;
@@ -2184,6 +2197,10 @@
 
     .sec04 .add-edu-form.add {
         display: flex;
+    }
+
+    .sec04 .add-edu-form h5{
+        margin-bottom: 10px;
     }
 
     .sec04 .add-edu-form form>.flex input {

@@ -24,7 +24,41 @@ pencil.forEach((btn) => {
         const section = btn.closest('section'); // 해당 버튼이 속한 섹션
         const form = section.querySelector('.edit-edu-form');
         form.classList.add('add');
-        form.style.display = 'block'; // 또는 'flex', 상황에 따라
+
+        const eduDiv = btn.closest('.education');
+
+        if (section.classList.contains('sec03')) {
+            // 학력 수정
+            const schoolName = eduDiv.querySelector('.school h4')?.innerText || '';
+            const major = eduDiv.querySelector('.school p')?.innerText || '';
+            const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
+            const gradType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+            const gradDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '') || '';
+
+            form.querySelector('.input-school').value = schoolName;
+            form.querySelector('.input-major').value = major;
+            form.querySelector('.part').value = part;
+            form.querySelector('.input-type.widthstyle:nth-of-type(2)').value = gradType;
+            form.querySelector('.graduation').value = '졸업'; // 디테일하게 조정 가능
+            form.querySelector('input[name="graduationDate"]').value = gradDate;
+
+        } else if (section.classList.contains('sec04')) {
+            // 경력 수정
+            const companyName = eduDiv.querySelector('.school h4')?.innerText || '';
+            const department = eduDiv.querySelector('.school p')?.innerText || '';
+            const dates = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
+            const position = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+
+            const [joinDate, quitDate] = dates.split(' ~ '); // 입사일과 퇴사일 나누기
+
+            form.querySelector('.company-name').value = companyName;
+            form.querySelector('.department').value = department;
+            form.querySelector('input[name="joinDate"]').value = joinDate?.trim() || '';
+            form.querySelector('input[name="quitDate"]').value = quitDate?.trim() || '';
+            form.querySelector('input[name="position"]').value = position;
+
+
+        }
     });
 });
 
@@ -39,11 +73,11 @@ cancelBtn.forEach((btn) => {
 
 
 sec03BtnSave.addEventListener('click', function () {
-    let schoolName = document.querySelector(".add-edu-form input[name='school-name']").value;
+    let schoolName = document.querySelector(".add-edu-form input[name='schoolName']").value;
     let major = document.querySelector(".add-edu-form input[name='major']").value;
     let part = document.querySelector(".add-edu-form .part").value;
     let draduation = document.querySelector(".add-edu-form .graduation").value;
-    let graduationdate = document.querySelector(".add-edu-form input[name='graduationdate']").value;
+    let graduationdate = document.querySelector(".add-edu-form input[name='graduationDate']").value;
 
     console.log(schoolName);
     console.log(major);
@@ -74,13 +108,19 @@ sec03BtnSave.addEventListener('click', function () {
                     <img src="../image/pencil.png" alt="">
 `;
 
-    schoolList.appendChild(div);
+    console.log(schoolList);
 
-    document.querySelector(".add-edu-form input[name='school-name']").value = '';
+    if (schoolList) { // schoolList가 존재하는 경우에만 appendChild 실행
+        schoolList.appendChild(div);
+    } else {
+        console.log("schoolList 요소를 찾을 수 없습니다.");
+    }
+
+    document.querySelector(".add-edu-form input[name='schoolName']").value = '';
     document.querySelector(".add-edu-form input[name='major']").value = '';
     document.querySelector(".add-edu-form .part").value = '';
     document.querySelector(".add-edu-form .graduation").value = '';
-    document.querySelector(".add-edu-form input[name='graduationdate']").value = ''
+    document.querySelector(".add-edu-form input[name='graduationDate']").value = ''
 
     // 폼 숨기기
     addEduForm.forEach(form => {
@@ -91,10 +131,10 @@ sec03BtnSave.addEventListener('click', function () {
 
 
 sec04BtnSave.addEventListener('click', function () {
-    let companyName = document.querySelector(".company-name").value;
+    let companyName = document.querySelector(".companyName").value;
     let department = document.querySelector(".department").value;
-    let joinDate = document.querySelector("input[name='join-date']").value;
-    let quitDate = document.querySelector("input[name='quit-date']").value;
+    let joinDate = document.querySelector("input[name='joinDate']").value;
+    let quitDate = document.querySelector("input[name='quitDate']").value;
     let position = document.querySelector("input[name='position']").value;
 
     console.log(companyName);
@@ -125,9 +165,10 @@ sec04BtnSave.addEventListener('click', function () {
 
     comList.appendChild(div);
 
-    document.querySelector('.company-name').value = '';
+    document.querySelector('.companyName').value = '';
     document.querySelector('.department').value = '';
-    document.querySelector('input[name="join-date"]').value = '';
+    document.querySelector('input[name="joinDate"]').value = '';
+    document.querySelector('input[name="quitDate"]').value = '';
     document.querySelector('input[name="position"]').value = '';
     document.querySelector('.sec04 textarea').value = '';
     document.querySelector('#charCount').textContent = '0';
