@@ -32,11 +32,11 @@
     </div>
 
     <div id='external-events'>
-    <!--     
+    <!--
         <p>
             <strong>Draggable Events</strong>
         </p>
-        
+
         <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
             <div class='fc-event-main'>My Event 1</div>
         </div>
@@ -52,23 +52,23 @@
         <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
             <div class='fc-event-main'>My Event 5</div>
         </div>
-        
+
         <p>
             <input type='checkbox' id='drop-remove' />
             <label for='drop-remove'>remove after drop</label>
         </p>
         </div>
-        
-        <div id='calendar-container'> 
+
+        <div id='calendar-container'>
 
         -->
-    </div>  
-   
-    
+    </div>
 
+
+    <div id="titleToolTip"></div>
     <div id='calendar'></div>
 
-    <a href=""><div id="titleToolTip"></div></a>
+
 
     <script th:src="@{/css/js/calendar.js}"></script>
     <script>
@@ -76,14 +76,14 @@
     document.addEventListener('DOMContentLoaded', function() {
     var Calendar = FullCalendar.Calendar;
     var Draggable = FullCalendar.Draggable;
-    
+
     var containerEl = document.getElementById('external-events');
     var calendarEl = document.getElementById('calendar');
-    var checkbox = document.getElementById('drop-remove');
-    
+    var tooltip = document.getElementById('titleToolTip');
+
     // initialize the external events
     // -----------------------------------------------------------------
-    
+
     new Draggable(containerEl, {
         itemSelector: '.fc-event',
         eventData: function(eventEl) {
@@ -92,7 +92,7 @@
         };
         }
     });
-    
+
     // initialize the calendar11
     // -----------------------------------------------------------------
 
@@ -161,29 +161,83 @@
 
 
         dayMaxEvents: true, // 또는 숫자로: dayMaxEvents: 3 //칸 이상은 + 처리
-        
+
+        //일정 스타일
         eventDidMount: function(info) {
             var mainEl = info.el.querySelector('.fc-event-main');
             if (mainEl) {
                 mainEl.setAttribute('title', info.event.title);
                 mainEl.style.color='#000'
+                mainEl.style.backgroundColor = '#fff';
+                mainEl.style.marginTop='3px';
+                mainEl.style.border='none';
             } else {
                 info.el.setAttribute('title', info.event.title);
                 info.el.style.color='#000';
+                info.el.style.backgroundColor = '#fff';
+                info.el.style.marginTop='3px';
+                info.el.style.border='none';
             }
 
-            info.el.style.backgroundColor = '#fff';
-            info.el.style.marginTop='3px';
-            info.el.style.border='none';
-
+            // var morePopover = document.querySelector('.fc-popover');
+            //
+            // if(morePopover) {
+            //     morePopover.addEventListener('mouseenter', function(e) {
+            //         if(e.target && e.target.classList.contains('fc-event-main')) {
+            //             var el = info.el;
+            //             var rect = el.getBoundingClientRect();
+            //
+            //             tooltip.innerHTML = title;
+            //             tooltip.style.position = 'absolute';
+            //             tooltip.style.zIndex = '9999' ;
+            //             tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
+            //             tooltip.style.left = (rect.left + window.scrollX) + 'px';
+            //             tooltip.style.minWidth = rect.width + 'px';
+            //             tooltip.style.backgroundColor = '#e4e4e4';
+            //             tooltip.style.color='#000';
+            //             tooltip.style.paddingLeft = '5px';
+            //             tooltip.style.paddingRigth = '10px';
+            //             tooltip.style.borderRadius = '5px';
+            //             tooltip.style.fontSize = '16px';
+            //             tooltip.style.whiteSpace = 'normal';
+            //             tooltip.style.wordBreak = 'break-word';
+            //             tooltip.style.display = 'block';
+            //
+            //             el.style.cursor = 'pointer'
+            //         }
+            //
+            //     })
+            //
+            //     morePopover.addEventListener('mouseleave', function(e) {
+            //         if(e.target && e.target.classList.contains('fc-event-main')) {
+            //
+            //             tooltip.style.display = 'none';
+            //
+            //             info.el.style.cursor = 'default';
+            //
+            //         }
+            //     })
+            //
+            //     morePopover.addEventListener('click', function(e) {
+            //         if(e.target && e.target.classList.contains('fc-event-main')) {
+            //
+            //
+            //
+            //         }
+            //
+            //
+            //
+            //     })
+            //
+            // }
 
 
         },
 
-        /*풀캘린더 호버 역할 하는 event - mouseenter*/
+        //풀캘린더 호버 역할 하는 event - mouseenter
 
         eventMouseEnter: function(info) {
-            var tooltip = document.getElementById('titleToolTip');
+
             var el = info.el;
             var title = info.event.title;
 
@@ -191,46 +245,65 @@
             var rect = el.getBoundingClientRect();
 
             tooltip.innerHTML = title;
-            tooltip.style.top = (rect.top + window.scrollY) + 'px';
+            tooltip.style.position = 'absolute';
+            // tooltip.style.zIndex = '9999' ;
+            tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
             tooltip.style.left = (rect.left + window.scrollX) + 'px';
             tooltip.style.minWidth = rect.width + 'px';
+            tooltip.style.backgroundColor = '#e4e4e4';
+            tooltip.style.color='#000';
 
             tooltip.style.display = 'block';
+
+            el.style.cursor = 'pointer'
         },
 
         eventMouseLeave: function(info) {
-            var tooltip = document.getElementById('titleToolTip');
+
             tooltip.style.display = 'none';
+
+            info.el.style.cursor = 'default';
         },
-            
 
-        dateClick: function(info) {
-        var date = info.date; //선택한 날짜를 date에 넣어서 날짜 구하는 거
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
+        eventClick: function(info) {
+            var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
 
-        //날짜 정돈시켜서 두자릿수로
-        if(month < 10) month = '0' + month;
-        if(day < 10) day = '0' + day;
+            if(homepgDetail) {
+                window.location.href = homepgDetail;
+            } else {
+                alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+            }
 
-        //한글로
-        var clickDateIndicate = year + '년 ' + month + '월 ' + day + '일';
+        },
 
-        //div 에 표시하기
-        document.querySelector('.selectDate').textContent=clickDateIndicate;
 
-        // 이전 선택된 셀에서 색 제거
-        document.querySelectorAll('.fc-daygrid-day').forEach(function(cell) {
-            cell.classList.remove('selectedDateColor');
-        });
-
-        // 클릭한 날짜 셀에 색 입히기
-        var clickedCell = document.querySelector('[data-date="' + info.dateStr + '"]');
-        if (clickedCell) {
-            clickedCell.classList.add('selectedDateColor');
-        }
-        }
+        // dateClick: function(info) {
+        // var date = info.date; //선택한 날짜를 date에 넣어서 날짜 구하는 거
+        // var year = date.getFullYear();
+        // var month = date.getMonth() + 1;
+        // var day = date.getDate();
+        //
+        // //날짜 정돈시켜서 두자릿수로
+        // if(month < 10) month = '0' + month;
+        // if(day < 10) day = '0' + day;
+        //
+        // //한글로
+        // var clickDateIndicate = year + '년 ' + month + '월 ' + day + '일';
+        //
+        // //div 에 표시하기
+        // document.querySelector('.selectDate').textContent=clickDateIndicate;
+        //
+        // // 이전 선택된 셀에서 색 제거
+        // document.querySelectorAll('.fc-daygrid-day').forEach(function(cell) {
+        //     cell.classList.remove('selectedDateColor');
+        // });
+        //
+        // // 클릭한 날짜 셀에 색 입히기
+        // var clickedCell = document.querySelector('[data-date="' + info.dateStr + '"]');
+        // if (clickedCell) {
+        //     clickedCell.classList.add('selectedDateColor');
+        //     }
+        // },
 
     });
 
@@ -255,6 +328,7 @@
 
 <script th:src="@{/css/js/header.js}"></script>
 
+<!--
 <div class="selectDate"></div>
 
 <div class="blankBox">
@@ -289,6 +363,7 @@
     </div>
 
 </div>
+-->
 
 <div class="goPostingPageBox">
     <button type="button" id="goPostingPage">상세검색</button>
