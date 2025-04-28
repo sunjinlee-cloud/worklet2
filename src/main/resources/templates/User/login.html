@@ -58,8 +58,8 @@
         } else if (!redPw.test(pw.value)) {
           alert('비밀번호 형식이 올바르지 않습니다.');
         } else {
-            // sessionStorage.setItem('userId', id.value);
-            // sessionStorage.setItem('userPw', pw.value);
+            sessionStorage.setItem('userId', id.value);
+            sessionStorage.setItem('userPw', pw.value);
             loginForm.submit();
         }
       });

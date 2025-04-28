@@ -19,4 +19,19 @@
 
     </select>
 
+    <insert id="insertFavorite" parameterType="map">
+        INSERT INTO my_calendar (user_id, emp_seq_no)
+        VALUES (#{userId}, #{empSeqNo})
+    </insert>
+
+    <delete id="deleteFavorite" parameterType="map">
+        DELETE FROM my_calendar
+        WHERE emp_seq_no = #{empSeqNo} AND user_id = #{userId}
+
+    </delete>
+
+
+
+
+
 </mapper>
