@@ -49,6 +49,9 @@ dependencies {
 	//implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	//implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation 'org.json:json:20231013'//xml->제이슨 파싱
+	// jasperreports
+	implementation 'net.sf.jasperreports:jasperreports:6.9.0'
+	implementation 'com.lowagie:itext:2.1.7'
 }
 
 tasks.named('test') {

@@ -3,42 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        .outerBox {
+            position: relative;
+        }
+
+        .cont {
+            resize: none;
+        }
+
+        .spinner {
+            position: absolute;
+            top: 33%;
+            left: 45%;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #255EEE;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
 </head>
 <body>
 
     <h3>항목에 맞게 작성하신 이력서 내용을 ai로 다듬어 드려요.</h3>
-    <h5>성장과정</h5>
-    <form action="/submitresume" method="post">
-        <textarea name="content" rows="10" cols="200"></textarea>
-        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
-    </form>
-    <h5>강점과 약점</h5>
-    <form action="/submitresume" method="post">
-        <textarea name="content" rows="10" cols="200"></textarea>
-        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
-    </form>
+
+    <h5>자기소개</h5>
+    <div class="outerBox">
+    <textarea class="cont" data-type="자기소개" rows="10" cols="100"></textarea>
+    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <div class="spinner" style="display: none;"></div>
+    </div>
+
+    <h5>직무 지원 계기와 포부</h5>
+    <div class="outerBox">
+    <textarea class="cont" data-type="직무 지원 계기와 포부" rows="10" cols="100"></textarea>
+    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <div class="spinner" style="display: none;"></div>
+    </div>    
+
+    <h5>자신의 강점과 약점</h5>
+    <div class="outerBox">
+    <textarea class="cont" data-type="자신의 강점과 약점" rows="10" cols="100"></textarea>
+    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <div class="spinner" style="display: none;"></div>
+    </div>
+
     <h5>직무 관련 경험</h5>
-    <form action="/submitresume" method="post">
-        <textarea name="content" rows="10" cols="200"></textarea>
-        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
-    </form>
-    <h5>미래 포부</h5>
-    <form action="/submitresume" method="post">
-        <textarea name="content" rows="10" cols="200"></textarea>
-        <button type="submit" class="resumeSubmitBtn">글 다듬기</button>
-    </form>
+    <div class="outerBox">
+    <textarea class="cont" data-type="직무 관련 경험" rows="10" cols="100"></textarea>
+    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <div class="spinner" style="display: none;"></div>
+    </div>
+    
+    <input type="button" id="downloadPDF" value="pdf로 저장">
 
     <script>
-        var resumeSubmitBtn = document.querySelectorAll(".resumeSubmitBtn");
-        resumeSubmitBtn.forEach((element) => {
-            element.addEventListener('click', (e) => {
-                fetch("submitresume", {
-                    method: "post",
-                    headers: {"Content-Type" : "application/json"},
-                    body: Json.stringify({})
+        document.querySelectorAll('.resumeSubmitBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const textarea = this.previousElementSibling;
+                const content = textarea.value;
+                const type = textarea.getAttribute('data-type');
+
+                // 로딩 스피너를 해당 텍스트 영역 아래에 표시
+                const spinner = textarea.nextElementSibling.nextElementSibling; // "spinner" 클래스를 찾음
+
+                // 스피너 보이기
+                spinner.style.display = "block";
+                textarea.innerText = ""; // 이전 결과 지우기
+
+
+                fetch('submitresume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content
+                    })
                 })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); // 서버로부터 받은 응답을 확인
+                        spinner.style.display = "none";
+                        textarea.value = data.result || '응답이 없습니다.';
+                    })
+                    .catch(error => {
+                        console.error('에러 발생:', error);
+                        textarea.value = '오류가 발생했습니다.';
+                    });
+            });
+        });
+
+        var downloadPDF = document.getElementById("downloadPDF");
+        downloadPDF.addEventListener("click", function() {
+            // 모든 textarea의 값을 모음
+            var textAreas = {};
+            document.querySelectorAll(".cont").forEach(textarea => {
+                const type = textarea.getAttribute('data-type');
+                contents[type] = textarea.value;
+            });
+        
+            // 서버에 데이터 전송
+            fetch('/generate-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(contents)
             })
+            .then(response => response.blob())  // PDF 파일을 Blob으로 받음
+            .then(blob => {
+                // PDF 다운로드 처리
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'resume.pdf';
+                link.click();
+            })
+            .catch(error => {
+                console.error('PDF 생성 중 오류 발생:', error);
+            });
+        
         })
+
 
     </script>
 

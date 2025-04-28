@@ -32,7 +32,7 @@ public class CalendarController {
     @GetMapping("/events")
     public List<CalendarVO> getEvents() {
         List<CalendarVO> events = calendarService.getAllEvent();
-        log.info("📅 이벤트 {}개 불러옴", events.size());
+
         return events;
     }
 
