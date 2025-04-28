@@ -39,9 +39,11 @@ public class CalendarController {
     @ResponseBody
     @GetMapping("/events")
     public List<CalendarVO> getEvents() {
+
         String userId = getUserIdFromSession(); //세션에서 userId 가져오기
 
         List<CalendarVO> events = calendarService.getAllEvent(userId);
+
 
         return events;
     }
