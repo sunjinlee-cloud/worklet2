@@ -57,27 +57,27 @@ public class JobPostingController {
         return "airesume";
     }
 
-    @PostMapping("/submitresume")
-    public String airesume(@RequestParam String content,
-                           Model model) {
-
-        RestTemplate restTemplate = new RestTemplate();
-        String pythonApiUrl = "http://localhost:5000/format-intro";
-
-        Map<String, String> request = new HashMap<>();
-        request.put("content", content);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
-
-        ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, entity, Map.class);
-        String formatted = (String) response.getBody().get("result");
-
-        model.addAttribute("result", formatted);
-
-        return "airesumeresult";
-    }
+//    @PostMapping("/submitresume")
+//    public String airesume(@RequestParam String content,
+//                           Model model) {
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        String pythonApiUrl = "http://localhost:5000/format-intro";
+//
+//        Map<String, String> request = new HashMap<>();
+//        request.put("content", content);
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
+//
+//        ResponseEntity<Map> response = restTemplate.postForEntity(pythonApiUrl, entity, Map.class);
+//        String formatted = (String) response.getBody().get("result");
+//
+//        model.addAttribute("result", formatted);
+//
+//        return "airesumeresult";
+//    }
 
 
 //    @GetMapping("/apiexam")
