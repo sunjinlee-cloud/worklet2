@@ -2,6 +2,8 @@ package com.project2.worklet.user.service;
 
 
 
+import com.project2.worklet.component.CareerVO;
+import com.project2.worklet.component.EduVO;
 import com.project2.worklet.component.UserVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updatePw(UserVO user) {
         return userMapper.updatePw(user);
+    }
+
+    @Override
+    public int insertEdu(EduVO edu) {
+        return userMapper.insertEdu(edu);
+    }
+
+    @Override
+    public int updateEdu(EduVO edu) {
+        return userMapper.updateEdu(edu);
+    }
+
+    @Override
+    public int insertCareer(CareerVO career) {
+        return userMapper.insertCareer(career);
+    }
+
+    @Override
+    public int updateCareer(CareerVO career) {
+        return userMapper.updateCareer(career);
     }
 
 }
