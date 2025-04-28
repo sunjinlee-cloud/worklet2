@@ -1,6 +1,8 @@
 package com.project2.worklet.user.service;
 
 
+import com.project2.worklet.component.CareerVO;
+import com.project2.worklet.component.EduVO;
 import com.project2.worklet.component.UserVO;
 
 
@@ -28,4 +30,16 @@ public interface UserService {
 
     // 비밀번호 바꾸기
     int updatePw(UserVO user);
+
+    // 학력 추가
+    int insertEdu(EduVO edu);
+
+    // 학력 수정
+    int updateEdu(EduVO edu);
+
+    // 경력 추가
+    int insertCareer(CareerVO career);
+
+    // 경력 수정
+    int updateCareer(CareerVO career);
 }

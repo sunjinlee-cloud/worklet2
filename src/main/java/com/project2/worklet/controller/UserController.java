@@ -1,5 +1,7 @@
 package com.project2.worklet.controller;
 
+import com.project2.worklet.component.CareerVO;
+import com.project2.worklet.component.EduVO;
 import com.project2.worklet.component.UserVO;
 
 import com.project2.worklet.user.service.UserService;
@@ -128,6 +130,15 @@ public class UserController {
 
         if(vo != null){
             UserVO fullUser = userService.getUserById(vo.getUserId());
+
+            if (fullUser.getEducationList() == null) {
+                fullUser.setEducationList(new ArrayList<>());
+            }
+
+            if (fullUser.getCareerList() == null) {
+                fullUser.setCareerList(new ArrayList<>());
+            }
+
 
             // String을 LocalDate로 변환
             // 생일이 있을 경우 만나이 계산
@@ -269,5 +280,98 @@ public class UserController {
         }
         return "User/idSearch";
     }
+
+    // 학력 추가 처리
+    @PostMapping("/updateEdu")
+    public String updateEducation(@RequestParam("userNum") String userNum,
+                                  @RequestParam("schoolName") String schoolName,
+                                  @RequestParam("major") String major,
+                                  @RequestParam("part") String part,
+                                  @RequestParam("degreeType") String degreeType,
+                                  @RequestParam("graduationStatus") String graduationStatus,
+                                  @RequestParam("graduationDate") String graduationDate) {
+
+        // userNum이 숫자인지 확인
+        int userNumInt = 0;
+        if (userNum != null && userNum.matches("\\d+")) {  // 숫자만 포함된 문자열인지 확인
+            userNumInt = Integer.parseInt(userNum);  // 숫자로 변환
+        } else {
+            log.error("유효하지 않은 userNum 값: " + userNum);
+            return "redirect:/error";  // 숫자가 아닌 값이 들어오면 에러 페이지로 리디렉션
+        }
+
+        // graduationDate를 String에서 LocalDate로 변환
+        LocalDate graduationDateLocal = null;
+        if (graduationDate != null && !graduationDate.isEmpty()) {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                graduationDateLocal = LocalDate.parse(graduationDate, formatter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // EduVO 객체에 폼에서 받은 데이터를 설정
+        EduVO eduVO = new EduVO();
+        eduVO.setUserNum(userNumInt);  // ✅ 여기 userNumInt로
+        eduVO.setSchoolName(schoolName);
+        eduVO.setMajor(major);
+        eduVO.setPart(part);
+        eduVO.setDegreeType(degreeType);
+        eduVO.setGraduationStatus(graduationStatus);
+        eduVO.setGraduationDate(graduationDateLocal);
+
+        // 데이터 삽입
+        int result = userService.insertEdu(eduVO);
+
+        // 결과 처리
+        if (result > 0) {
+            log.info("학력 추가 성공");
+        } else {
+            log.error("학력 추가 실패");
+        }
+
+        return "redirect:/user/resume"; // ✅ 소문자로
+    }
+
+
+    // 학력 수정 처리
+    @PostMapping("/editEdu")
+    public String editEducation(@ModelAttribute EduVO eduVO) {
+        int result = userService.updateEdu(eduVO);
+        if (result > 0) {
+            log.info("학력 수정 성공");
+        } else {
+            log.error("학력 수정 실패");
+        }
+        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+    }
+
+    // 경력 추가 처리
+    @PostMapping("/updateCareer")
+    public String updateCareer(@ModelAttribute CareerVO careerVO) {
+        int result = userService.insertCareer(careerVO);
+        if (result > 0) {
+            log.info("경력 추가 성공");
+        } else {
+            log.error("경력 추가 실패");
+        }
+        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+    }
+
+    // 경력 수정 처리
+    @PostMapping("/editCareer")
+    public String editCareer(@ModelAttribute CareerVO careerVO) {
+        int result = userService.updateCareer(careerVO);
+        if (result > 0) {
+            log.info("경력 수정 성공");
+        } else {
+            log.error("경력 수정 실패");
+        }
+        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+    }
+
+
+
 
 }
