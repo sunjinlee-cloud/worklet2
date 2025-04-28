@@ -26,11 +26,11 @@ input:focus, select:focus {
 }
 
 
-input[type="checkbox"] {
+#jobPopup input[type="checkbox"] {
   display: none;
 }
 
-input[type="radio"] {
+#jobPopup input[type="radio"] {
   display: none;
   border: 1px solid #000;
 }
@@ -341,13 +341,41 @@ input[type="radio"] {
 
    /* --------------PC 희망직종-----------*/
 
+   #selectJobBtn{
+     padding: 13px 154px;
+     border-radius: 5px;
+     border-style: none;
+     background-color: var(--main-color1);
+     color: #ffff;
+     cursor: pointer;
+   }
+
+   .signupBtn{
+     width: 100%;
+     margin-top: 30px;
+     display: flex;
+     justify-content: flex-end;
+   }
+
+   #jobSignup{
+     padding: 15px 40px;
+     border-radius: 5px;
+     border-style: none;
+     background-color: var(--main-color1);
+     color: #ffff;
+     cursor: pointer;
+     float: right;
+     display: flex;
+     justify-self: flex-end;
+   }
+
    #jobPopup{
      display: none;
      position: absolute;
      justify-content: center;
      align-items: center;
      width: 1330px;
-     height: 600px;
+     height: 620px;
      top: 50%;
      left: 50%;
      transform: translate(-50%, 50%);
@@ -373,22 +401,22 @@ input[type="radio"] {
      cursor: pointer;
      /*line-height: 35px;*/
      /*height: 430px;*/
-
+      position: relative;
    }
 
    .searchCheckTopCategoryJobType {
-     width: 50%;
+     width: 56%;
      /*height: 100%;*/
      display: flex;
      justify-content: space-between;
      flex-wrap: wrap;
-
+     margin-right: 20px;
 
    }
 
    .searchCheckUnderCategoryJobType {
-     width: 49.5%;
-     border-left: 1px solid #d0d0d0;
+     width: 42%;
+     border-left: 1px solid #e6e6e6;
      display: block;
      height : 350px;
      max-height: 350px;
@@ -399,13 +427,18 @@ input[type="radio"] {
 
    .searchCheckTopCategoryJobType > div {
      /* border: 1px solid #D0D0D0; */
-     border-bottom: 1px solid #d0d0d0;
+     border-bottom: 1px solid #e3e3e3;
      width: 48%;
      /* min-width: 157px; */
      display: flex;
+     justify-content: space-between;
      align-items: center;
-     padding: 3px;
+     padding: 3px 10px;
      height: 14.2857%;
+   }
+   .searchCheckTopCategoryJobType > div i{
+     font-size: 12px;
+     color: #777;
    }
 
 
@@ -414,12 +447,11 @@ input[type="radio"] {
    }
 
    .searchCheckUnderCategoryJobType article {
-     border: 1px solid #D0D0D0;
+     border-bottom: 1px solid #e3e3e3;
      background-color: #ffffff;
      color: #000000;
-     padding: 6px 8px;
+     padding: 10px 8px;
      margin: 5px;
-     border-radius: 4px;
      display: inline-block;
      width: 90%;
      box-sizing: border-box;
@@ -456,6 +488,29 @@ input[type="radio"] {
      font-size: 12px;
    }
 
+   .popupClose{
+     position: absolute;
+     right: 0;
+     top: -218px;
+     border-style: none;
+     background-color: #fff;
+     border-radius: 50%;
+     width: 80px;
+     height: 80px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 1.6rem;
+     border: 1px solid #c3c3c3;
+     transition: .3s;
+     cursor: pointer;
+     color: #8f8f8f;
+   }
+
+
+   .popupClose:hover{
+      color: var(--main-color1);
+   }
 
 
    /* --------footer----------- */

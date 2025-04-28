@@ -117,12 +117,20 @@
         <div class="form-row">
             <label>희망직종 (선택)</label>
             <button type="button" id="selectJobBtn" onclick="openJobPopup()">희망 직종 선택</button>
+
+          <div id="selectedJobList" style="margin-top: 10px;">
+
+          </div>
+
             <div id="jobPopup" class="popup">
               <h2 style="text-align: center; padding: 20px; border-bottom: 1px solid #eee">희망직무</h2>
               <div class="searchCheckBoxJobType">
 
                 <!--검색 세부 3개까지 / 가로 7 세로 3-->
                 <div class="searchCheckTopCategoryJobType" id="topCategoryList">
+                  <button class="popupClose" onclick="closeJobPopup()">
+                    <i class="fa-solid fa-x"></i>
+                  </button>
                   <div>
                     <input type="radio" class="topCategoryCheckJobType" name = "topCategory" value="01"><span>경영·사무·금융·보험</span><i class="fa-solid fa-chevron-right"></i>
                   </div>
@@ -146,6 +154,12 @@
 
                 </div>
 
+              </div>
+
+              <div class="signupBtn">
+                <button type="button" id="jobSignup">
+                  등록
+                </button>
               </div>
             </div>
          </div>
@@ -297,15 +311,107 @@
     });
 
 
+  // 선택한 중분류 저장할 배열
+  var selectedJobs = [];
+
   // 팝업 열기
   function openJobPopup() {
     document.getElementById("jobPopup").style.display = "flex";  // 팝업을 보이게 함
+
+    // 팝업 열 때 선택한 것 미리 칠하기
+    setTimeout(() => { // DOM이 완전히 열리고 나서 적용
+      var checkboxes = document.querySelectorAll('.searchCheckJobType');
+      checkboxes.forEach(function(checkbox) {
+        var jobName = checkbox.nextElementSibling.textContent.trim();
+        if (selectedJobs.some(job => job.name === jobName)) {
+          checkbox.checked = true;
+          var article = checkbox.closest('article');
+          article.style.borderColor = '#ffffff';
+          article.style.backgroundColor = '#255EEE';
+          article.style.color = '#ffffff';
+          article.style.padding = '13px';
+        }
+      });
+    }, 100);
   }
 
   // 팝업 닫기
   function closeJobPopup() {
     document.getElementById("jobPopup").style.display = "none";  // 팝업을 숨김
   }
+
+  // "등록" 버튼 클릭
+  document.getElementById('jobSignup').addEventListener('click', function() {
+    var selectedCheckboxes = document.querySelectorAll('.searchCheckJobType:checked');
+
+    if (selectedCheckboxes.length === 0) {
+      alert('하나 이상 선택해야 합니다!');
+      return;
+    }
+
+    selectedJobs = [];
+    selectedCheckboxes.forEach(function (checkbox){
+      selectedJobs.push({
+        value: checkbox.value,
+        name: checkbox.nextElementSibling.textContent.trim()
+      });
+    });
+
+    renderSelectedJobs(); // 화면에 뿌리기
+    closeJobPopup();
+
+  })
+
+
+  function renderSelectedJobs(){
+    var selectedJobList = document.getElementById('selectedJobList');
+    selectedJobList.innerHTML = '';
+
+    selectedJobs.forEach(function(job, idx) {
+      var span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.style.padding = '8px 10px';
+      span.style.margin = '5px';
+      // span.style.backgroundColor = 'var(--sub-color2)';
+      span.style.border = '1px solid var(--main-color1)';
+      span.style.borderRadius = '20px';
+      span.style.position = 'relative';
+      span.style.fontSize = '14px';
+      span.style.color = 'var(--main-color1)';
+
+      var textNode = document.createTextNode(job.name);
+
+      // 삭제 버튼
+      var deleteBtn = document.createElement('span');
+      deleteBtn.textContent = ' ×';
+      deleteBtn.style.cursor = 'pointer';
+      deleteBtn.style.marginLeft = '5px';
+      // deleteBtn.style.color = 'red';
+
+      deleteBtn.addEventListener('click', function() {
+        selectedJobs.splice(idx, 1); // 배열에서도 삭제
+        renderSelectedJobs(); // 다시 렌더링
+
+        // 팝업 열려 있으면 체크박스 상태도 바로 업데이트
+        var checkboxes = document.querySelectorAll('.searchCheckJobType');
+        checkboxes.forEach(function(checkbox) {
+          if (checkbox.nextElementSibling.textContent.trim() === job.name) {
+            checkbox.checked = false;
+            var article = checkbox.closest('article');
+            article.style.borderColor = '#D0D0D0';
+            article.style.backgroundColor = '#ffffff';
+            article.style.color = '#000000';
+          }
+        });
+      });
+
+      span.appendChild(textNode);
+      span.appendChild(deleteBtn);
+
+      selectedJobList.appendChild(span);
+    });
+
+  };
 
 
   //   팝업 내용
@@ -326,7 +432,7 @@
           searchCheckTopCategoryJobType[j].style.color='#000000'
           var icon = searchCheckTopCategoryJobType[j].querySelector("i");
           if (icon) {
-            icon.style.color = "#fff"; // 원하는 색상으로
+            icon.style.color = "#777"; // 원하는 색상으로
           }
         }
 
@@ -338,7 +444,7 @@
         searchCheckTopCategoryJobType[index].style.borderColor = '#ffffff';
         searchCheckTopCategoryJobType[index].style.backgroundColor = '#255EEE';
         searchCheckTopCategoryJobType[index].style.color = '#ffffff';
-
+        searchCheckTopCategoryJobType[index].querySelector("i").style.color = "#fff";
 
 
         searchCheckUnderCategoryJobType.style.display = 'inline-block';
@@ -365,17 +471,13 @@
               }
 
               var article = document.createElement('article');
-              article.innerHTML = '<input type="checkbox" class="searchCheckJobType" value="' + item.secondaryCategoryNum + '">' +
+              article.innerHTML = '<input type="checkbox" name="preferredJobTypes" class="searchCheckJobType" value="' + item.secondaryCategoryNum + '">' +
                       '<span>' + item.secondaryCategoryName + '</span>';
               searchCheckUnderCategoryJobType.appendChild(article);
             }
           }
         };
         xhr.send();
-
-
-
-
 
       });
 
@@ -416,7 +518,7 @@
       div.style.borderColor = '#ffffff';  // 선택된 스타일 적용
       div.style.backgroundColor = '#255EEE';
       div.style.color = '#ffffff';
-      div.style.padding = '3px';
+      div.style.padding = '13px';
       div.style.marginTop = '1px';
     }
   });

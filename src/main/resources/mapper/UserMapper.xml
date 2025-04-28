@@ -23,7 +23,10 @@
                 want_job_type3,
                 want_job_workexp,
                 want_job_workexp_howlong,
-                join_date
+                join_date,
+                preferred_job_type_1,
+                preferred_job_type_2,
+                preferred_job_type_3
             )
             VALUES (
                        #{userNum},
@@ -41,7 +44,10 @@
                        #{wantJobType3},
                        #{wantJobWorkexp},
                        #{wantJobWorkexpHowlong},
-                       #{joinDate}
+                       #{joinDate},
+                        <foreach collection="preferredJobTypes" item="item" separator=",">
+                           #{item}
+                        </foreach>
                    )
         </insert>
 

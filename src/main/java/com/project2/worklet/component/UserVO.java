@@ -25,6 +25,8 @@ public class UserVO {
     private String wantJobType2;
     private String wantJobType3;
     private String[] wantJobType;
+
+    private String[] preferredJobTypes;
     private int wantJobWorkexp;
     private String wantJobWorkexpHowlong;
     private LocalDateTime joinDate;
