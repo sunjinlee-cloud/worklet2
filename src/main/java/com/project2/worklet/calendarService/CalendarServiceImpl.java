@@ -50,6 +50,7 @@ public class CalendarServiceImpl implements CalendarService {
         for(CalendarVO event : events) {
             boolean isFavorite = favoriteEmpSeqNoSet.contains(event.getEmpSeqNo());
             event.setFavorite(isFavorite);
+
         }
 
 
@@ -89,6 +90,7 @@ public class CalendarServiceImpl implements CalendarService {
 
         return events;
     }
+
 
 
     //찜기능

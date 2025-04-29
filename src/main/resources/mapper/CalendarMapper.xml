@@ -34,9 +34,6 @@
 
     </select>
 
-
-
-
     <insert id="insertFavorite" parameterType="map">
         INSERT INTO my_calendar (user_id, emp_seq_no)
         VALUES (#{userId}, #{empSeqNo})
@@ -48,12 +45,10 @@
 
     </delete>
 
+
     <select id="findFavoriteEmpSeqNosUserId" resultType="int">
         SELECT emp_seq_no FROM my_calendar WHERE user_id = #{userId}
     </select>
-
-
-
 
 
 
