@@ -74,6 +74,24 @@
     <script>
 
     document.addEventListener('DOMContentLoaded', function() {
+
+        //디버깅
+        $.ajax({
+            url: '/calendar/events',  // 서버에서 이벤트 데이터를 가져오는 URL
+            type: 'GET',
+            success: function(data) {
+                console.log("Received events:", data);  // 여기에 데이터 확인 로그 추가
+                // 데이터를 받아오면, 이를 화면에 표시하는 함수 호출
+                renderCalendarEvents(data);  // 받은 데이터를 render 함수로 전달
+            },
+            error: function(error) {
+                console.error("Error fetching events:", error);  // 오류가 발생하면 콘솔에 로그 출력
+            }
+        });
+
+
+
+
     var Calendar = FullCalendar.Calendar;
     var Draggable = FullCalendar.Draggable;
 
@@ -171,13 +189,65 @@
                 mainEl.style.backgroundColor = '#fff';
                 mainEl.style.marginTop='3px';
                 mainEl.style.border='none';
-            } else {
-                info.el.setAttribute('title', info.event.title);
-                info.el.style.color='#000';
-                info.el.style.backgroundColor = '#fff';
-                info.el.style.marginTop='3px';
-                info.el.style.border='none';
+
+                //즐찾과 제목 한줄정렬
+                mainEl.style.display = 'flex';
+                mainEl.style.alignItems = 'center';
+                mainEl.style.justifyContent = 'space-between';
+
+                //그냥 하면 안되니까 제목 부분을 span으로 감싸서 between 먹게
+                var titleSpan = document.createElement('span');
+                titleSpan.textContent = info.event.title;
+                titleSpan.style.flex = '1';
+                titleSpan.style.overflow = 'hidden';
+                titleSpan.style.textOverflow = 'ellipsis';
+                titleSpan.style.whiteSpace = 'nowrap';
+                titleSpan.classList.add('titleSpan');
+
+                //텍스트 집어넣기
+                mainEl.innerHTML = '';
+                mainEl.appendChild(titleSpan);
+
+
+                titleSpan.addEventListener('mouseenter', function() {
+
+                    var rect = titleSpan.getBoundingClientRect();
+
+                    tooltip.innerHTML = info.event.title;
+                    tooltip.style.position = 'absolute';
+                    tooltip.style.zIndex = '9999' ;
+                    tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
+                    tooltip.style.left = (rect.left + window.scrollX) + 'px';
+                    tooltip.style.minWidth = rect.width + 'px';
+                    tooltip.style.backgroundColor = '#e4e4e4';
+                    tooltip.style.color='#000';
+
+                    tooltip.style.display = 'block';
+
+                    titleSpan.style.cursor = 'pointer'
+
+
+                });
+
+                titleSpan.addEventListener('mouseleave', function () {
+                    tooltip.style.display = 'none';
+
+                    info.el.style.cursor = 'default';
+                });
+
+                titleSpan.addEventListener('click', function () {
+                    var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
+
+                    if(homepgDetail) {
+                        window.location.href = homepgDetail;
+                    } else {
+                        alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+                    }
+                })
+
             }
+
+
 
             // var morePopover = document.querySelector('.fc-popover');
             //
@@ -231,50 +301,158 @@
             //
             // }
 
+            // ⭐ 즐겨찾기 하트 추가 시작
+            var heart = document.createElement('span');
+            heart.innerHTML = '🤍'; // 초기 상태: 빈 하트
+            heart.style.marginLeft = '8px';
+            heart.style.cursor = 'pointer';
+            heart.setAttribute('data-favorited', 'false');
 
-        },
+            heart.addEventListener('click', function(e) {
+                e.stopPropagation(); // 상세 페이지 이동 막기
 
-        //풀캘린더 호버 역할 하는 event - mouseenter
+                var isFav = heart.getAttribute('data-favorited') === 'true';
+                var empSeqNo = Number(info.event.extendedProps.empSeqNo);
+                var userId = sessionStorage.getItem( 'userId' );
 
-        eventMouseEnter: function(info) {
 
-            var el = info.el;
-            var title = info.event.title;
+                if (isFav) {
+                    heart.innerHTML = '🤍';
+                    heart.setAttribute('data-favorited', 'false');
 
-            // 위치 계산
-            var rect = el.getBoundingClientRect();
+                    console.log(empSeqNo);
+                    console.log("userId:", sessionStorage.getItem('userId'));
 
-            tooltip.innerHTML = title;
-            tooltip.style.position = 'absolute';
-            // tooltip.style.zIndex = '9999' ;
-            tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
-            tooltip.style.left = (rect.left + window.scrollX) + 'px';
-            tooltip.style.minWidth = rect.width + 'px';
-            tooltip.style.backgroundColor = '#e4e4e4';
-            tooltip.style.color='#000';
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/calendar/favorite/remove", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-            tooltip.style.display = 'block';
+                    //디버깅용
+                    console.log(JSON.stringify({
+                        empSeqNo: empSeqNo,
+                        userId: sessionStorage.getItem('userId')
+                    }))
 
-            el.style.cursor = 'pointer'
-        },
+                    try {
+                        let payload = JSON.stringify({
+                            empSeqNo: empSeqNo,
+                            userId: userId
+                        });
+                        console.log("🔥 JSON payload", payload);
+                    } catch (err) {
+                        console.error("❌ JSON.stringify 오류:", err);
+                    }
 
-        eventMouseLeave: function(info) {
 
-            tooltip.style.display = 'none';
 
-            info.el.style.cursor = 'default';
-        },
 
-        eventClick: function(info) {
-            var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
+                    xhr.send(JSON.stringify({
+                        empSeqNo: empSeqNo,
+                        userId: sessionStorage.getItem('userId')
+                    }))
 
-            if(homepgDetail) {
-                window.location.href = homepgDetail;
-            } else {
-                alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+
+                } else {
+                    heart.innerHTML = '❤️';
+                    heart.setAttribute('data-favorited', 'true');
+
+                    console.log(empSeqNo);
+                    sessionStorage.getItem( 'userId' )
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("post", "/calendar/favorite/add", true);
+                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+                    //디버깅용
+                    console.log(JSON.stringify({
+                        empSeqNo: empSeqNo,
+                        userId: sessionStorage.getItem('userId')
+                    }))
+
+                    try {
+                        let payload = JSON.stringify({
+                            empSeqNo: empSeqNo,
+                            userId: userId
+                        });
+                        console.log("🔥 JSON payload", payload);
+                    } catch (err) {
+                        console.error("❌ JSON.stringify 오류:", err);
+                    }
+
+
+
+
+                    xhr.send(JSON.stringify({
+                        empSeqNo: empSeqNo,
+                        userId: sessionStorage.getItem('userId')
+                    }))
+
+                }
+
+                // 서버로 즐겨찾기 상태 저장하고 싶으면 여기에 Ajax 요청 작성
+                /*
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/calendar/favorite", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.send(JSON.stringify({
+                    id: info.event.id,
+                    favorite: !isFav
+                }));
+                */
+            });
+
+            var eventMain = info.el.querySelector('.fc-event-main');
+            if (eventMain) {
+                eventMain.appendChild(heart);
             }
+            // ⭐ 즐겨찾기 하트 추가 끝
+
+
+
 
         },
+
+        // //풀캘린더 호버 역할 하는 event - mouseenter
+        //
+        // eventMouseEnter: function(info) {
+        //     var titleSpan = document.querySelector('.titleSpan');
+        //     var el = info.el;
+        //     var title = info.event.title;
+        //
+        //     // 위치 계산
+        //     var rect = el.getBoundingClientRect();
+        //
+        //     tooltip.innerHTML = title;
+        //     tooltip.style.position = 'absolute';
+        //     // tooltip.style.zIndex = '9999' ;
+        //     tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
+        //     tooltip.style.left = (rect.left + window.scrollX) + 'px';
+        //     tooltip.style.minWidth = rect.width + 'px';
+        //     tooltip.style.backgroundColor = '#e4e4e4';
+        //     tooltip.style.color='#000';
+        //
+        //     tooltip.style.display = 'block';
+        //
+        //     el.style.cursor = 'pointer'
+        // },
+        //
+        // eventMouseLeave: function(info) {
+        //
+        //     tooltip.style.display = 'none';
+        //
+        //     info.el.style.cursor = 'default';
+        // },
+        //
+        // eventClick: function(info) {
+        //     var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
+        //
+        //     if(homepgDetail) {
+        //         window.location.href = homepgDetail;
+        //     } else {
+        //         alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+        //     }
+        //
+        // },
 
 
         // dateClick: function(info) {

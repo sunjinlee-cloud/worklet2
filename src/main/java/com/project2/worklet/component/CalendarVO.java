@@ -4,12 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpSession;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class CalendarVO {
+
+
 
     private String empSeqNo;
     private String empWantedTitle;
@@ -19,6 +24,10 @@ public class CalendarVO {
     private String empWantedTypeNm;
     private String regLogImgNm;
     private String empWantedHomepgDetail;
+
+    private boolean favorite; //현재 찜을 했는지 안했는지 확인용
+
+
 
     public String getTitle() {
         return empWantedTitle;
@@ -30,5 +39,8 @@ public class CalendarVO {
         }
         return null;
     }
+
+
+
 
 }
