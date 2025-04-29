@@ -7,6 +7,21 @@
     height: 100%;
 }
 
+.delete-btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: none;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.delete-btn i{
+    color: #939393;
+}
+
 
 /* 모바일 (최대 너비 767px까지 적용) */
 @media (max-width: 767px) {
@@ -510,8 +525,8 @@
         right: 30px;
         top: 50%;
         transform: translateY(-50%);
-        width: 22px;
-        height: 22px;
+        width: 21px;
+        height: 21px;
         cursor: pointer;
     }
 
@@ -813,7 +828,7 @@
 
     .sec04 .education>img {
         position: absolute;
-        right: 30px;
+        right: 130px;
         top: 50%;
         transform: translateY(-50%);
         width: 22px;
@@ -1765,11 +1780,11 @@
 
     .sec03 .education>img {
         position: absolute;
-        right: 50px;
+        right: 130px;
         top: 50%;
         transform: translateY(-50%);
-        width: 25px;
-        height: 25px;
+        width: 21px;
+        height: 21px;
         cursor: pointer;
     }
 
@@ -1809,6 +1824,18 @@
     }
 
     .sec03 .graduration {}
+
+    .delete-btn{
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+    }
+
+    .sec03 .delete-btn,.sec04 .delete-btn {
+        top: 50%;
+        right: 25px;
+        transform: translate(-50%, -50%);
+    }
 
     /* ----add-edu-form------ */
     .sec03 .add-edu-form {
@@ -2088,12 +2115,6 @@
         width: 150px;
     }
 
-
-
-
-
-
-
     /* ------------sec04----------- */
 
 
@@ -2148,11 +2169,11 @@
 
     .sec04 .education>img {
         position: absolute;
-        right: 50px;
+        right: 130px;
         top: 50%;
         transform: translateY(-50%);
-        width: 25px;
-        height: 25px;
+        width: 21px;
+        height: 21px;
         cursor: pointer;
     }
 
