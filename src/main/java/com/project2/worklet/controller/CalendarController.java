@@ -27,8 +27,12 @@ public class CalendarController {
 
 
     public String getUserIdFromSession() {
-        return (String) session.getAttribute("userId");
-    }
+
+        Object userId = session.getAttribute("userId");
+
+        return userId != null ? userId.toString() : null;
+
+    };
 
 
     @GetMapping("/calendar")
@@ -41,9 +45,11 @@ public class CalendarController {
     public List<CalendarVO> getEvents() {
         String userId = getUserIdFromSession(); //세션에서 userId 가져오기
 
-        List<CalendarVO> events = calendarService.getAllEvent(userId);
+        if(userId == null) {
+            return calendarService.getAllEvent(null);
+        }
 
-        return events;
+        return calendarService.getAllEvent(userId); //내부에 favorite 설정 완료
     }
 
     //찜 추가
@@ -63,13 +69,18 @@ public class CalendarController {
     }
 
     //찜 목록 가져오기
-    @GetMapping("/favorites")
-    public ResponseEntity<List<Integer>> getFavoriteEvents(@RequestParam String userId) {
-        List<Integer> favoriteEmpSeqNos = calendarService.getFavoriteEmpSeqNos(userId);
+//    @GetMapping("/favorites")
+//    public ResponseEntity<List<Integer>> getFavoriteEvents(@RequestParam String userId) {
+//        List<Integer> favoriteEmpSeqNos = calendarService.getFavoriteEmpSeqNos(userId);
+//
+//        return ResponseEntity.ok(favoriteEmpSeqNos);
+//
+//    }
 
-        return ResponseEntity.ok(favoriteEmpSeqNos);
 
-    }
+
+
+
 
 
 

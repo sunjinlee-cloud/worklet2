@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("calendar")
 @Slf4j
@@ -22,25 +25,31 @@ public class CalendarServiceImpl implements CalendarService {
     public List<CalendarVO> getAllEvent(String userId) {
 
         //사용자의 즐겨찾기 목록을 가져오기
-        List<Integer> favoriteEmpseqNos = calendarMapper.findFavoriteEmpSeqNosUserId(userId); //db에서 쿼리 실행
 
         List<CalendarVO> events = calendarMapper.getAllEvent();
+        log.info("Fetched {} events", events.size());
 
-        //디버깅
-        log.info("Fetched events: {}", events);  // 여기에 로그를 추가
-
-        if (events == null || events.isEmpty()) {
-            log.warn("No events found in the database");
-        }
-
-
-
-        for(CalendarVO event : events) { //반복문, 이벤트가 사용자의 찜 목록에 있는지 확인하고 하트 상태 설정
-            if(favoriteEmpseqNos.contains(event.getEmpSeqNo())) { // 사용자가 찜한 이벤트의 empSeqNo와 현재 이벤트의 empSeoNo가 일치하는 지 확인
-                event.setFavorite(true); // 비교해서 true = 찜해던 거라는 뜻, setFavorite을 true로 바꿔서 빨간 하트로
-            } else {
+        if(userId == null) {
+            log.warn("UserId is null, setting all favorites to false");
+            for(CalendarVO event : events) {
                 event.setFavorite(false);
             }
+            return events;
+        }
+
+        log.info("UserId from session: {}", userId);
+
+        List<Integer> favoriteEmpseqNos = calendarMapper.findFavoriteEmpSeqNosUserId(userId); //db에서 쿼리 실행
+        log.info("Favorite empSeqNos for user {}: {}", userId, favoriteEmpseqNos);
+
+        //디버깅
+        Set<String> favoriteEmpSeqNoSet = favoriteEmpseqNos.stream()
+                .map(String::valueOf)
+                .collect(Collectors.toSet());
+
+        for(CalendarVO event : events) {
+            boolean isFavorite = favoriteEmpSeqNoSet.contains(event.getEmpSeqNo());
+            event.setFavorite(isFavorite);
         }
 
 
