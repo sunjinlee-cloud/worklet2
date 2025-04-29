@@ -41,6 +41,16 @@ public class QnaServiceImpl implements QnaService {
         return qnaMapper.getQnaById(inquiryId);
     }
 
+    @Override
+    public List<QnaVO> getQnaListByUserNum(int userNum) {
+        return qnaMapper.getQnaListByUserNum(userNum);
+    }
+
+    @Override
+    public List<QnaVO> searchQnaList(String keyword) {
+        return qnaMapper.searchQnaList(keyword);
+    }
+
 
 }
 

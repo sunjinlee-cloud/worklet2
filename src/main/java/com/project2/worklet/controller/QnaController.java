@@ -1,6 +1,7 @@
 package com.project2.worklet.controller;
 
 import com.project2.worklet.component.QnaVO;
+import com.project2.worklet.component.UserVO;
 import com.project2.worklet.qna.service.QnaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,14 +23,31 @@ public class QnaController {
     private QnaService qnaService;
 
     @GetMapping("/qna_write")
-    public String qna_write() {
-        return "Board/qna_write";
+    public String qna_write(HttpSession session) {
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/user/login";  // 로그인 안 됐으면 로그인 페이지로
+        }
+        return "Board/qna_write";  // 로그인 되어 있으면 문의작성페이지로
     }
 
     @GetMapping("/qna_list")
-    public String qnalist(Model model) {
-        List<QnaVO> qnaList = qnaService.qnalist(); // 작성된 문의 가져오기
-        model.addAttribute("qnaList", qnaList);       // 화면에 전달
+    public String qnalist(Model model, HttpSession session) {
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+        List<QnaVO> qnaList;
+
+        if (loginUser != null) {
+            // 로그인한 유저 → 본인 글만
+            qnaList = qnaService.getQnaListByUserNum(loginUser.getUserNum());
+        } else {
+            // 비로그인 유저 → 전체 목록(제목만 열람)
+            qnaList = qnaService.qnalist();
+        }
+
+        model.addAttribute("qnaList", qnaList);
+        model.addAttribute("loginUser", loginUser); // JS나 화면에서 로그인 여부 판단용
         return "Board/qna_list";
     }
 
@@ -36,10 +55,20 @@ public class QnaController {
 
 
     @PostMapping("/qnaForm")
-    public String qnaForm(QnaVO vo) {
+    public String qnaForm(QnaVO vo, HttpSession session) {
+        // 로그인한 사용자 가져오기
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/user/login";
+        }
+
+        // 문의글 작성자 정보 추가
+        vo.setUserNum(loginUser.getUserNum());
         vo.setInquiryCreateAt(LocalDateTime.now());
         vo.setInquiryUpdateAt(LocalDateTime.now());
         vo.setInquiryStatus("답변대기");
+
         qnaService.qnaForm(vo);
         return "redirect:/qna/qna_list";
     }
@@ -47,8 +76,8 @@ public class QnaController {
 
     @GetMapping("/qna_reply")
     public String qnaReply(Model model) {
-        List<QnaVO> qnaList = qnaService.qnalist(); // 같은 서비스 메서드 재사용 가능
-        model.addAttribute("qnaList", qnaList);     // JSP에서 출력 가능
+        List<QnaVO> qnaList = qnaService.qnalist();
+        model.addAttribute("qnaList", qnaList);
         return "Board/qna_reply";
     }
 

@@ -14,4 +14,6 @@ public interface NoticeService {
     List<NoticeVO> searchByTitlePaging(String keyword, int offset, int amount);
     int getTotal();
     int searchTotal(String keyword);
+    List<NoticeVO> getRecentNotices(int limit); // 최신 공지 limit개 가져오기
+
 }

@@ -13,9 +13,13 @@ public interface NoticeMapper {
     //검색
     List<NoticeVO> searchTitle(String keyword);
 
-
     List<NoticeVO> getPageList(int offset, int amount);
     List<NoticeVO> searchByTitlePaging(String keyword, int offset, int amount);
     int getTotal();
     int searchTotal(String keyword);
+    // 최신 공지 N개 조회 (메인화면 슬라이드용)
+    List<NoticeVO> getRecentNotices(int limit);
+
+
+
 }
