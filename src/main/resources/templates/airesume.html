@@ -15,13 +15,13 @@
 
         .spinner {
             position: absolute;
-            top: 33%;
-            left: 335px;
-            /*border: 8px solid #f3f3f3;*/
-            /*border-top: 8px solid #255EEE;*/
-            /*border-radius: 50%;*/
-            width: 50px;
-            height: 50px;
+            top: 30%;
+            left: 310px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #255EEE;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             animation: spin 2s linear infinite;
             /*margin-top: 10px;*/
             /*margin-bottom: 10px;*/
@@ -38,32 +38,32 @@
 
     <h3>항목에 맞게 작성하신 이력서 내용을 ai로 다듬어 드려요.</h3>
 
-    <h5>자기소개</h5>
+    <h5>성장과정</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="자기소개" rows="10" cols="100"></textarea>
+    <textarea class="cont" data-type="resumeEarlyLife" rows="10" cols="100"></textarea>
     <button type="button" class="resumeSubmitBtn">글 다듬기</button>
-    <div class="spinner" style="display: none;"><img src="../image/loadingspinner.png" alt="로딩스피너" style="width: 50px; height: 50px; display: block;"></div>
+    <div class="spinner" style="display: none;"></div>
     </div>
 
-    <h5>직무 지원 계기와 포부</h5>
+    <h5>직무 지원 계기</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="직무 지원 계기와 포부" rows="10" cols="100"></textarea>
+    <textarea class="cont" data-type="resumeApplyReason" rows="10" cols="100"></textarea>
     <button type="button" class="resumeSubmitBtn">글 다듬기</button>
-    <div class="spinner" style="display: none;"><img src="../image/loadingspinner.png" alt="로딩스피너" style="width: 50px; height: 50px; display: block;"></div>
+    <div class="spinner" style="display: none;"></div>
     </div>    
 
     <h5>자신의 강점과 약점</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="자신의 강점과 약점" rows="10" cols="100"></textarea>
+    <textarea class="cont" data-type="resumeStrengthWeakness" rows="10" cols="100"></textarea>
     <button type="button" class="resumeSubmitBtn">글 다듬기</button>
-    <div class="spinner" style="display: none;"><img src="../image/loadingspinner.png" alt="로딩스피너" style="width: 50px; height: 50px; display: block;"></div>
+    <div class="spinner" style="display: none;"></div>
     </div>
 
-    <h5>직무 관련 경험</h5>
+    <h5>입사 후 포부</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="직무 관련 경험" rows="10" cols="100"></textarea>
+    <textarea class="cont" data-type="resumeApplyAfterDream" rows="10" cols="100"></textarea>
     <button type="button" class="resumeSubmitBtn">글 다듬기</button>
-    <div class="spinner" style="display: none;"><img src="../image/loadingspinner.png" alt="로딩스피너" style="width: 50px; height: 50px; display: block;"></div>
+    <div class="spinner" style="display: none;"></div>
     </div>
     
     <input type="button" id="downloadPDF" value="pdf로 저장">
@@ -94,7 +94,6 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data); // 서버로부터 받은 응답을 확인
                         spinner.style.display = "none";
                         textarea.value = data.result || '응답이 없습니다.';
                     })
@@ -105,36 +104,44 @@
             });
         });
 
-        var downloadPDF = document.getElementById("downloadPDF");
-        downloadPDF.addEventListener("click", function() {
-            // 모든 textarea의 값을 모음
-            var textAreas = {};
+
+        document.getElementById("downloadPDF").addEventListener("click", async function () {
+            // 각 textarea 값 추출
+            const inputs = {};
             document.querySelectorAll(".cont").forEach(textarea => {
-                const type = textarea.getAttribute('data-type');
-                contents[type] = textarea.value;
+                const key = textarea.getAttribute("data-type");
+                const valuee = textarea.value;
+                inputs[key] = valuee;
+
             });
-        
-            // 서버에 데이터 전송
-            fetch('/generate-pdf', {
-                method: 'POST',
+
+            // Ajax 요청 보내기
+            fetch("/generatepdf", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify(contents)
+                body: JSON.stringify(inputs)
             })
-            .then(response => response.blob())  // PDF 파일을 Blob으로 받음
-            .then(blob => {
-                // PDF 다운로드 처리
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'resume.pdf';
-                link.click();
-            })
-            .catch(error => {
-                console.error('PDF 생성 중 오류 발생:', error);
-            });
-        
-        })
+                .then(response => {
+                    if (!response.ok) throw new Error("PDF 생성 실패");
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Blob으로 다운로드 처리
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "이력서.pdf";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => {
+                    console.error("에러:", error);
+                    alert("PDF 생성 중 오류 발생");
+                });
+        });
 
 
     </script>

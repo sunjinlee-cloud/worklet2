@@ -21,5 +21,6 @@ public class JobPostingVO2 {
     private String empWantedCareerNm;
     private String workRegionNm;
     private String empRecrNm;
+    private String isOpen;
 
 }
