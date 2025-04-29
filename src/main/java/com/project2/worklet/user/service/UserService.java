@@ -6,6 +6,7 @@ import com.project2.worklet.component.EduVO;
 import com.project2.worklet.component.UserVO;
 
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -42,4 +43,18 @@ public interface UserService {
 
     // 경력 수정
     int updateCareer(CareerVO career);
+
+    // 학력 조회 추가
+    List<EduVO> getUserEducation(int userNum);
+
+    // 경력 조회 추가
+    List<CareerVO> getUserCareer(int userNum);
+
+
+    // 학력 삭제
+    int deleteEducation(Long educationId);
+
+    // 경력 삭제
+    int deleteCareer(Long careerId);
+
 }

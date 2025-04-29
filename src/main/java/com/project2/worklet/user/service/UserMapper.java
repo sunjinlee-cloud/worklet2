@@ -5,6 +5,7 @@ import com.project2.worklet.component.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -34,4 +35,14 @@ public interface UserMapper {
     // 경력 수정
     int updateCareer(CareerVO career);
 
+    // 학력 조회 추가
+    List<EduVO> getUserEducation(int userNum);
+
+    // 경력 조회 추가
+    List<CareerVO> getUserCareer(int userNum);
+
+    int deleteEducation(Long educationId);
+
+    // 경력 삭제
+    int deleteCareer(Long careerId);
 }

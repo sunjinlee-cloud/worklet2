@@ -9,6 +9,7 @@ import com.project2.worklet.component.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service("userService")
@@ -76,6 +77,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateCareer(CareerVO career) {
         return userMapper.updateCareer(career);
+    }
+
+    @Override
+    public List<EduVO> getUserEducation(int userNum) {
+        return userMapper.getUserEducation(userNum);
+    }
+
+    @Override
+    public List<CareerVO> getUserCareer(int userNum) {
+        return userMapper.getUserCareer(userNum);
+    }
+
+    @Override
+    public int deleteEducation(Long educationId) {
+        return userMapper.deleteEducation(educationId);
+    }
+
+    @Override
+    public int deleteCareer(Long careerId) {
+        return userMapper.deleteCareer(careerId);
     }
 
 }
