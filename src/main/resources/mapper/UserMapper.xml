@@ -92,7 +92,7 @@
     </update>
 
     <!-- 학력 추가 -->
-    <insert id="insertEdu" parameterType="EduVO">
+    <insert id="insertEdu" parameterType="com.project2.worklet.component.EduVO">
         INSERT INTO education (
             user_num,
             school_name,
@@ -118,8 +118,9 @@
 
 
 
+
     <!-- 학력 수정 -->
-    <update id="updateEdu" parameterType="EduVO">
+    <update id="updateEdu" parameterType="com.project2.worklet.component.EduVO">
         UPDATE education
         SET
             school_name = #{schoolName},
@@ -129,11 +130,12 @@
             graduation_status = #{graduationStatus},
             graduation_date = #{graduationDate},
             updated_at = NOW()
-        WHERE user_num = #{userNum} AND education_id = #{educationId};
+        WHERE
+            education_id = #{educationId}
     </update>
 
     <!-- 경력 추가 -->
-    <insert id="insertCareer" parameterType="CareerVO">
+    <insert id="insertCareer" parameterType="com.project2.worklet.component.CareerVO">
         INSERT INTO career (
             user_num,
             company_name,
@@ -158,7 +160,7 @@
     </insert>
 
     <!-- 경력 수정 -->
-    <update id="updateCareer" parameterType="CareerVO">
+    <update id="updateCareer" parameterType="com.project2.worklet.component.CareerVO">
         UPDATE career
         SET
             company_name = #{companyName},
@@ -171,5 +173,22 @@
         WHERE user_num = #{userNum} AND career_id = #{careerId};
     </update>
 
+    <select id="getUserEducation" resultType="com.project2.worklet.component.EduVO">
+        SELECT * FROM education WHERE user_num = #{userNum}
+    </select>
+
+
+    <select id="getUserCareer" resultType="com.project2.worklet.component.CareerVO">
+        SELECT * FROM career WHERE user_num = #{userNum}
+    </select>
+
+
+    <delete id="deleteEducation" parameterType="long">
+        DELETE FROM education WHERE education_id = #{educationId}
+    </delete>
+
+    <delete id="deleteCareer" parameterType="long">
+        DELETE FROM career WHERE career_id = #{careerId}
+    </delete>
 
 </mapper>
