@@ -56,6 +56,40 @@ public class CalendarServiceImpl implements CalendarService {
         return events;
     }
 
+    @Override
+    public List<CalendarVO> getStartDayEvents(String userId) {
+        //사용자의 즐겨찾기 목록을 가져오기
+
+        List<CalendarVO> events = calendarMapper.getAllEvent();
+        log.info("Fetched {} events", events.size());
+
+        if(userId == null) {
+            log.warn("UserId is null, setting all favorites to false");
+            for(CalendarVO event : events) {
+                event.setFavorite(false);
+            }
+            return events;
+        }
+
+        log.info("UserId from session: {}", userId);
+
+        List<Integer> favoriteEmpseqNos = calendarMapper.findFavoriteEmpSeqNosUserId(userId); //db에서 쿼리 실행
+        log.info("Favorite empSeqNos for user {}: {}", userId, favoriteEmpseqNos);
+
+        //디버깅
+        Set<String> favoriteEmpSeqNoSet = favoriteEmpseqNos.stream()
+                .map(String::valueOf)
+                .collect(Collectors.toSet());
+
+        for(CalendarVO event : events) {
+            boolean isFavorite = favoriteEmpSeqNoSet.contains(event.getEmpSeqNo());
+            event.setFavorite(isFavorite);
+        }
+
+
+        return events;
+    }
+
 
     //찜기능
     @Override

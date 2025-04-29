@@ -170,6 +170,7 @@
 
         function ButtonClick(e) {
             var buttonClasses = ['fc-startDay-button', 'fc-endDay-button', 'fc-openJobPosting-button', 'fc-jobPosting-button'];
+
             for (var i = 0; i < buttonClasses.length; i++) {
                 var btn = document.querySelector('.' + buttonClasses[i]);
                 if (btn) {
@@ -180,6 +181,17 @@
                     }
                 }
             }
+
+            if(e === 'startDay') {
+                calendar.setOption('events', '/calendar/eventsStartDay');
+
+            } else {
+                calendar.setOption('events', []);
+            }
+
+
+
+
         }
 
 
@@ -196,7 +208,8 @@
                 return arg.date.getDate();
             },
 
-            events: '/calendar/events',
+            events: [], //초기엔 아무것도 불러오지 않음
+            // events: '/calendar/events',
 
 
             dayMaxEvents: true, // 또는 숫자로: dayMaxEvents: 3 //칸 이상은 + 처리
@@ -324,6 +337,8 @@
                 // ⭐ 즐겨찾기 하트 추가 시작
                 var heart = document.createElement('span');
 
+                var eventMain = info.el.querySelector('.fc-event-main');
+
                 heart.style.marginLeft = '8px';
                 heart.style.cursor = 'pointer';
 
@@ -332,9 +347,21 @@
                 if (info.event.extendedProps.favorite) {
                     heart.innerHTML = '❤️';
                     heart.setAttribute('data-favorited', 'true');
+
+                    if(eventMain) {
+                        eventMain.style.color='blue';
+                        eventMain.style.fontWeight = 'bold';
+                    }
+
+
                 } else {
                     heart.innerHTML = '🤍';
                     heart.setAttribute('data-favorited', 'false');
+
+                    if(eventMain) {
+                        eventMain.style.color='black';
+                        eventMain.style.fontWeight = 'normal';
+                    }
                 }
 
                 heart.addEventListener('click', function (e) {
@@ -345,32 +372,35 @@
                     var userId = sessionStorage.getItem('userId');
 
 
+
                     if (isFav) {
                         heart.innerHTML = '🤍';
                         heart.setAttribute('data-favorited', 'false');
 
-                        console.log(empSeqNo);
-                        console.log("userId:", sessionStorage.getItem('userId'));
+                        if(eventMain) {
+                            eventMain.style.color='black';
+                            eventMain.style.fontWeight = 'normal';
+                        }
 
                         var xhr = new XMLHttpRequest();
                         xhr.open("post", "/calendar/favorite/remove", true);
                         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
                         //디버깅용
-                        console.log(JSON.stringify({
-                            empSeqNo: empSeqNo,
-                            userId: sessionStorage.getItem('userId')
-                        }))
-
-                        try {
-                            let payload = JSON.stringify({
-                                empSeqNo: empSeqNo,
-                                userId: userId
-                            });
-                            console.log("🔥 JSON payload", payload);
-                        } catch (err) {
-                            console.error("❌ JSON.stringify 오류:", err);
-                        }
+                        // console.log(JSON.stringify({
+                        //     empSeqNo: empSeqNo,
+                        //     userId: sessionStorage.getItem('userId')
+                        // }))
+                        //
+                        // try {
+                        //     let payload = JSON.stringify({
+                        //         empSeqNo: empSeqNo,
+                        //         userId: userId
+                        //     });
+                        //     console.log("🔥 JSON payload", payload);
+                        // } catch (err) {
+                        //     console.error("❌ JSON.stringify 오류:", err);
+                        // }
 
 
                         xhr.send(JSON.stringify({
@@ -383,28 +413,30 @@
                         heart.innerHTML = '❤️';
                         heart.setAttribute('data-favorited', 'true');
 
-                        console.log(empSeqNo);
-                        sessionStorage.getItem('userId')
+                        if(eventMain) {
+                            eventMain.style.color='blue';
+                            eventMain.style.fontWeight = 'bold';
+                        }
 
                         var xhr = new XMLHttpRequest();
                         xhr.open("post", "/calendar/favorite/add", true);
                         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-                        //디버깅용
-                        console.log(JSON.stringify({
-                            empSeqNo: empSeqNo,
-                            userId: sessionStorage.getItem('userId')
-                        }))
-
-                        try {
-                            let payload = JSON.stringify({
-                                empSeqNo: empSeqNo,
-                                userId: userId
-                            });
-                            console.log("🔥 JSON payload", payload);
-                        } catch (err) {
-                            console.error("❌ JSON.stringify 오류:", err);
-                        }
+                        // //디버깅용
+                        // console.log(JSON.stringify({
+                        //     empSeqNo: empSeqNo,
+                        //     userId: sessionStorage.getItem('userId')
+                        // }))
+                        //
+                        // try {
+                        //     let payload = JSON.stringify({
+                        //         empSeqNo: empSeqNo,
+                        //         userId: userId
+                        //     });
+                        //     console.log("🔥 JSON payload", payload);
+                        // } catch (err) {
+                        //     console.error("❌ JSON.stringify 오류:", err);
+                        // }
 
 
                         xhr.send(JSON.stringify({
@@ -508,6 +540,10 @@
         });
 
         calendar.render();
+
+
+
+
 
     });
 

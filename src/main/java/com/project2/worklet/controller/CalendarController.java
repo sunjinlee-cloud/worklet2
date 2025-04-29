@@ -52,6 +52,19 @@ public class CalendarController {
         return calendarService.getAllEvent(userId); //내부에 favorite 설정 완료
     }
 
+    //시작일
+    @ResponseBody
+    @GetMapping("/eventsStartDay")
+    public List<CalendarVO> geteventsStartDay() {
+        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+
+        if(userId == null) {
+            return calendarService.getStartDayEvents(null);
+        }
+
+        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+    }
+
     //찜 추가
     @PostMapping("/favorite/add")
     @ResponseBody
