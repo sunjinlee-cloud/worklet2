@@ -48,5 +48,10 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.searchTotal(keyword);
     }
 
+    @Override
+    public List<NoticeVO> getRecentNotices(int limit) {
+        return noticeMapper.getRecentNotices(limit);
+    }
+
 
 }

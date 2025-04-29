@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,7 @@
                                     <p>바로가기</p>
                                 </li>
                                 <li>
-                                    <a href="">
+                                    <a href="/qna/qna_list">
                                         <img src="../image/question.png" alt="">
                                     </a>
                                     <h4>문의</h4>
@@ -58,45 +59,31 @@
                     <div class="sec01_notice">
                         <div class="notice_title flex">
                             <div class="notice_icon flex">
-                                <figure><img src="../image/notification.png" alt=""></figure>
+                                <figure><a href="/notice/notice_list"><img src="../image/notification.png" alt="공지 아이콘"></a></figure>
                                 <p>공지</p>
                             </div>
                             <div class="more flex">
-                                <p>더보기</p>
-                                <figure><img src="../image/Arrow.png" alt=""></figure>
+                                <a href="/notice/notice_list"><p>더보기</p></a>
+                                <figure><img src="../image/Arrow.png" alt="더보기 아이콘"></figure>
                             </div>
                         </div>
 
                         <div class="notice_slide">
                             <div class="swiper mySwiper2">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
+                                    <!-- Thymeleaf 반복문 사용 -->
+                                    <div th:each="notice : ${topNotices}" class="swiper-slide">
+                                        <p th:text="${notice.noticeTitle}">공지 제목</p>
+                                        <span th:text="${#dates.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">2025.04.06</span>
                                     </div>
                                 </div>
+
                                 <div class="swiper-pagination"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
         </section>
 
         <section id="sec02">
