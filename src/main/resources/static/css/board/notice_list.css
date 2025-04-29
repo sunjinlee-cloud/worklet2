@@ -130,6 +130,7 @@ img {
     .hi {
         background-color: var(--main-color1);
         height: 400px;
+        margin-top: 60px;
     }
 
     .hi > .header_box {

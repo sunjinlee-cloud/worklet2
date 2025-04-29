@@ -17,7 +17,8 @@
         emp_wanted_endt,
         emp_wanted_type_nm,
         reg_log_img_nm,
-        emp_wanted_homepg_detail)
+        emp_wanted_homepg_detail,
+        is_open   )
         values
         <foreach collection="list" item="item" separator=",">
             (
@@ -28,7 +29,8 @@
             #{item.empWantedEndt},
             #{item.empWantedTypeNm},
             #{item.regLogImgNm},
-            #{item.empWantedHomepgDetail}
+            #{item.empWantedHomepgDetail},
+             "Y"
             )
         </foreach>
     </insert>

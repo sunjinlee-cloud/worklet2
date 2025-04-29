@@ -52,6 +52,8 @@ dependencies {
 	// jasperreports
 	implementation 'net.sf.jasperreports:jasperreports:6.9.0'
 	implementation 'com.lowagie:itext:2.1.7'
+	//implementation 'com.lowagie:itext:2.1.7.js6'
+	//implementation files('libs/itext-2.1.7.js6.jar')
 }
 
 tasks.named('test') {

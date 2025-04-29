@@ -61,5 +61,20 @@
         SELECT * FROM inquiry WHERE inquiry_id = #{inquiryId}
     </select>
 
+    <select id="getQnaListByUserNum" parameterType="int" resultType="com.project2.worklet.component.QnaVO">
+        SELECT *
+        FROM inquiry
+        WHERE user_num = #{userNum}
+        ORDER BY inquiry_create_at DESC
+    </select>
+
+    <select id="searchQnaList" resultType="com.project2.worklet.component.QnaVO">
+        SELECT *
+        FROM inquiry
+        WHERE (inquiry_title LIKE CONCAT('%', #{keyword}, '%') OR inquiry_content LIKE CONCAT('%', #{keyword}, '%'))
+        ORDER BY inquiry_createat DESC
+    </select>
+
+
 
 </mapper>

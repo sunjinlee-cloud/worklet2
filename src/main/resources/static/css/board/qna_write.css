@@ -148,6 +148,7 @@ img {
         height: 500px;
         z-index: auto;
         position: relative;
+        margin-top: 80px;
     }
 
     .imgbox > .imgbox_title { 

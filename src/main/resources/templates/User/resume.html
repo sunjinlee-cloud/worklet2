@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/resume.css">
+    <script src="https://kit.fontawesome.com/599a3a7868.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -165,7 +166,10 @@
                             <!-- 삭제 버튼 추가 -->
                             <!-- GET 방식에서 POST 방식으로 변경 -->
                             <form th:action="@{/user/deleteEdu/{educationId}(educationId=${education.educationId})}" method="POST">
-                                <button type="submit" class="delete-btn">삭제</button>
+                                <button type="submit" class="delete-btn">
+                                    <i class="fa-solid fa-x"></i>
+                                </button>
+
                             </form>
                         </div>
                     </div>
@@ -285,7 +289,11 @@
                             </div>
                             <img src="../image/pencil.png" alt="" class="pencil">
                             <form th:action="@{/user/deleteCareer/{careerId}(careerId=${career.careerId})}" method="POST">
-                                <button type="submit" class="delete-btn">삭제</button>
+
+                                <button type="submit" class="delete-btn">
+                                    <i class="fa-solid fa-x"></i>
+                                </button>
+
                             </form>
                         </div>
                     </div>
