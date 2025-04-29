@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,4 +31,9 @@ public class UserVO {
     private int wantJobWorkexp;
     private String wantJobWorkexpHowlong;
     private LocalDateTime joinDate;
+
+
+    // 학력, 경력 리스트
+    private List<EduVO> educationList;  // 학력 리스트
+    private List<CareerVO> careerList;  // 경력 리스트
 }

@@ -405,7 +405,8 @@
             <ul >
                 <li th:each="vo, status:${list}"
                     th:data-url="${vo.empWantedHomepgDetail}"
-                    class="clickable-li">
+                    class="clickable-li"
+                    th:docuName="${vo.empRecrNm}">
                     <!-- th:onclick="|window.location.href=this.getAttribute('data-url');|"> -->
                     <p>[[${vo.empWantedTitle}]]</p>
                     <img th:src="@{${vo.regLogImgNm}}" alt="#">
@@ -456,7 +457,7 @@
                     if (window.innerWidth >= 768) {
                         const url = li.getAttribute("data-url");
                         if (url) {
-                            window.location.href = url;
+                            window.open(url, "fullscreen=yes");
                         }
                     } else {
                         // 클릭한 대상이 내부 버튼이 아닌 경우에만 처리 (필요하면 조건 추가)

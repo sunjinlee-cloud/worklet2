@@ -142,39 +142,43 @@
                         <p>추가</p>
                     </figure>
                 </div>
-                <div class="school-list">
 
-                    <div class="education flex">
-                        <div class="school">
-                            <h4>서울대학교</h4>
-                            <p>컴퓨터공학과</p>
-                        </div>
-                        <div class="edu-info">
-                            <div>
-                                <span>주간</span>
-                                <span>졸업</span>
+                <div th:if="${userVO.educationList != null}">
+                    <div class="school-list">
+
+                        <div th:each="education : ${userVO.educationList}"  class="education flex">
+                            <div class="school">
+                                <h4 th:text="${education.schoolName}">서울대학교</h4>
+                                <p th:text="${education.major}">컴퓨터공학과</p>
                             </div>
+                            <div class="edu-info">
+                                <div>
+                                    <span th:text="${education.part}">주간</span>
+                                    <span th:text="${education.degreeType}">졸업</span>
+                                    <span th:text="${education.graduation}">졸업</span>
+                                </div>
 
-                            <p class="graduration">2025-07-22 졸업</p>
+                                <p class="graduration" th:text="${education.graduationStatus} + ' ' + ${education.graduationDate}">2025-07-22 졸업</p>
+                            </div>
+                            <img src="../image/pencil.png" alt="" class="pencil">
                         </div>
-                        <img src="../image/pencil.png" alt="">
                     </div>
                 </div>
-
                 <div class="add-edu-form">
                     <h5>추가</h5>
-                    <form action="" method="post">
-                        <input type="text" class="input-school" placeholder="학교명" name="school-name">
+                    <form action="/user/updateEdu" method="post">
+                        <input type="hidden" name="userNum" value="user_num">
+                        <input type="text" class="input-school" placeholder="학교명" name="schoolName">
                         <div class="flex">
                             <input type="text" class="input-major" placeholder="전공" name="major">
                             <div class="flex">
-                                <select class="input-type widthstyle part">
+                                <select class="input-type widthstyle part" name="part">
                                     <option value="">이수형태</option>
                                     <option value="주간">주간</option>
                                     <option value="야간">야간</option>
                                     <option value="온라인">온라인</option>
                                 </select>
-                                <select class="input-type widthstyle">
+                                <select class="input-type widthstyle" name="degreeType">
                                     <option value="">학력구분</option>
                                     <option value="박사">박사</option>
                                     <option value="학사">학사</option>
@@ -182,7 +186,7 @@
                                     <option value="2/3년제">2/3년제</option>
                                     <option value="고졸">고졸</option>
                                 </select>
-                                <select class="input-status widthstyle graduation">
+                                <select class="input-status widthstyle graduation" name="graduationStatus">
                                     <option value="">졸업여부</option>
                                     <option value="졸업">졸업</option>
                                     <option value="재학">재학</option>
@@ -191,12 +195,12 @@
                                 </select>
                             </div>
 
-                            <input type="text" name="graduationdate" class="custom-date widthstyle"
-                                   placeholder="졸업/졸업예정일" />
+                            <input type="text" name="graduationDate" class="custom-date widthstyle"
+                                   placeholder="졸업/졸업예정일"/>
 
                         </div>
                         <div class="button">
-                            <button type="button" class="btn-save">저장</button>
+                            <button type="submit" class="btn-save">저장</button>
                             <button type="button" class="btn-del">취소</button>
                         </div>
 
@@ -206,18 +210,18 @@
 
                 <div class="edit-edu-form">
                     <h5>수정</h5>
-                    <form action="" method="post">
-                        <input type="text" class="input-school" placeholder="학교명" name="school-name" value="서울대학교">
+                    <form action="/user/editEdu" method="post">
+                        <input type="text" class="input-school" placeholder="학교명" name="schoolName" value="서울대학교">
                         <div class="flex">
                             <input type="text" class="input-major" placeholder="전공" name="major" value="컴퓨터공학과">
                             <div class="flex">
-                                <select class="input-type widthstyle part">
+                                <select class="input-type widthstyle part" name="part">
                                     <option value="">이수형태</option>
                                     <option value="주간">주간</option>
                                     <option value="야간">야간</option>
                                     <option value="온라인">온라인</option>
                                 </select>
-                                <select class="input-type widthstyle">
+                                <select class="input-type widthstyle" name="degreeType">
                                     <option value="">학력구분</option>
                                     <option value="박사">박사</option>
                                     <option value="학사">학사</option>
@@ -225,7 +229,7 @@
                                     <option value="2/3년제">2/3년제</option>
                                     <option value="고졸">고졸</option>
                                 </select>
-                                <select class="input-status widthstyle graduation">
+                                <select class="input-status widthstyle graduation" name="graduationStatus">
                                     <option value="">졸업여부</option>
                                     <option value="졸업">졸업</option>
                                     <option value="재학">재학</option>
@@ -234,12 +238,12 @@
                                 </select>
                             </div>
 
-                            <input type="text" name="graduationdate" class="custom-date widthstyle"
+                            <input type="text" name="graduationDate" class="custom-date widthstyle"
                                    placeholder="졸업/졸업예정일" />
 
                         </div>
                         <div class="button">
-                            <button type="button" class="btn-save">저장</button>
+                            <button type="submit" class="btn-save">저장</button>
                             <button type="button" class="btn-del">취소</button>
                         </div>
                     </form>
@@ -251,40 +255,43 @@
                 <div class="flex plus">
                     <p>경력</p>
                     <figure class="flex">
-                        <img src="../image/plus.png" alt="" class="pencil">
+                        <img src="../image/plus.png" alt="">
                         <p>추가</p>
                     </figure>
                 </div>
-                <div class="com-list">
 
-                    <div class="education flex">
-                        <div class="school">
-                            <h4>삼성전자</h4>
-                            <p>전략기획실</p>
+                <div th:if="${userVO.careerList != null}">
+                    <div class="com-list">
+
+                        <div th:each="career : ${userVO.careerList}"  class="education flex">
+                            <div class="school">
+                                <h4 th:text="${career.companyName}">삼성전자</h4>
+                                <p th:text="${career.department}">전략기획실</p>
+                            </div>
+                            <div class="edu-info">
+                                <span th:text="${#dates.format(career.joinDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(career.quitDate, 'yyyy-MM-dd')}">2020-05-10 ~ 2025-05-30</span>
+                                <span th:text="${career.position}">과장</span>
+                            </div>
+                            <img src="../image/pencil.png" alt="" class="pencil">
                         </div>
-                        <div class="edu-info">
-                            <span>2020-05-10 ~ 2025-05-30</span>
-                            <span>과장</span>
-                        </div>
-                        <img src="../image/pencil.png" alt="">
                     </div>
                 </div>
                 <div class="add-edu-form">
                     <h5>추가</h5>
-                    <form action="" method="post">
-
-                        <input type="text" class="company-name" placeholder="회사명">
+                    <form action="/user/updateCareer" method="post">
+                        <input type="hidden" name="userNum" value="user_num">
+                        <input type="text" class="company-name" placeholder="회사명" name="companyName">
                         <div class="flex">
                             <input type="text" class="department" placeholder="부서" name="department">
-                            <input type="text" name="join-date" class="custom-date widthstyle" placeholder="입사일" />
-                            <input type="text" name="quit-date" class="custom-date widthstyle" placeholder="퇴사일" />
+                            <input type="text" name="joinDate" class="custom-date widthstyle" placeholder="입사일" />
+                            <input type="text" name="quitDate" class="custom-date widthstyle" placeholder="퇴사일" />
                             <input type="text" name="position" class="input-school widthstyle" placeholder="직급">
                         </div>
-                        <textarea id="myText" placeholder="주요업무 (최대 300자까지 입력 가능)" maxlength="300"
+                        <textarea id="myText" name="jobDescription"  placeholder="주요업무 (최대 300자까지 입력 가능)" maxlength="300"
                                   oninput="updateCount()"></textarea>
                         <p><span id="charCount">0</span>/300자</p>
                         <div class="button">
-                            <button type="button" class="btn-save">저장</button>
+                            <button type="submit" class="btn-save">저장</button>
                             <button type="button" class="btn-del">취소</button>
                         </div>
 
@@ -293,19 +300,19 @@
 
                 <div class="edit-edu-form">
                     <h5>수정</h5>
-                    <form action="" method="post">
-                        <input type="text" class="company-name" placeholder="회사명" value="삼성전자">
+                    <form action="/user/editCareer" method="post">
+                        <input type="text" class="company-name" placeholder="회사명" value="삼성전자" name="companyName">
                         <div class="flex">
                             <input type="text" class="department" placeholder="부서" name="department">
-                            <input type="text" name="join-date" class="custom-date widthstyle" placeholder="입사일" />
-                            <input type="text" name="quit-date" class="custom-date widthstyle" placeholder="퇴사일" />
+                            <input type="text" name="joinDate" class="custom-date widthstyle" placeholder="입사일" />
+                            <input type="text" name="quitDate" class="custom-date widthstyle" placeholder="퇴사일" />
                             <input type="text" name="position" class="input-school widthstyle" placeholder="직급">
                         </div>
-                        <textarea id="myText2" placeholder="주요업무 (최대 300자까지 입력 가능)" maxlength="300"
+                        <textarea id="myText2" name="jobDescription" placeholder="주요업무 (최대 300자까지 입력 가능)" maxlength="300"
                                   oninput="updateCount()"></textarea>
                         <p><span id="charCount6">0</span>/300자</p>
                         <div class="button">
-                            <button type="button" class="btn-save">저장</button>
+                            <button type="submit" class="btn-save">저장</button>
                             <button type="button" class="btn-del">취소</button>
                         </div>
                     </form>
