@@ -19,7 +19,7 @@ public class MyScheduler {
     }
 
      //매일 오전 7시에 실행
-    @Scheduled(cron = "00 17 13 * * *")
+    @Scheduled(cron = "00 00 07 * * *")
     public void runEveryMorningAt7() {
         System.out.println(jobPostingService.postList());
     }
