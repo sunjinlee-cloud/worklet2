@@ -442,7 +442,29 @@ public class UserController {
 
     // 경력 수정 처리
     @PostMapping("/editCareer")
-    public String editCareer(@ModelAttribute CareerVO careerVO) {
+    public String editCareer(@RequestParam("careerId") Long careerId,
+                             @RequestParam("userNum") String userNum,
+                             @RequestParam("companyName") String companyName,
+                             @RequestParam("department") String department,
+                             @RequestParam("position") String position,
+                             @RequestParam("joinDate") String joinDate,
+                             @RequestParam("quitDate") String quitDate,
+                             @RequestParam("jobDescription") String jobDescription) {
+
+
+        LocalDate joinDateLocal = convertStringToLocalDate(joinDate);
+        LocalDate quitDateLocal = convertStringToLocalDate(quitDate);
+
+        CareerVO careerVO = new CareerVO();
+        careerVO.setCareerId(careerId);
+        careerVO.setUserNum(Integer.parseInt(userNum));
+        careerVO.setCompanyName(companyName);
+        careerVO.setDepartment(department);
+        careerVO.setPosition(position);
+        careerVO.setJoinDate(joinDateLocal);
+        careerVO.setQuitDate(quitDateLocal);
+        careerVO.setJobDescription(jobDescription);
+
         int result = userService.updateCareer(careerVO);
         if (result > 0) {
             log.info("경력 수정 성공");
