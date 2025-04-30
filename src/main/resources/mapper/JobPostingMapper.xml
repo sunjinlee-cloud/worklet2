@@ -65,7 +65,7 @@
                 on j2.jobs_cd = c1.tertiary_category_num
                 ) as c
             on j1.emp_seq_no = c.emp_seq_no
-            WHERE 1 = 1
+            WHERE  <![CDATA[ curdate() <= j1.emp_wanted_endt ]]>
             <if test="searchJob != null and searchJob.size() > 0">
                 AND c.secondary_category_num IN
                 <foreach item="job" collection="searchJob" open="(" separator="," close=")">
@@ -75,7 +75,12 @@
             <if test="searchRegion != null and searchRegion.size() > 0">
                 AND (
                 <foreach item="region" collection="searchRegion" open="" separator=" OR " close="">
-                    c.work_region_nm LIKE CONCAT('%', #{region}, '%')
+                    <if test="region == '전국'">
+                        1 = 1
+                    </if>
+                    <if test="region != '전국'">
+                        c.work_region_nm LIKE CONCAT('%', #{region}, '%')
+                    </if>
                 </foreach>
                 )
             </if>
@@ -94,7 +99,7 @@
                 on j2.jobs_cd = c1.tertiary_category_num
                 ) as c
             on j1.emp_seq_no = c.emp_seq_no
-            where 1=1
+            where <![CDATA[ curdate() <= j1.emp_wanted_endt ]]>
                 <if test="searchJob != null and searchJob.size() > 0">
                     AND c.secondary_category_num IN
                     <foreach item="job" collection="searchJob" open="(" separator="," close=")">
@@ -104,7 +109,12 @@
                 <if test="searchRegion != null and searchRegion.size() > 0">
                     AND (
                     <foreach item="region" collection="searchRegion" open="" separator=" OR " close="">
-                        c.work_region_nm LIKE CONCAT('%', #{region}, '%')
+                        <if test="region == '전국'">
+                            1 = 1
+                        </if>
+                        <if test="region != '전국'">
+                            c.work_region_nm LIKE CONCAT('%', #{region}, '%')
+                        </if>
                     </foreach>
                     )
                 </if>

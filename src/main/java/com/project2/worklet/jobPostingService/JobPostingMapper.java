@@ -5,7 +5,6 @@ import com.project2.worklet.component.JobPostingDetailVO;
 import com.project2.worklet.component.JobPostingVO2;
 import com.project2.worklet.util_interceptor.Criteria;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

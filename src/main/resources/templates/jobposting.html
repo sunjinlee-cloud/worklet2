@@ -25,13 +25,13 @@
 
 
     <div class="searchTitle">
-        <h2>모집공고 보기</h2>
+        <h2><a href="/jobposting" style="text-decoration: none">모집공고 보기</a></h2>
     </div>
 
     <div class="searchCheckBoxRemake"> <!--검색 카테고리-->
         <div>
-            <div class="searchToggleButton"><p class="searchToggleButtonLegion">지역별</p></div>
-            <div class="searchToggleButton"><p class="searchToggleButtonJobType">직종별</p></div>
+            <div class="searchToggleButton"><button class="searchToggleButtonLegion" tabindex="0">지역별</button></div>
+            <div class="searchToggleButton"><button class="searchToggleButtonJobType" tabindex="0">직종별</button></div>
         </div>
 
         <hr class="legionUnderBar"><hr class="jobTypeUnderBar">
@@ -132,7 +132,10 @@
 
         //지역, 직종 토글
         for(var i = 0 ; i < 2; i++) {
-            searchToggleButton[i].addEventListener('click', function() {
+            searchToggleButton[i].addEventListener('touchstart', handleToggle);
+            searchToggleButton[i].addEventListener('click', handleToggle);
+
+            function handleToggle(event) {
                 var toggleButtonName = this.innerText;
 
                 if(toggleButtonName === '지역별') {
@@ -176,7 +179,7 @@
 
                 }
 
-            })
+            }
         }
 
         //지역별 - 3개까지 체크
@@ -321,7 +324,7 @@
                 div.style.color = '#000000';
             } else {
                 var checkedCount = document.querySelectorAll('.searchCheckJobType:checked').length;
-                console.log(checkbox);
+                //console.log(checkbox);
 
                 // 최대 3개까지 선택하도록 제한
                 if (checkedCount >= 3) {
@@ -402,22 +405,27 @@
 
     <div>
         <div class="searchResults">
+            <div th:if="${#lists.isEmpty(list)}" style="text-align: center"><p style="font-size: 16px">검색 결과가 없습니다.</p></div>
             <ul >
                 <li th:each="vo, status:${list}"
                     th:data-url="${vo.empWantedHomepgDetail}"
                     class="clickable-li"
                     th:docuName="${vo.empRecrNm}">
                     <!-- th:onclick="|window.location.href=this.getAttribute('data-url');|"> -->
-                    <p>[[${vo.empWantedTitle}]]</p>
+                    <p class="titleee">[[${vo.empWantedTitle}]]</p>
                     <img th:src="@{${vo.regLogImgNm}}" alt="#">
+                    <p class="heart notMine"><i class="bi bi-heart"></i></p>
+                    <p class="heart mine"><i class="bi bi-heart-fill"></i></p>
                     <div class="searchResultsInfo">
-                        <!--                            <p><b>월급 99999만원</b></p>-->
-                        <p><b>[[${vo.empBusiNm}]]</b></p>
-                        <p><b>[[${vo.empRecrNm}]]</b></p>
-                        <p><b>[[${vo.empWantedTypeNm}]]</b></p>
-                        <p><b>[[${vo.empWantedCareerNm}]]</b></p>
-                        <p><b>[[${vo.workRegionNm}]]</b></p>
-                        <!--                            <p><b>미국 캐릭포니아 산타클라라 카운티 마운틴뷰 엠피씨어터 파크웨이 1600, 구글플렉스</b></p>-->
+                        <!--<p><b>월급 99999만원</b></p>-->
+                        <div class="searchResultsInfoInner">
+                            <p><b>[[${vo.empBusiNm}]]</b></p>
+                            <p><b>[[${vo.empRecrNm}]]</b></p>
+                            <p><b>[[${vo.empWantedTypeNm}]]</b></p>
+                            <p><b>[[${vo.empWantedCareerNm}]]</b></p>
+                            <p><b>[[${vo.workRegionNm}]]</b></p>
+                            <p><b th:text="${#temporals.createDate(vo.empWantedStdt, 'yyyyMMdd')}"></b><b>~</b><b th:text="${#temporals.createDate(vo.empWantedEndt, 'yyyyMMdd')}"></b></p>
+                        </div>
                     </div>
 
                     <div class="searchResultsInfoMobile">
@@ -547,10 +555,11 @@
         <div class="pageChange">
             <!--                <span class="pageChangeLeftArrow"></span>-->
             <ul>
-                <li class="pageChangeLeftArrow"><a th:href="@{jobposting(page=1,
-                                                        amount=${pageVO.amount},
-                                                        searchRegion=${pageVO.cri.searchRegion},
-                                                        searchJob=${pageVO.cri.searchJob})}">
+                <li class="pageChangeLeftArrow" th:if="${pageVO.realEnd} != 0">
+                    <a th:href="@{jobposting(page=1,
+                          amount=${pageVO.amount},
+                          searchRegion=${pageVO.cri.searchRegion},
+                          searchJob=${pageVO.cri.searchJob})}">
                     <i class="bi bi-chevron-double-left"></i>
                 </a></li>
                 <th:block th:if="${pageVO.prev}">
@@ -584,10 +593,11 @@
                         </a>
                     </li>
                 </th:block>
-                <li class="pageChangeRightArrow"><a th:href="@{jobposting(page=${pageVO.realEnd},
-                                                                        amount=${pageVO.amount},
-                                                                        searchRegion=${pageVO.cri.searchRegion},
-                                                                        searchJob=${pageVO.cri.searchJob})}">
+                <li class="pageChangeRightArrow" th:if="${pageVO.realEnd} != 0">
+                    <a th:href="@{jobposting(page=${pageVO.realEnd},
+                         amount=${pageVO.amount},
+                         searchRegion=${pageVO.cri.searchRegion},
+                         searchJob=${pageVO.cri.searchJob})}">
                     <i class="bi bi-chevron-double-right" aria-hidden="true">
                     </i></a></li>
             </ul>
