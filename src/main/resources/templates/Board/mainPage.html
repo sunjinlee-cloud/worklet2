@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 
 <head>
     <meta charset="UTF-8">
@@ -50,7 +50,7 @@
                                         <img src="../image/chat.png" alt="">
                                     </a>
                                     <h4>최근 본 공고</h4>
-                                    <p>바로가기</p>
+                                    <p>바로가기 </p>
                                 </li>
                             </ul>
                         </div>
@@ -59,7 +59,12 @@
                     <div class="sec01_notice">
                         <div class="notice_title flex">
                             <div class="notice_icon flex">
-                                <figure><a href="/notice/notice_list"><img src="../image/notification.png" alt="공지 아이콘"></a></figure>
+                                <figure>
+                                    <a href="/notice/notice_list">
+                                        <img th:src="@{/image/notification.png}" alt="공지 아이콘">
+
+                                    </a>
+                                </figure>
                                 <p>공지</p>
                             </div>
                             <div class="more flex">
@@ -71,13 +76,27 @@
                         <div class="notice_slide">
                             <div class="swiper mySwiper2">
                                 <div class="swiper-wrapper">
-                                    <!-- Thymeleaf 반복문 사용 -->
-                                    <div th:each="notice : ${topNotices}" class="swiper-slide">
-                                        <p th:text="${notice.noticeTitle}">공지 제목</p>
-                                        <span th:text="${#dates.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">2025.04.06</span>
+                                    <div class="swiper-slide">
+                                        <p>비전공자도 6개월만에 AI 앱을
+                                            직접 개발하는 역량 강화 교육!</p>
+                                        <span>2025.04.06</span>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <p>비전공자도 6개월만에 AI 앱을
+                                            직접 개발하는 역량 강화 교육!</p>
+                                        <span>2025.04.06</span>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <p>비전공자도 6개월만에 AI 앱을
+                                            직접 개발하는 역량 강화 교육!</p>
+                                        <span>2025.04.06</span>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <p>비전공자도 6개월만에 AI 앱을
+                                            직접 개발하는 역량 강화 교육!</p>
+                                        <span>2025.04.06</span>
                                     </div>
                                 </div>
-
                                 <div class="swiper-pagination"></div>
                             </div>
                         </div>
@@ -513,32 +532,13 @@
                     </div>
 
                     <ul>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하하하하</p>
-                            <span>2025.04.10</span>
+                        <li th:each="notice : ${noticeList}">
+                            <p th:text="${notice.noticeTitle}">공지 제목</p>
+                            <span th:text="${#temporals.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">날짜</span>
                         </li>
                     </ul>
                 </div>
+
                 <div class="employment_list">
                     <div class="list_title flex">
                         <p>채용</p>
@@ -592,7 +592,6 @@
 
         <div th:replace="include/footer :: footerFragment"></div>
     </div>
-
 
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

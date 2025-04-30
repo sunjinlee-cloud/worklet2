@@ -54,13 +54,16 @@
         WHERE notice_title LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
-    <!-- 메인화면 공지 슬라이드용 최신 공지 N개 -->
-    <select id="getRecentNotices" parameterType="int" resultType="com.project2.worklet.component.NoticeVO">
+    <!-- 최신 공지사항 6개 조회 -->
+    <select id="getRecentNotices" resultType="com.project2.worklet.component.NoticeVO">
         SELECT notice_id, notice_title, notice_content, notice_created_at
         FROM notice
         ORDER BY notice_created_at DESC
-            LIMIT #{limit}
+            LIMIT 6
     </select>
+
+
+
 
 
 
