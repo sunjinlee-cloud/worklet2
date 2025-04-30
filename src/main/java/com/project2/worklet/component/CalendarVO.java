@@ -40,6 +40,20 @@ public class CalendarVO {
         return null;
     }
 
+//    public String getEnd() {
+//        if(empWantedEndt != null && empWantedEndt.length() == 8) {
+//            return empWantedEndt.substring(0, 4) + "-" + empWantedEndt.substring(4, 6) + "-" + empWantedEndt.substring(6, 8);
+//        }
+//        return null;
+//    }
+
+    public String getOnlyEndAsStart() {
+        if(empWantedEndt != null && empWantedEndt.length() == 8) {
+            return empWantedEndt.substring(0, 4) + "-" + empWantedEndt.substring(4, 6) + "-" + empWantedEndt.substring(6, 8);
+        }
+        return null;
+    }
+
 
 
 
