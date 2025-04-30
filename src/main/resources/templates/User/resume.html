@@ -129,7 +129,7 @@
                                    class="file-input">
 
                         </label>
-                        <img src="../image/pencil.png" alt="" class="pencil">
+                        <img src="../image/pencil.png" alt="" class="pencil modifyPencil">
                     </div>
                 </div>
             </section>
@@ -230,13 +230,13 @@
                         <div class="flex">
                             <input type="text" class="input-major" placeholder="전공" name="major" value="컴퓨터공학과">
                             <div class="flex">
-                                <select class="input-type widthstyle" name="part">
+                                <select class="input-type widthstyle completion" name="part">
                                     <option value="">이수형태</option>
                                     <option value="주간">주간</option>
                                     <option value="야간">야간</option>
                                     <option value="온라인">온라인</option>
                                 </select>
-                                <select class="input-type widthstyle" name="degreeType">
+                                <select class="input-type widthstyle level" name="degreeType">
                                     <option value="">학력구분</option>
                                     <option value="박사">박사</option>
                                     <option value="학사">학사</option>
@@ -244,7 +244,7 @@
                                     <option value="2/3년제">2/3년제</option>
                                     <option value="고졸">고졸</option>
                                 </select>
-                                <select class="input-status widthstyle" name="graduationStatus">
+                                <select class="input-status widthstyle grad" name="graduationStatus">
                                     <option value="">졸업여부</option>
                                     <option value="졸업">졸업</option>
                                     <option value="재학">재학</option>
@@ -286,6 +286,7 @@
                             <div class="edu-info">
                                 <span th:text="${#temporals.format(career.joinDate, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(career.quitDate, 'yyyy-MM-dd')}">2020-05-10 ~ 2025-05-30</span>
                                 <span th:text="${career.position}">과장</span>
+                                <p class="job_description" th:text="${career.jobDescription}"></p>
                             </div>
                             <img src="../image/pencil.png" alt="" class="pencil">
                             <form th:action="@{/user/deleteCareer/{careerId}(careerId=${career.careerId})}" method="POST">
@@ -325,7 +326,7 @@
                     <form action="/user/editCareer" method="post">
                         <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
                         <div th:each="career : ${careerList}">
-                            <input type="hidden" name="educationId" th:value="${career.careerId}" />
+                            <input type="hidden" name="careerId" th:value="${career.careerId}" />
                         </div>
                         <input type="text" class="company-name" placeholder="회사명" value="삼성전자" name="companyName">
                         <div class="flex">
@@ -354,43 +355,54 @@
                         <p>추가</p>
                     </figure>
                 </div>
-                <ul class="license-list flex">
-                    <li class="license-card">
-                        <h3 class="name">정보처리기사</h3>
-                        <span class="org">발급기관</span>
-                        <p class="date">2025-04-22 ~ 2046-02-33</p>
-                    </li>
-                    <li class="license-card">
-                        <h3 class="name">정보처리기사</h3>
-                        <span class="org">발급기관</span>
-                        <p class="date">2025-04-22 ~ 2046-02-33</p>
-                    </li>
-                    <li class="license-card">
-                        <h3 class="name">정보처리기사</h3>
-                        <span class="org">발급기관</span>
-                        <p class="date">2025-04-22 ~ 2046-02-33</p>
-                    </li>
-                    <li class="license-card">
-                        <h3 class="name">정보처리기사</h3>
-                        <span class="org">발급기관</span>
-                        <p class="date">2025-04-22 ~ 2046-02-33</p>
-                    </li>
-                    <li class="license-card">
-                        <h3 class="name">정보처리기사</h3>
-                        <span class="org">발급기관</span>
-                        <p class="date">2025-04-22 ~ 2046-02-33</p>
-                    </li>
-                </ul>
 
+                <div th:if="${userVO.careerList != null}">
+                    <ul class="license-list flex">
+                        <li class="license-card" th:each="license : ${licenseList}">
+                            <h3 class="name"  th:text="${license.licenseName}">정보처리기사</h3>
+                            <span class="org" th:text="${license.licenseOrg}">발급기관</span>
+                            <p class="date" th:text="${#temporals.format(license.acquisition, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(license.expiration, 'yyyy-MM-dd')}">2025-04-22 ~ 2046-02-33</p>
+                            <img src="../image/pencil.png" alt="" class="pencil">
+
+                            <form th:action="@{/user/deleteLicens/{licenseId}(licenseId=${license.licenseId})}" method="POST">
+                                <button type="submit" class="delete-btn">
+                                    <i class="fa-solid fa-x"></i>
+                                </button>
+
+                            </form>
+                        </li>
+                    </ul>
+                </div>
                 <!-- 자격증 추가 폼 -->
                 <div class="add-license-form">
-                    <form action="" method="post">
+                    <h5>추가</h5>
+                    <form action="/user/updateLicens" method="post">
+                        <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
                         <input type="text" class="license-name" placeholder="자격증명 입력" name="licenseName">
                         <input type="text" class="license-org" placeholder="발급 기관" name="licenseOrg">
                         <input type="text" name="acquisition" class="custom-date widthstyle" placeholder="자격증 취득일" />
                         <input type="text" name="expiration" class="custom-date widthstyle" placeholder="자격증 만료일" />
                         <div class="button">
-                            <button type="button" class="btn-license-save">저장</button>
+                            <button type="submit" class="btn-license-save">저장</button>
+                            <button type="button" class="btn-license-cancel">취소</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 자격증 수정 폼 -->
+                <div class="edit-license-form">
+                    <h5>수정</h5>
+                    <form action="/user/editLicens" method="post">
+                        <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
+                        <div th:each="license : ${licenseList}">
+                            <input type="hidden" name="licenseId  " th:value="${license.licenseId}" />
+                        </div>
+                        <input type="text" class="license-name" placeholder="자격증명 입력" name="licenseName">
+                        <input type="text" class="license-org" placeholder="발급 기관" name="licenseOrg">
+                        <input type="text" name="acquisition" class="custom-date widthstyle" placeholder="자격증 취득일" />
+                        <input type="text" name="expiration" class="custom-date widthstyle" placeholder="자격증 만료일" />
+                        <div class="button">
+                            <button type="submit" class="btn-license-save">저장</button>
                             <button type="button" class="btn-license-cancel">취소</button>
                         </div>
                     </form>

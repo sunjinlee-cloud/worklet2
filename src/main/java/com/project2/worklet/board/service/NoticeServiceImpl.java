@@ -49,9 +49,11 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<NoticeVO> getRecentNotices(int limit) {
-        return noticeMapper.getRecentNotices(limit);
+    public List<NoticeVO> getRecentNotices() {
+        return noticeMapper.getRecentNotices();
     }
+
+
 
 
 }

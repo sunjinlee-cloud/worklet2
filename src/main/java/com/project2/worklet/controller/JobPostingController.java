@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -35,6 +33,7 @@ public class JobPostingController {
 
     @GetMapping("/jobposting")
     public String jobPosting(Model model, Criteria cri) {
+
 
         List<JobPostingVO2> list = jobPostingService.getList(cri);
 

@@ -1,6 +1,7 @@
 package com.project2.worklet.user.service;
 import com.project2.worklet.component.CareerVO;
 import com.project2.worklet.component.EduVO;
+import com.project2.worklet.component.LicenseVO;
 import com.project2.worklet.component.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -41,8 +42,23 @@ public interface UserMapper {
     // 경력 조회 추가
     List<CareerVO> getUserCareer(int userNum);
 
+    // 자격증 조회 추가
+    List<LicenseVO> getUserLicenses(int userNum);
+
     int deleteEducation(Long educationId);
 
     // 경력 삭제
     int deleteCareer(Long careerId);
+
+    // 회원 수정
+    int updateUser(UserVO user);
+
+    // 자격증 추가
+    int insertLicense(LicenseVO license);
+
+    // 자격증 수정
+    int updateLicense(LicenseVO license);
+
+    // 자격증 삭제
+    int deleteLicense(Long licenseId);
 }

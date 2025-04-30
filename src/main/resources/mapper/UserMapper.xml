@@ -45,9 +45,9 @@
                        #{wantJobWorkexp},
                        #{wantJobWorkexpHowlong},
                        #{joinDate},
-                        <foreach collection="preferredJobTypes" item="item" separator=",">
-                           #{item}
-                        </foreach>
+                       #{preferredJobType1, jdbcType=VARCHAR},
+                       #{preferredJobType2, jdbcType=VARCHAR},
+                       #{preferredJobType3, jdbcType=VARCHAR}
                    )
         </insert>
 
@@ -191,4 +191,62 @@
         DELETE FROM career WHERE career_id = #{careerId}
     </delete>
 
+    <!--  회원 수정  -->
+    <update id="updateUser" parameterType="com.project2.worklet.component.UserVO">
+        UPDATE member SET
+            user_pw = #{userPw},
+            user_name = #{userName},
+            user_gender = #{userGender},
+            user_birthday = #{userBirthday},
+            user_phone = #{userPhone},
+            user_email = #{userEmail},
+            user_address = #{userAddress},
+            want_job_type1 = #{wantJobType1},
+            want_job_type2 = #{wantJobType2},
+            want_job_type3 = #{wantJobType3},
+            want_job_workexp_howlong = #{wantJobWorkexpHowlong},
+            join_date = #{joinDate},
+            preferred_job_type_1 = #{preferredJobType1},
+            preferred_job_type_2 = #{preferredJobType2},
+            preferred_job_type_3 = #{preferredJobType3}
+        WHERE user_id = #{userId}
+    </update>
+
+    <!--  자격증 추가  -->
+    <insert id="insertLicense" parameterType="com.project2.worklet.component.LicenseVO">
+        INSERT INTO license (
+            user_num,
+            license_name,
+            license_org,
+            acquisition,
+            expiration
+        ) VALUES (
+                     #{userNum},
+                     #{licenseName},
+                     #{licenseOrg},
+                     #{acquisition},
+                     #{expiration}
+                 )
+    </insert>
+
+    <select id="getUserLicenses" resultType="com.project2.worklet.component.LicenseVO">
+        SELECT * FROM license WHERE user_num = #{userNum}
+    </select>
+
+    <!--  자격증 수정  -->
+    <update id="updateLicense" parameterType="com.project2.worklet.component.LicenseVO">
+        UPDATE license
+        SET
+            license_name = #{licenseName},
+            license_org = #{licenseOrg},
+            acquisition = #{acquisition},
+            expiration = #{expiration},
+            updated_at = NOW()
+        WHERE license_id = #{licenseId}
+    </update>
+
+    <!--  자격증 삭제  -->
+    <delete id="deleteLicense" parameterType="long">
+        DELETE FROM license WHERE license_id = #{licenseId}
+    </delete>
 </mapper>

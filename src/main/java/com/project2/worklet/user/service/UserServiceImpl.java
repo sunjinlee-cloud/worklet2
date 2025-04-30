@@ -4,6 +4,7 @@ package com.project2.worklet.user.service;
 
 import com.project2.worklet.component.CareerVO;
 import com.project2.worklet.component.EduVO;
+import com.project2.worklet.component.LicenseVO;
 import com.project2.worklet.component.UserVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<LicenseVO> getUserLicenses(int userNum) {
+        return userMapper.getUserLicenses(userNum);
+    }
+
+    @Override
     public int deleteEducation(Long educationId) {
         return userMapper.deleteEducation(educationId);
     }
@@ -97,6 +103,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteCareer(Long careerId) {
         return userMapper.deleteCareer(careerId);
+    }
+
+    @Override
+    public int updateUser(UserVO user) {
+        return userMapper.updateUser(user);
+    }
+
+    @Override
+    public int insertLicense(LicenseVO license) {
+        return userMapper.insertLicense(license);
+    }
+
+    @Override
+    public int updateLicense(LicenseVO license) {
+        return userMapper.updateLicense(license);
+    }
+
+    @Override
+    public int deleteLicense(Long licenseId) {
+        return userMapper.deleteLicense(licenseId);
     }
 
 }

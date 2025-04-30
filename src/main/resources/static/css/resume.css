@@ -836,17 +836,29 @@
         cursor: pointer;
     }
 
+    .sec04 .education .school {
+        width: 80px ;
+    }
+
 
     .sec04 .education .school h4 {
         font-size: 18px;
         margin-bottom: 10px;
         padding: 0;
         margin-bottom: 10px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .sec04 .education .school p {
         color: var(--text-color2);
         font-size: 14px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .sec04 .education .edu-info {
@@ -860,6 +872,15 @@
 
     .sec04 .education .edu-info span {
         padding: 0 15px;
+    }
+
+
+    .job_description{
+        margin: 18px 0 0 15px;
+        width: 80%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .sec04 .education .edu-info span:nth-child(1) {
@@ -1128,6 +1149,7 @@
         flex-wrap: wrap;
         gap: 16px;
         margin-top: 20px;
+
     }
 
     .license-card {
@@ -1138,6 +1160,7 @@
         flex-direction: column;
         gap: 6px;
         width: 47%;
+        position: relative;
     }
 
     .license-card .name {
@@ -1218,6 +1241,14 @@
         border-color: #2563eb;
         outline: none;
     }
+
+    .license-list .pencil{
+        position: absolute;
+        right: 0;
+        top: 0;
+        opacity: .8;
+    }
+
 
     /* ----------sec06------------- */
     .sec06 {
@@ -1546,6 +1577,7 @@
     .contents {
         margin-top: 150px;
         width: 250%;
+        max-width: 1088px;
     }
 
     .sec01>h3 {
@@ -1776,6 +1808,7 @@
         padding: 30px;
         position: relative;
         margin-bottom: 20px;
+        max-width: 1028px;
     }
 
     .sec03 .education>img {
@@ -2165,6 +2198,7 @@
         border-radius: 15px;
         padding: 30px;
         position: relative;
+        max-width: 1028px;
     }
 
     .sec04 .education>img {
@@ -2176,17 +2210,27 @@
         height: 21px;
         cursor: pointer;
     }
-
+    .sec04 .education .school{
+        width: 80px;
+    }
 
     .sec04 .education .school h4 {
         font-size: 20px;
         margin-bottom: 10px;
         padding: 0;
         margin-bottom: 10px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .sec04 .education .school p {
         color: var(--text-color2);
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .sec04 .education .edu-info {
@@ -2202,6 +2246,14 @@
 
     .sec04 .education .edu-info span:nth-child(1) {
         border-right: 1px solid var(--text-color2);
+    }
+
+    .job_description{
+        margin: 18px 0 0 15px;
+        width: 75%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     /* ----add-edu-form------ */
@@ -2578,6 +2630,7 @@
         flex-wrap: wrap;
         gap: 16px;
         margin-top: 20px;
+
     }
 
     .license-card {
@@ -2588,6 +2641,7 @@
         flex-direction: column;
         gap: 6px;
         width: 23%;
+        position: relative;
     }
 
     .license-card .name {
@@ -2606,7 +2660,16 @@
         margin-top: 4px;
     }
 
+    .license-list .pencil{
+        position: absolute;
+        right: 0;
+        top: 0;
+        opacity: .8;
+        width: 22px;
+        height: 22px;
+    }
 
+    /*------자격증추가--------*/
     .add-license-form {
         display: none;
         gap: 10px;
@@ -2669,6 +2732,43 @@
     }
 
     .sec05 .add-license-form input:focus {
+        border-color: #2563eb;
+        outline: none;
+    }
+
+    /*------자격증추가--------*/
+    .edit-license-form {
+        display: none;
+        gap: 10px;
+        margin-top: 15px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        flex-wrap: wrap;
+    }
+
+    .edit-license-form.add {
+        display: flex;
+    }
+
+
+    .edit-license-form input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 24%;
+    }
+
+    .edit-license-form .button {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+
+    .sec05 .edit-license-form input:focus {
         border-color: #2563eb;
         outline: none;
     }
