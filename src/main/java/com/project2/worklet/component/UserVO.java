@@ -31,9 +31,13 @@ public class UserVO {
     private int wantJobWorkexp;
     private String wantJobWorkexpHowlong;
     private LocalDateTime joinDate;
+    private String preferredJobType1;
+    private String preferredJobType2;
+    private String preferredJobType3;
 
 
     // 학력, 경력 리스트
     private List<EduVO> educationList;  // 학력 리스트
     private List<CareerVO> careerList;  // 경력 리스트
+    private List<LicenseVO> licenseList;  // 자격증 리스트
 }

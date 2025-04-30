@@ -33,13 +33,14 @@ pencil.forEach((btn) => {
             const major = eduDiv.querySelector('.school p')?.innerText || '';
             const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
             const gradType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+            const grad = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText || '';
             const gradDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '') || '';
 
             form.querySelector('.input-school').value = schoolName;
             form.querySelector('.input-major').value = major;
-            form.querySelector('.part').value = part;
-            form.querySelector('.input-type.widthstyle:nth-of-type(2)').value = gradType;
-            form.querySelector('.graduation').value = '졸업'; // 디테일하게 조정 가능
+            form.querySelector('.completion').value = part;
+            form.querySelector('.level').value = gradType;
+            form.querySelector('.grad').value = grad; // 디테일하게 조정 가능
             form.querySelector('input[name="graduationDate"]').value = gradDate;
 
         } else if (section.classList.contains('sec04')) {
@@ -57,8 +58,19 @@ pencil.forEach((btn) => {
             form.querySelector('input[name="quitDate"]').value = quitDate?.trim() || '';
             form.querySelector('input[name="position"]').value = position;
 
+        } else if (section.classList.contains('sec05')) {
+            // 자격증 수정
+            const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
+            const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
+            const dateRange = eduDiv.querySelector('.sec05 .date')?.innerText || '';
+            const [acquisition, expiration] = dateRange.split(' ~ ');
 
+            form.querySelector('input[name="licenseName"]').value = licenseName;
+            form.querySelector('input[name="licenseOrg"]').value = licenseOrg;
+            form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
+            form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
         }
+
     });
 });
 
@@ -278,4 +290,9 @@ document.addEventListener("DOMContentLoaded", function () {
         disableMobile: true
     });
 });
+
+let modifyPencil=document.querySelector(".modifyPencil");
+modifyPencil.addEventListener('click',function (){
+    location.herf="/user/modify  "
+})
 

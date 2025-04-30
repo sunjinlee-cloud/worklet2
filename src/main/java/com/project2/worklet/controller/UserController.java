@@ -2,10 +2,12 @@ package com.project2.worklet.controller;
 
 import com.project2.worklet.component.CareerVO;
 import com.project2.worklet.component.EduVO;
+import com.project2.worklet.component.LicenseVO;
 import com.project2.worklet.component.UserVO;
 
 import com.project2.worklet.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Slf4j
 @Controller
@@ -40,7 +41,8 @@ public class UserController {
     }
 
     @PostMapping("/regist")
-    public String regist(UserVO user, @RequestParam("wantJobType") String[] wantJobTypes) {
+    public String regist(UserVO user, @RequestParam("wantJobType") String[] wantJobTypes,
+                         @RequestParam(value = "preferredJobTypes", required = false) String[] preferredJobTypes) {
 
         log.info( user.toString() );
         user.setJoinDate(LocalDateTime.now());
@@ -48,6 +50,17 @@ public class UserController {
         user.setWantJobType1(wantJobTypes.length > 0 ? wantJobTypes[0] : null);
         user.setWantJobType2(wantJobTypes.length > 1 ? wantJobTypes[1] : null);
         user.setWantJobType3(wantJobTypes.length > 2 ? wantJobTypes[2] : null);
+
+        if (preferredJobTypes != null) {
+            user.setPreferredJobType1(preferredJobTypes.length > 0 ? preferredJobTypes[0] : null);
+            user.setPreferredJobType2(preferredJobTypes.length > 1 ? preferredJobTypes[1] : null);
+            user.setPreferredJobType3(preferredJobTypes.length > 2 ? preferredJobTypes[2] : null);
+        } else {
+            user.setPreferredJobType1(null);
+            user.setPreferredJobType2(null);
+            user.setPreferredJobType3(null);
+        }
+
 
         int result = userService.insertUser(user);
         if(result == 1) {
@@ -141,8 +154,13 @@ public class UserController {
                 List<CareerVO> careerList = userService.getUserCareer(fullUser.getUserNum());
                 fullUser.setCareerList(careerList);
 
+                // ✅ 추가: 경력 목록 조회해서 넣기 (필요하면)
+                List<LicenseVO> licenseList = userService.getUserLicenses(fullUser.getUserNum());
+                fullUser.setLicenseList(licenseList);
+
                 model.addAttribute("educationList", educationList);
                 model.addAttribute("careerList", careerList);
+                model.addAttribute("licenseList", licenseList);
             }
 
 
@@ -494,7 +512,7 @@ public class UserController {
     @PostMapping("/deleteCareer/{careerId}")
     public String deleteCareer(@PathVariable("careerId") Long careerId, @ModelAttribute UserVO userVO) {
 
-        int result = userService.deleteEducation(careerId);
+        int result = userService.deleteCareer(careerId);
 
 
         if (result > 0) {
@@ -506,6 +524,164 @@ public class UserController {
         // 학력 리스트 페이지로 리디렉션
         return "redirect:/user/resume";
     }
+
+    @GetMapping("/modify")
+    public String modify(HttpSession session, Model model) {
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+        if(loginUser == null) {
+
+            return "redirect:/user/login";
+        }
+
+        String[] jobTypes = Stream.of(
+                        loginUser.getWantJobType1(),
+                        loginUser.getWantJobType2(),
+                        loginUser.getWantJobType3()
+                )
+                .filter(Objects::nonNull)
+                .toArray(String[]::new);
+
+        loginUser.setWantJobType(jobTypes);
+
+        System.out.println("wantJobType = " + Arrays.toString(loginUser.getWantJobType()));
+
+        model.addAttribute("user", loginUser);
+        model.addAttribute("userWantJobTypeList", Arrays.asList(loginUser.getWantJobType()));
+
+        return "user/modify";
+    }
+
+
+    @PostMapping("/modify")
+    public String modify(@ModelAttribute UserVO user,
+                         @RequestParam("wantJobType") String[] wantJobTypes,
+                         @RequestParam(value = "preferredJobTypes", required = false) String[] preferredJobTypes,
+                         HttpSession session, Model model) {
+
+        log.info( "회원정보수정: " + user);
+        user.setJoinDate(LocalDateTime.now());
+
+        user.setWantJobType1(wantJobTypes.length > 0 ? wantJobTypes[0] : null);
+        user.setWantJobType2(wantJobTypes.length > 1 ? wantJobTypes[1] : null);
+        user.setWantJobType3(wantJobTypes.length > 2 ? wantJobTypes[2] : null);
+
+        user.setPreferredJobType1(preferredJobTypes.length > 0 ? preferredJobTypes[0] : null);
+        user.setPreferredJobType2(preferredJobTypes.length > 1 ? preferredJobTypes[1] : null);
+        user.setPreferredJobType3(preferredJobTypes.length > 2 ? preferredJobTypes[2] : null);
+
+        int result = userService.updateUser(user);
+        if(result == 1) {
+            log.info("수정성공!!!" + user);
+            session.setAttribute("loginUser", user);
+            model.addAttribute("message", "회원 정보 수정 성공");
+        } else {
+            log.info( "실패");
+        }
+
+        return "redirect:/user/login";  // 로그인 페이지로 리다이렉트
+    }
+
+
+    // 자격증 추가
+    @PostMapping("/updateLicens")
+    public String updateLicens(@RequestParam("userNum") String userNum,
+                               @RequestParam("licenseName") String licenseName,
+                               @RequestParam("licenseOrg") String licenseOrg,
+                               @RequestParam("acquisition") String acquisition,
+                               @RequestParam("expiration") String expiration,
+                               Model model) {
+
+        if(!isValidUserNum(userNum)) {
+            log.error("유효하진 않은 userNum: " + userNum);
+            return "redirect:/error";
+        }
+
+        LocalDate acqDate = convertStringToLocalDate(acquisition);
+        LocalDate expDate = convertStringToLocalDate(expiration);
+
+        LicenseVO licenseVO = new LicenseVO();
+        licenseVO.setUserNum(Integer.parseInt(userNum));
+        licenseVO.setLicenseName(licenseName);
+        licenseVO.setLicenseOrg(licenseOrg);
+        licenseVO.setAcquisition(acqDate);
+        licenseVO.setExpiration(expDate);
+
+        int result = userService.insertLicense(licenseVO);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if (acqDate != null) {
+            licenseVO.setFormattedAcquisition(acqDate.format(formatter));
+        } else {
+            licenseVO.setFormattedAcquisition(null); // 혹은 빈 문자열 ""
+        }
+
+        if (expDate != null) {
+            licenseVO.setFormattedExpiration(expDate.format(formatter));
+        } else {
+            licenseVO.setFormattedExpiration(null); // 혹은 빈 문자열 ""
+        }
+
+        model.addAttribute("user", licenseVO);
+
+        if(result == 1) {
+            log.info("자격증 추가 성공");
+        }else{
+            log.info("자격증 추가 실패!!!!!!!!!!!!!!!");
+        }
+
+        return "redirect:/user/resume";
+
+    }
+
+    // 학력 수정 처리
+    @PostMapping("/editLicens")
+    public String editEducation(@RequestParam("licenseId") Long licenseId,
+                                @RequestParam("userNum") String userNum,
+                                @RequestParam("licenseName") String licenseName,
+                                @RequestParam("licenseOrg") String licenseOrg,
+                                @RequestParam("acquisition") String acquisition,
+                                @RequestParam("expiration") String expiration) {
+
+
+        LocalDate acqDate = convertStringToLocalDate(acquisition);
+        LocalDate expDate = convertStringToLocalDate(expiration);
+
+        LicenseVO licenseVO = new LicenseVO();
+        licenseVO.setLicenseId(licenseId);
+        licenseVO.setUserNum(Integer.parseInt(userNum));
+        licenseVO.setLicenseName(licenseName);
+        licenseVO.setLicenseOrg(licenseOrg);
+        licenseVO.setAcquisition(acqDate);
+        licenseVO.setExpiration(expDate);
+
+        int result = userService.updateLicense(licenseVO);
+        if (result > 0) {
+            log.info("자격증 수정 성공");
+        } else {
+            log.error("자격증 수정 실패");
+        }
+        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+    }
+
+
+    @PostMapping("/deleteLicens/{licenseId}")
+    public String deleteLicens(@PathVariable("licenseId") Long licenseId, @ModelAttribute UserVO userVO) {
+
+        int result = userService.deleteLicense(licenseId);
+
+
+        if (result > 0) {
+            log.info("학력 삭제 성공: " + licenseId);
+        } else {
+            log.error("학력 삭제 실패: " + licenseId);
+        }
+
+        // 학력 리스트 페이지로 리디렉션
+        return "redirect:/user/resume";
+    }
+
 
 
 
