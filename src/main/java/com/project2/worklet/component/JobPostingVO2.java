@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class JobPostingVO2 {
 
     private int jpno;
-    private int empSeqno;
+    private int empSeqNo;
     private String empWantedTitle;
     private String empBusiNm;
     private String empWantedStdt;
@@ -22,5 +22,6 @@ public class JobPostingVO2 {
     private String workRegionNm;
     private String empRecrNm;
     private String isOpen;
+    private boolean isScrapped;
 
 }

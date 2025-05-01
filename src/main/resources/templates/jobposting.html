@@ -404,7 +404,8 @@
     </div>
 
     <div>
-        <div class="searchResults">
+        <div class="searchResults"><input type="hidden" th:value="${userId}" th:name="userId" id="userId">
+            
             <div th:if="${#lists.isEmpty(list)}" style="text-align: center"><p style="font-size: 16px">검색 결과가 없습니다.</p></div>
             <ul >
                 <li th:each="vo, status:${list}"
@@ -414,8 +415,9 @@
                     <!-- th:onclick="|window.location.href=this.getAttribute('data-url');|"> -->
                     <p class="titleee">[[${vo.empWantedTitle}]]</p>
                     <img th:src="@{${vo.regLogImgNm}}" alt="#">
-                    <p class="heart notMine"><i class="bi bi-heart"></i></p>
-                    <p class="heart mine"><i class="bi bi-heart-fill"></i></p>
+                    <p th:if="${vo.isScrapped == false}" class="heart notMine"><i class="bi bi-heart"></i></p>
+                    <input type="hidden" th:value="${vo.empSeqNo}" id="empSeqNo">
+                    <p th:if="${vo.isScrapped == true}" class="heart mine"><i class="bi bi-heart-fill"></i></p>
                     <div class="searchResultsInfo">
                         <!--<p><b>월급 99999만원</b></p>-->
                         <div class="searchResultsInfoInner">
@@ -462,6 +464,10 @@
 
             liItems.forEach(function (li) {
                 li.addEventListener("click", function () {
+                    // 하트를 클릭했으면 여기서 클릭 이벤트 중단
+                    if (event.target.closest(".heart")) {
+                        return;
+                    }
                     if (window.innerWidth >= 768) {
                         const url = li.getAttribute("data-url");
                         if (url) {
@@ -503,8 +509,130 @@
             });
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            var userId = document.getElementById("userId").value;
+            var listContainer = document.querySelector(".searchResults ul"); // li들이 포함된 부모 요소 선택
 
+            listContainer.addEventListener("click", function (event) {
+                const heart = event.target.closest(".heart");
+                if (!heart) return; // 하트가 아닌 경우 무시
 
+                event.stopPropagation();
+
+                const li = heart.closest("li");
+                const empNoToScrap = li.querySelector("#empSeqNo").value;
+
+                if (!userId) {
+                    alert("로그인이 필요한 기능입니다.");
+                    window.location.href = "/user/login";
+                    return;
+                }
+
+                const heartIcon = heart.querySelector("i");
+                const isScrapped = heart.classList.contains("mine");
+
+                const params = new URLSearchParams();
+                params.append("userId", userId);
+                params.append("empNoToScrap", empNoToScrap);
+
+                if (isScrapped) {
+                    // 이미 찜한 상태 → 삭제 요청
+                    fetch("unscrap", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: params.toString()
+                    })
+                        .then(() => {
+                            heart.classList.remove("mine");
+                            heart.classList.add("notMine");
+                            heartIcon.classList.remove("bi-heart-fill");
+                            heartIcon.classList.add("bi-heart");
+                        })
+                        .catch(err => console.error("찜 삭제 실패:", err));
+                } else {
+                    // 아직 찜하지 않은 상태 → 등록 요청
+                    fetch("scrap", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: params.toString()
+                    })
+                        .then(() => {
+                            heart.classList.remove("notMine");
+                            heart.classList.add("mine");
+                            heartIcon.classList.remove("bi-heart");
+                            heartIcon.classList.add("bi-heart-fill");
+                        })
+                        .catch(err => console.error("찜 등록 실패:", err));
+                }
+            });
+        });
+
+        // var emptyHearts = document.querySelectorAll(".notMine");
+        // var userId = document.getElementById("userId").value;
+        // emptyHearts.forEach(function (heart) {
+        //     heart.addEventListener("click", function (event) {
+        //         event.stopPropagation();  // 클릭 이벤트의 부모로의 전파를 막음
+        //
+        //         if (userId == null || userId == "") {
+        //             alert("로그인이 필요한 기능입니다.");
+        //             window.location.href = "/user/login";
+        //             return;
+        //         }
+        //
+        //         var empNoToScrap = event.target.closest("li").querySelector("#empSeqNo").value;
+        //         console.log('emp값 제대로 가져와짐?' + empNoToScrap);
+        //
+        //         var params = new URLSearchParams();
+        //         params.append('userId', userId);
+        //         params.append('empNoToScrap', empNoToScrap);
+        //
+        //         fetch('scrap', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/x-www-form-urlencoded'
+        //             },
+        //             body: params.toString()
+        //         })
+        //             .then(() => {
+        //                 // 찜 성공 시, 하트 아이콘 상태 변경 (빈 하트 -> 채워진 하트)
+        //                 heart.querySelector("i").classList.remove("bi-heart");
+        //                 heart.querySelector("i").classList.add("bi-heart-fill");
+        //                 heart.classList.remove("notMine");
+        //                 heart.classList.add("mine");
+        //             })
+        //             .catch(error => console.log('에러:', error));
+        //     });
+        // });
+        //
+        // var fullHearts = document.querySelectorAll(".mine");
+        // fullHearts.forEach(function (heart) {
+        //     heart.addEventListener("click", function (event) {
+        //         event.stopPropagation();
+        //
+        //         var empNoToScrap = event.target.closest("li").querySelector("#empSeqNo").value;
+        //         console.log('emp값 제대로 가져와짐? 이번엔 찜삭제임' + empNoToScrap);
+        //
+        //         var params = new URLSearchParams();
+        //         params.append('userId', userId);
+        //         params.append('empNoToScrap', empNoToScrap);
+        //
+        //         fetch('unscrap', {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/x-www-form-urlencoded'
+        //             },
+        //             body: params.toString()
+        //         })
+        //             .then(() => {
+        //                 // 찜 삭제 성공 시, 하트 아이콘 상태 변경 (채워진 하트 -> 빈 하트)
+        //                 heart.querySelector("i").classList.remove("bi-heart-fill");
+        //                 heart.querySelector("i").classList.add("bi-heart");
+        //                 heart.classList.remove("mine");
+        //                 heart.classList.add("notMine");
+        //             })
+        //             .catch(error => console.log('에러:', error));
+        //     });
+        // })
 
         //     document.querySelectorAll('.searchResults li').forEach(li => {
         //     li.addEventListener('mouseenter', function () {
