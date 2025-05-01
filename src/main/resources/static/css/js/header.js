@@ -16,13 +16,13 @@ headerLogo.addEventListener('click',function (){
 })
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const headerCalendar = document.querySelector(".flex > li:nth-child(3) > a");
-    headerCalendar.addEventListener('click', function () {
-        event.preventDefault();
-        location.href = "/calendar";
-    });
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     const headerCalendar = document.querySelector(".flex > li:nth-child(3) > a");
+//     headerCalendar.addEventListener('click', function () {
+//         event.preventDefault();
+//         location.href = "/calendar";
+//     });
+// });
 
 
 
