@@ -16,4 +16,9 @@ public interface JobPostingMapper {
     public int postDetail(List<JobPostingDetailVO> list);
     public List<JobPostingVO2> getList(Criteria cri);
     public int getTotal(Criteria cri);
+    public List<JobPostingVO2> getRecentJobPostings();
+
+
+
+
 }

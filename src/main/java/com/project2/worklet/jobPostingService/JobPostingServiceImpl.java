@@ -194,6 +194,13 @@ public class JobPostingServiceImpl implements JobPostingService {
         return mapper.getTotal(cri);
     }
 
+    @Override
+    public List<JobPostingVO2> getRecentJobPostings() {
+        return mapper.getRecentJobPostings();
+    }
+
+
+
 
 }
 

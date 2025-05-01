@@ -11,4 +11,10 @@ public interface JobPostingService {
     public int postDetail(List<String> list);
     public List<JobPostingVO2> getList(Criteria cri);
     int getTotal(Criteria cri);
+    public List<JobPostingVO2> getRecentJobPostings();
+
+
+
+
+
 }
