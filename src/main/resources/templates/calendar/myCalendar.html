@@ -48,6 +48,8 @@
     var calendarEl = document.getElementById('calendar');
     var tooltip = document.getElementById('titleToolTip');
 
+    var currentEventMode = null;
+
     // initialize the external events
     // -----------------------------------------------------------------
 
@@ -99,6 +101,9 @@
         };
 
         function ButtonClick(e) {
+
+            currentEventMode = e; //현재 모드 저당
+
             var buttonClasses = ['fc-startDay-button', 'fc-endDay-button', 'fc-allCalendar-button'];
 
             for (var i = 0; i < buttonClasses.length; i++) {
@@ -120,8 +125,12 @@
 
             } else if(e === 'allPosting') {
                 calendar.removeAllEventSources();
-                calendar.addEventSource({ url: '/mycalendar/eventsStartDay', method: 'GET' });
-                calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
+
+                calendar.addEventSource({ url: '/mycalendar/favoriteList', method: 'GET' });
+                // calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
+
+                // calendar.setOption('events', '/mycalendar/favoriteList')
+
 
             } else {
 
@@ -153,24 +162,301 @@
 
             //일정 스타일
             eventDidMount: function (info) {
+                // var mainEl = info.el.querySelector('.fc-event-main');
+                // if (mainEl) {
+                //     mainEl.setAttribute('title', info.event.title);
+                //     mainEl.style.color = '#000'
+                //     mainEl.style.backgroundColor = '#fff';
+                //     mainEl.style.marginTop = '3px';
+                //     mainEl.style.border = 'none';
+                //
+                //     //하나짜리 형태/앞에 점
+                //     // mainEl.classList.add('fc-daygrid-event-dot');
+                //     mainEl.classList.add('fc-event-title');
+                //
+                //     //즐찾과 제목 한줄정렬
+                //     mainEl.style.display = 'flex';
+                //     mainEl.style.alignItems = 'center';
+                //     mainEl.style.justifyContent = 'space-between';
+                //
+                //     //시작일, 종료일 구분을 위한 colordot
+                //     var colorDot = document.createElement('span');
+                //     colorDot.style.display = 'inline-block';
+                //     colorDot.style.width = '8px';
+                //     colorDot.style.height = '8px';
+                //     colorDot.style.borderRadius = '50%';
+                //     colorDot.style.marginRight = '5px';
+                //
+                //     //색깔구분
+                //     if(info.event.source && info.event.source.url === '/mycalendar/eventsStartDay') {
+                //         // || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyY'
+                //         // || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyN') {
+                //         colorDot.style.backgroundColor = 'green';
+                //     } else if(info.event.source && info.event.source.url === '/mycalendar/eventsEndDay') {
+                //         // || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyY'
+                //         // || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyN') {
+                //         colorDot.style.backgroundColor = 'red';
+                //     }
+                //
+                //
+                //     //그냥 하면 안되니까 제목 부분을 span으로 감싸서 between 먹게
+                //     var titleSpan = document.createElement('span');
+                //     titleSpan.textContent = info.event.title;
+                //     titleSpan.style.flex = '1';
+                //     titleSpan.style.overflow = 'hidden';
+                //     titleSpan.style.textOverflow = 'ellipsis';
+                //     titleSpan.style.whiteSpace = 'nowrap';
+                //     titleSpan.classList.add('titleSpan');
+                //
+                //     //텍스트 집어넣기
+                //     mainEl.innerHTML = '';
+                //     mainEl.appendChild(colorDot);
+                //     mainEl.appendChild(titleSpan);
+                //
+                //
+                //     titleSpan.addEventListener('mouseenter', function () {
+                //
+                //         var rect = titleSpan.getBoundingClientRect();
+                //
+                //         tooltip.innerHTML = info.event.title;
+                //         tooltip.style.position = 'absolute';
+                //         tooltip.style.zIndex = '9999';
+                //         tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
+                //         tooltip.style.left = (rect.left + window.scrollX) + 'px';
+                //         tooltip.style.minWidth = rect.width + 'px';
+                //         tooltip.style.backgroundColor = '#e4e4e4';
+                //         tooltip.style.color = '#000';
+                //
+                //         tooltip.style.display = 'block';
+                //
+                //         titleSpan.style.cursor = 'pointer'
+                //
+                //
+                //     });
+                //
+                //     titleSpan.addEventListener('mouseleave', function () {
+                //         tooltip.style.display = 'none';
+                //
+                //         info.el.style.cursor = 'default';
+                //     });
+                //
+                //     titleSpan.addEventListener('click', function () {
+                //         var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
+                //
+                //         if (homepgDetail) {
+                //             window.location.href = homepgDetail;
+                //         } else {
+                //             alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+                //         }
+                //     })
+                //
+                // }
+                //
+                //
+                // // ⭐ 즐겨찾기 하트 추가 시작
+                // var heart = document.createElement('span');
+                //
+                // var eventMain = info.el.querySelector('.fc-event-main');
+                //
+                // heart.style.marginLeft = '8px';
+                // heart.style.cursor = 'pointer';
+                //
+                // console.log(info.event.extendedProps.favorite);
+                //
+                // if (info.event.extendedProps.favorite) {
+                //     heart.innerHTML = '❤️';
+                //     heart.setAttribute('data-favorited', 'true');
+                //
+                //     if(eventMain) {
+                //         eventMain.style.color='blue';
+                //         eventMain.style.fontWeight = 'bold';
+                //     }
+                //
+                //
+                // } else {
+                //     heart.innerHTML = '🤍';
+                //     heart.setAttribute('data-favorited', 'false');
+                //
+                //     if(eventMain) {
+                //         eventMain.style.color='black';
+                //         eventMain.style.fontWeight = 'normal';
+                //     }
+                // };
+                //
+                // heart.addEventListener('click', function (e) {
+                //     e.stopPropagation(); // 상세 페이지 이동 막기
+                //
+                //     var userId = sessionStorage.getItem('userId');
+                //     if(userId == null) {
+                //         alert('로그인 후 이용할 수 있는 기능입니다');
+                //         return;
+                //     }
+                //
+                //
+                //     var isFav = heart.getAttribute('data-favorited') === 'true';
+                //     var empSeqNo = Number(info.event.extendedProps.empSeqNo);
+                //
+                //
+                //
+                //
+                //     if (isFav) {
+                //         heart.innerHTML = '🤍';
+                //         heart.setAttribute('data-favorited', 'false');
+                //
+                //         if(eventMain) {
+                //             eventMain.style.color='black';
+                //             eventMain.style.fontWeight = 'normal';
+                //         }
+                //
+                //         var xhr = new XMLHttpRequest();
+                //         xhr.open("post", "/mycalendar/favorite/remove", true);
+                //         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                //
+                //
+                //
+                //         xhr.send(JSON.stringify({
+                //             empSeqNo: empSeqNo,
+                //             userId: sessionStorage.getItem('userId')
+                //         }))
+                //
+                //
+                //
+                //     } else {
+                //         heart.innerHTML = '❤️';
+                //         heart.setAttribute('data-favorited', 'true');
+                //
+                //         if(eventMain) {
+                //             eventMain.style.color='blue';
+                //             eventMain.style.fontWeight = 'bold';
+                //         }
+                //
+                //         var xhr = new XMLHttpRequest();
+                //         xhr.open("post", "/mycalendar/favorite/add", true);
+                //         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                //
+                //
+                //
+                //         xhr.send(JSON.stringify({
+                //             empSeqNo: empSeqNo,
+                //             userId: sessionStorage.getItem('userId')
+                //         }))
+                //
+                //     }
+                //
+                //     // 서버로 즐겨찾기 상태 저장하고 싶으면 여기에 Ajax 요청 작성
+                //
+                //
+                //     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                //     xhr.send(JSON.stringify({
+                //         id: info.event.id,
+                //         favorite: !isFav
+                //     }));
+                //
+                // });
+                //
+                // var eventMain = info.el.querySelector('.fc-event-main');
+                // if (eventMain) {
+                //     eventMain.appendChild(heart);
+                // }
+                // // ⭐ 즐겨찾기 하트 추가 끝
+
                 var mainEl = info.el.querySelector('.fc-event-main');
-                if (mainEl) {
-                    mainEl.setAttribute('title', info.event.title);
-                    mainEl.style.color = '#000'
-                    mainEl.style.backgroundColor = '#fff';
-                    mainEl.style.marginTop = '3px';
-                    mainEl.style.border = 'none';
+                if (!mainEl) return;
 
-                    //하나짜리 형태/앞에 점
-                    // mainEl.classList.add('fc-daygrid-event-dot');
-                    mainEl.classList.add('fc-event-title');
+                mainEl.style.display = 'flex';
+                mainEl.style.alignItems = 'center';
+                mainEl.style.justifyContent = 'space-between';
+                mainEl.style.border = 'none';
+                mainEl.style.backgroundColor = '#fff';
+                mainEl.style.marginTop = '3px';
 
-                    //즐찾과 제목 한줄정렬
-                    mainEl.style.display = 'flex';
-                    mainEl.style.alignItems = 'center';
-                    mainEl.style.justifyContent = 'space-between';
+                var titleSpan = document.createElement('span');
+                titleSpan.textContent = info.event.title;
+                titleSpan.style.color = '#000'; // ✅ 글씨 검정
+                titleSpan.style.flex = '1';
+                titleSpan.style.overflow = 'hidden';
+                titleSpan.style.textOverflow = 'ellipsis';
+                titleSpan.style.whiteSpace = 'nowrap';
+                titleSpan.style.minWidth = '0';
 
-                    //시작일, 종료일 구분을 위한 colordot
+                var heart = document.createElement('span');
+                heart.style.marginLeft = '8px';
+                heart.style.cursor = 'pointer';
+
+                var isFav = info.event.extendedProps.favorite;
+                heart.innerHTML = isFav ? '❤️' : '🤍';
+                heart.setAttribute('data-favorited', isFav ? 'true' : 'false');
+
+                heart.addEventListener('click', function (e) {
+                    e.stopPropagation();
+
+                    var userId = sessionStorage.getItem('userId');
+                    if (!userId) {
+                        alert('로그인 후 이용할 수 있는 기능입니다');
+                        return;
+                    }
+
+                    var isNowFav = heart.getAttribute('data-favorited') === 'true';
+                    var empSeqNo = Number(info.event.extendedProps.empSeqNo);
+
+                    heart.innerHTML = isNowFav ? '🤍' : '❤️';
+                    heart.setAttribute('data-favorited', (!isNowFav).toString());
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('post', isNowFav ? '/mycalendar/favorite/remove' : '/mycalendar/favorite/add', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    xhr.send(JSON.stringify({
+                        empSeqNo: empSeqNo,
+                        userId: userId
+                    }));
+                });
+
+                // 마우스 호버 툴팁
+                titleSpan.addEventListener('mouseenter', function () {
+                    var rect = titleSpan.getBoundingClientRect();
+
+                    tooltip.innerHTML = info.event.title;
+                    tooltip.style.position = 'absolute';
+                    tooltip.style.zIndex = '9999';
+                    tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
+                    tooltip.style.left = (rect.left + window.scrollX) + 'px';
+                    tooltip.style.minWidth = rect.width + 'px';
+                    tooltip.style.backgroundColor = '#e4e4e4';
+                    tooltip.style.color = '#000';
+                    tooltip.style.display = 'block';
+
+                    titleSpan.style.cursor = 'pointer';
+                });
+
+                titleSpan.addEventListener('mouseleave', function () {
+                    tooltip.style.display = 'none';
+                });
+
+                titleSpan.addEventListener('click', function () {
+                    var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
+                    if (homepgDetail) {
+                        window.location.href = homepgDetail;
+                    } else {
+                        alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
+                    }
+                });
+
+                mainEl.innerHTML = '';
+
+                if (currentEventMode === 'allPosting') {
+                    var allWrapper = document.createElement('div');
+                    allWrapper.style.display = 'flex';
+                    allWrapper.style.alignItems = 'center';
+                    allWrapper.style.flex = '1';
+                    allWrapper.style.overflow = 'hidden';
+
+                    titleSpan.style.marginLeft = '5px'; // 하트와 제목 사이 여백
+
+                    allWrapper.appendChild(heart);
+                    allWrapper.appendChild(titleSpan);
+                    mainEl.appendChild(allWrapper);
+                } else {
+                    // 시작일/종료일 모드
                     var colorDot = document.createElement('span');
                     colorDot.style.display = 'inline-block';
                     colorDot.style.width = '8px';
@@ -178,182 +464,27 @@
                     colorDot.style.borderRadius = '50%';
                     colorDot.style.marginRight = '5px';
 
-                    //색깔구분
-                    if(info.event.source && info.event.source.url === '/mycalendar/eventsStartDay'
-                        || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyY'
-                        || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyN') {
+
+                    if (currentEventMode === 'startDay') {
                         colorDot.style.backgroundColor = 'green';
-                    } else if(info.event.source && info.event.source.url === '/mycalendar/eventsEndDay'
-                        || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyY'
-                        || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyN') {
+                    } else if (currentEventMode === 'endDay') {
+
                         colorDot.style.backgroundColor = 'red';
                     }
 
+                    var titleWrapper = document.createElement('div');
+                    titleWrapper.style.display = 'flex';
+                    titleWrapper.style.alignItems = 'center';
+                    titleWrapper.style.flex = '1';
+                    titleWrapper.style.overflow = 'hidden';
 
-                    //그냥 하면 안되니까 제목 부분을 span으로 감싸서 between 먹게
-                    var titleSpan = document.createElement('span');
-                    titleSpan.textContent = info.event.title;
-                    titleSpan.style.flex = '1';
-                    titleSpan.style.overflow = 'hidden';
-                    titleSpan.style.textOverflow = 'ellipsis';
-                    titleSpan.style.whiteSpace = 'nowrap';
-                    titleSpan.classList.add('titleSpan');
+                    titleWrapper.appendChild(colorDot);
+                    titleWrapper.appendChild(titleSpan);
 
-                    //텍스트 집어넣기
-                    mainEl.innerHTML = '';
-                    mainEl.appendChild(colorDot);
-                    mainEl.appendChild(titleSpan);
-
-
-                    titleSpan.addEventListener('mouseenter', function () {
-
-                        var rect = titleSpan.getBoundingClientRect();
-
-                        tooltip.innerHTML = info.event.title;
-                        tooltip.style.position = 'absolute';
-                        tooltip.style.zIndex = '9999';
-                        tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
-                        tooltip.style.left = (rect.left + window.scrollX) + 'px';
-                        tooltip.style.minWidth = rect.width + 'px';
-                        tooltip.style.backgroundColor = '#e4e4e4';
-                        tooltip.style.color = '#000';
-
-                        tooltip.style.display = 'block';
-
-                        titleSpan.style.cursor = 'pointer'
-
-
-                    });
-
-                    titleSpan.addEventListener('mouseleave', function () {
-                        tooltip.style.display = 'none';
-
-                        info.el.style.cursor = 'default';
-                    });
-
-                    titleSpan.addEventListener('click', function () {
-                        var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
-
-                        if (homepgDetail) {
-                            window.location.href = homepgDetail;
-                        } else {
-                            alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
-                        }
-                    })
-
+                    mainEl.appendChild(titleWrapper);
+                    mainEl.appendChild(heart);
                 }
-
-
-                // ⭐ 즐겨찾기 하트 추가 시작
-                var heart = document.createElement('span');
-
-                var eventMain = info.el.querySelector('.fc-event-main');
-
-                heart.style.marginLeft = '8px';
-                heart.style.cursor = 'pointer';
-
-                console.log(info.event.extendedProps.favorite);
-
-                if (info.event.extendedProps.favorite) {
-                    heart.innerHTML = '❤️';
-                    heart.setAttribute('data-favorited', 'true');
-
-                    if(eventMain) {
-                        eventMain.style.color='blue';
-                        eventMain.style.fontWeight = 'bold';
-                    }
-
-
-                } else {
-                    heart.innerHTML = '🤍';
-                    heart.setAttribute('data-favorited', 'false');
-
-                    if(eventMain) {
-                        eventMain.style.color='black';
-                        eventMain.style.fontWeight = 'normal';
-                    }
-                };
-
-                heart.addEventListener('click', function (e) {
-                    e.stopPropagation(); // 상세 페이지 이동 막기
-
-                    var userId = sessionStorage.getItem('userId');
-                    if(userId == null) {
-                        alert('로그인 후 이용할 수 있는 기능입니다');
-                        return;
-                    }
-
-
-                    var isFav = heart.getAttribute('data-favorited') === 'true';
-                    var empSeqNo = Number(info.event.extendedProps.empSeqNo);
-
-
-
-
-                    if (isFav) {
-                        heart.innerHTML = '🤍';
-                        heart.setAttribute('data-favorited', 'false');
-
-                        if(eventMain) {
-                            eventMain.style.color='black';
-                            eventMain.style.fontWeight = 'normal';
-                        }
-
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("post", "/calendar/favorite/remove", true);
-                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-
-
-                        xhr.send(JSON.stringify({
-                            empSeqNo: empSeqNo,
-                            userId: sessionStorage.getItem('userId')
-                        }))
-
-
-
-                    } else {
-                        heart.innerHTML = '❤️';
-                        heart.setAttribute('data-favorited', 'true');
-
-                        if(eventMain) {
-                            eventMain.style.color='blue';
-                            eventMain.style.fontWeight = 'bold';
-                        }
-
-                        var xhr = new XMLHttpRequest();
-                        xhr.open("post", "/calendar/favorite/add", true);
-                        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-
-
-                        xhr.send(JSON.stringify({
-                            empSeqNo: empSeqNo,
-                            userId: sessionStorage.getItem('userId')
-                        }))
-
-                    }
-
-                    // 서버로 즐겨찾기 상태 저장하고 싶으면 여기에 Ajax 요청 작성
-
-
-                    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                    xhr.send(JSON.stringify({
-                        id: info.event.id,
-                        favorite: !isFav
-                    }));
-
-                });
-
-                var eventMain = info.el.querySelector('.fc-event-main');
-                if (eventMain) {
-                    eventMain.appendChild(heart);
-                }
-                // ⭐ 즐겨찾기 하트 추가 끝
-
-
-            },
-
+            }
 
         });
 

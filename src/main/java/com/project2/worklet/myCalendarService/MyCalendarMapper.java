@@ -28,5 +28,9 @@ public interface MyCalendarMapper {
                                @Param("userId") String userId);
 
     List<Integer> findFavoriteEmpSeqNosUserId(@Param("userId") String userId);
+<<<<<<< HEAD
+    List<MyCalendarVO> findEventsByEmpSeqNos(@Param("empSeqNos") List<Integer> empSeqNos);
+=======
+>>>>>>> 8579913d0262c23a7f7ec1022296738779c2527e
 
 }

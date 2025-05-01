@@ -54,40 +54,96 @@ public class MyCalendarController {
         }
 
         return myCalendarService.getAllEvent(userId); //내부에 favorite 설정 완료
-    }
+
+    };
 
 
     //시작일
+//    @ResponseBody
+//    @GetMapping("/eventsStartDay")
+//    public List<MyCalendarVO> geteventsStartDay() {
+//        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+//
+//        if(userId == null) {
+//            return myCalendarService.getStartDayEvents(null);
+//        }
+//
+//        return myCalendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+//
+//    }
+
     @ResponseBody
     @GetMapping("/eventsStartDay")
-    public List<MyCalendarVO> geteventsStartDay() {
-        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+    public List<Map<String, Object>> geteventsStartDay(HttpSession session) {
+        String userId = getUserIdFromSession();
+        if (userId == null) return List.of();
+        List<MyCalendarVO> events = myCalendarService.getFavoriteEvents(userId);
 
-        if(userId == null) {
-            return myCalendarService.getStartDayEvents(null);
+        // events가 비어있는지 확인하는 로그
+        log.info("Number of favorite events: {}", events.size());
+
+        if (events.isEmpty()) {
+            log.info("No favorite events found for user {}", userId);
         }
-
-        return myCalendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
-
-    }
-
-    //종료일
-    @GetMapping("/eventsEndDay")
-    @ResponseBody
-    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
-        String userId = (String) session.getAttribute("userId");
-        List<MyCalendarVO> events = myCalendarService.getEndDayEvents(userId);
 
         return events.stream().map(vo -> {
             Map<String, Object> event = new HashMap<>();
             event.put("title", vo.getEmpWantedTitle());
-            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+            event.put("start", vo.getEmpWantedStdt()); // 종료일을 start로 사용
+            event.put("end", null);
+
             event.put("empSeqNo", vo.getEmpSeqNo());
             event.put("favorite", vo.isFavorite());
             event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
             return event;
         }).collect(Collectors.toList());
     }
+
+
+    //종료일
+//    @GetMapping("/eventsEndDay")
+//    @ResponseBody
+//    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
+//        String userId = (String) session.getAttribute("userId");
+//        List<MyCalendarVO> events = myCalendarService.getEndDayEvents(userId);
+//
+//        return events.stream().map(vo -> {
+//            Map<String, Object> event = new HashMap<>();
+//            event.put("title", vo.getEmpWantedTitle());
+//            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+//            event.put("empSeqNo", vo.getEmpSeqNo());
+//            event.put("favorite", vo.isFavorite());
+//            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+//            return event;
+//        }).collect(Collectors.toList());
+//    }
+
+    //종료일
+    @GetMapping("/eventsEndDay")
+    @ResponseBody
+    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
+        String userId = getUserIdFromSession();
+        if (userId == null) return List.of();
+        List<MyCalendarVO> events = myCalendarService.getFavoriteEvents(userId);
+
+        // events가 비어있는지 확인하는 로그
+        log.info("Number of favorite events: {}", events.size());
+
+        if (events.isEmpty()) {
+            log.info("No favorite events found for user {}", userId);
+        }
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+            event.put("end", null);
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
+    };
 
 
     //찜 추가
@@ -106,13 +162,36 @@ public class MyCalendarController {
         return ResponseEntity.ok().build();
     }
 
-    @ResponseBody
+
+
     @GetMapping("/favoriteList")
-    public List<MyCalendarVO> getFavoritesOnly() {
+    @ResponseBody
+    public List<Map<String, Object>> getFavoritesOnly(HttpSession session) {
         String userId = getUserIdFromSession();
-        if (userId == null) return List.of();  // 또는 비로그인시 에러 응답 처리
-        return myCalendarService.getFavoriteEvents(userId);
+        if (userId == null) return List.of();
+        List<MyCalendarVO> events = myCalendarService.getFavoriteEvents(userId);
+
+        // events가 비어있는지 확인하는 로그
+        log.info("Number of favorite events: {}", events.size());
+
+        if (events.isEmpty()) {
+            log.info("No favorite events found for user {}", userId);
+        }
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getEmpWantedStdt()); // 종료일을 start로 사용
+            event.put("end", vo.getEmpWantedEndt());
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
     }
+
+
+
 
     //찜 목록 가져오기
 
