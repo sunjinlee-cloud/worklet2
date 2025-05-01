@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.Collections;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -324,6 +326,7 @@ public class MyCalendarServiceImpl implements MyCalendarService {
     @Override
     public List<MyCalendarVO> getFavoriteEvents(String userId) {
         // 찜한 일정만 가져오기
+
 //        List<MyCalendarVO> events = myCalendarMapper.getAllEvent();  // 모든 이벤트를 가져옴
 //
 //        if (userId == null) {
@@ -360,6 +363,7 @@ public class MyCalendarServiceImpl implements MyCalendarService {
 
         return events;
     }
+
 
 
 }

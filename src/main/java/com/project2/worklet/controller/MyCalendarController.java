@@ -54,6 +54,7 @@ public class MyCalendarController {
         }
 
         return myCalendarService.getAllEvent(userId); //내부에 favorite 설정 완료
+
     };
 
 
@@ -90,12 +91,14 @@ public class MyCalendarController {
             event.put("title", vo.getEmpWantedTitle());
             event.put("start", vo.getEmpWantedStdt()); // 종료일을 start로 사용
             event.put("end", null);
+
             event.put("empSeqNo", vo.getEmpSeqNo());
             event.put("favorite", vo.isFavorite());
             event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
             return event;
         }).collect(Collectors.toList());
     }
+
 
     //종료일
 //    @GetMapping("/eventsEndDay")
@@ -142,6 +145,7 @@ public class MyCalendarController {
         }).collect(Collectors.toList());
     };
 
+
     //찜 추가
     @PostMapping("/favorite/add")
     @ResponseBody
@@ -157,6 +161,7 @@ public class MyCalendarController {
         myCalendarService.removeFavorite(request.getEmpSeqNo(), request.getUserId());
         return ResponseEntity.ok().build();
     }
+
 
 
     @GetMapping("/favoriteList")
@@ -184,6 +189,7 @@ public class MyCalendarController {
             return event;
         }).collect(Collectors.toList());
     }
+
 
 
 
