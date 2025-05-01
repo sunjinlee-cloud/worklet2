@@ -12,7 +12,11 @@ public interface CalendarMapper {
 
     //달력버튼
     List<CalendarVO> getStartDayEvents(String userId);
-
+    List<CalendarVO> getEndDayEvents(String userId);
+    List<CalendarVO> getStartDayEventsOnlyY(String userId);
+    List<CalendarVO> getEndDayEventsOnlyY(String userId);
+    List<CalendarVO> getStartDayEventsOnlyN(String userId);
+    List<CalendarVO> getEndDayEventsOnlyN(String userId);
 
     //찜 추가 삭제
     public void insertFavorite(@Param("empSeqNo") int empSeqNo,

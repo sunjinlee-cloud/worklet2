@@ -378,6 +378,7 @@
                     <h5>추가</h5>
                     <form action="/user/updateLicens" method="post">
                         <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
+
                         <input type="text" class="liName" placeholder="자격증명 입력" name="licenseName">
                         <input type="text" class="license-org" placeholder="발급 기관" name="licenseOrg">
                         <input type="text" name="acquisition" class="custom-date widthstyle" placeholder="자격증 취득일" />
@@ -397,12 +398,14 @@
                         <div th:each="license : ${licenseList}">
                             <input type="hidden" name="licenseId  " th:value="${license.licenseId}" />
                         </div>
+
                         <input type="text" class="license-name" placeholder="자격증명 입력" name="licenseName">
                         <input type="text" class="license-org" placeholder="발급 기관" name="licenseOrg">
                         <input type="text" name="acquisition" class="custom-date widthstyle" placeholder="자격증 취득일" />
                         <input type="text" name="expiration" class="custom-date widthstyle" placeholder="자격증 만료일" />
                         <div class="button">
                             <button type="submit" class="btn-license-save">저장</button>
+
                             <button type="button" class="btn-license-cancel">취소</button>
                         </div>
                     </form>

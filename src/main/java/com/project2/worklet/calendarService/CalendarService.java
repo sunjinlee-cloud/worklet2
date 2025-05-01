@@ -14,7 +14,11 @@ public interface CalendarService {
 
     //달력버튼
     List<CalendarVO> getStartDayEvents(String userId);
-
+    List<CalendarVO> getEndDayEvents(String userId);
+    List<CalendarVO> getStartDayEventsOnlyY(String userId);
+    List<CalendarVO> getEndDayEventsOnlyY(String userId);
+    List<CalendarVO> getStartDayEventsOnlyN(String userId);
+    List<CalendarVO> getEndDayEventsOnlyN(String userId);
 
     //즐겨찾기 추가,삭제
     void addFavorite(int empSeqNo, String userId) ;
