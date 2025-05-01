@@ -93,13 +93,13 @@
                     // sessionStorage.setItem('myCalendarAccess', 'true');
 
                     // 페이지 이동 (예: 'calendar.html'로 이동)
-                    location.href = "/calendar";  // 원하는 페이지로 변경 //mycalendar 페이지로 이동
+                    location.href = "/calendar/calendar";  // 원하는 페이지로 변경 //mycalendar 페이지로 이동
                 }
             }
         };
 
         function ButtonClick(e) {
-            var buttonClasses = ['fc-startDay-button', 'fc-endDay-button', 'fc-openJobPosting-button', 'fc-jobPosting-button', 'fc-allCalendar-button'];
+            var buttonClasses = ['fc-startDay-button', 'fc-endDay-button', 'fc-allCalendar-button'];
 
             for (var i = 0; i < buttonClasses.length; i++) {
                 var btn = document.querySelector('.' + buttonClasses[i]);
@@ -113,26 +113,15 @@
             }
 
             if(e === 'startDay') {
-                calendar.setOption('events', '/calendar/eventsStartDay');
+                calendar.setOption('events', '/mycalendar/eventsStartDay');
 
             } else if(e === 'endDay') {
-                calendar.setOption('events', '/calendar/eventsEndDay')
+                calendar.setOption('events', '/mycalendar/eventsEndDay')
 
             } else if(e === 'allPosting') {
                 calendar.removeAllEventSources();
-                calendar.addEventSource({ url: '/calendar/eventsStartDay', method: 'GET' });
-                calendar.addEventSource({ url: '/calendar/eventsEndDay', method: 'GET' });
-
-            } else if(e === 'openJobPosting') {
-                calendar.removeAllEventSources();
-                calendar.addEventSource({ url: '/calendar/getStartDayEventsOnlyY', method: 'GET' });
-                calendar.addEventSource({ url: '/calendar/getEndDayEventsOnlyY', method: 'GET' });
-
-            } else if(e === 'jobPosting') {
-                calendar.removeAllEventSources();
-                calendar.addEventSource({ url: '/calendar/getStartDayEventsOnlyN', method: 'GET' });
-                calendar.addEventSource({ url: '/calendar/getEndDayEventsOnlyN', method: 'GET' });
-
+                calendar.addEventSource({ url: '/mycalendar/eventsStartDay', method: 'GET' });
+                calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
 
             } else {
 
@@ -146,7 +135,7 @@
         var calendar = new Calendar(calendarEl, {
             locale: 'ko',
             headerToolbar: {
-                left: window.innerWidth < 767 ? '' : 'allPosting,openJobPosting,jobPosting,startDay,endDay',
+                left: window.innerWidth < 767 ? '' : 'allPosting,startDay,endDay',
                 center: 'prev,title,next',
                 right: 'allCalendar'
             },
@@ -190,11 +179,11 @@
                     colorDot.style.marginRight = '5px';
 
                     //색깔구분
-                    if(info.event.source && info.event.source.url === '/calendar/eventsStartDay'
+                    if(info.event.source && info.event.source.url === '/mycalendar/eventsStartDay'
                         || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyY'
                         || info.event.source && info.event.source.url === '/calendar/getStartDayEventsOnlyN') {
                         colorDot.style.backgroundColor = 'green';
-                    } else if(info.event.source && info.event.source.url === '/calendar/eventsEndDay'
+                    } else if(info.event.source && info.event.source.url === '/mycalendar/eventsEndDay'
                         || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyY'
                         || info.event.source && info.event.source.url === '/calendar/getEndDayEventsOnlyN') {
                         colorDot.style.backgroundColor = 'red';
