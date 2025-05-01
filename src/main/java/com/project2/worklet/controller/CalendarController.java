@@ -94,14 +94,28 @@ public class CalendarController {
     //공채시작일
     @ResponseBody
     @GetMapping("/getStartDayEventsOnlyY")
-    public List<CalendarVO> getStartDayEventsOnlyY() {
-        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+    public List<Map<String, Object>> getStartDayEventsOnlyY(HttpSession session) {
+//        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+//
+//        if(userId == null) {
+//            return calendarService.getStartDayEventsOnlyY(null);
+//        }
+//
+//        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
 
-        if(userId == null) {
-            return calendarService.getStartDayEventsOnlyY(null);
-        }
 
-        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+        String userId = (String) session.getAttribute("userId");
+        List<CalendarVO> events = calendarService.getStartDayEventsOnlyY(userId);
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getStart()); //
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
 
     }
 
@@ -126,14 +140,27 @@ public class CalendarController {
     //채용시작일
     @ResponseBody
     @GetMapping("/getStartDayEventsOnlyN")
-    public List<CalendarVO> getStartDayEventsOnlyN() {
-        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+    public List<Map<String, Object>> getStartDayEventsOnlyN(HttpSession session) {
+//        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+//
+//        if(userId == null) {
+//            return calendarService.getStartDayEventsOnlyN(null);
+//        }
+//
+//        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
 
-        if(userId == null) {
-            return calendarService.getStartDayEventsOnlyN(null);
-        }
+        String userId = (String) session.getAttribute("userId");
+        List<CalendarVO> events = calendarService.getStartDayEventsOnlyN(userId);
 
-        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getStart()); //
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
 
     }
 

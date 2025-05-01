@@ -129,6 +129,23 @@
         SELECT emp_seq_no FROM my_calendar WHERE user_id = #{userId}
     </select>
 
+    <select id="findEventsByEmpSeqNos" resultType="com.project2.worklet.component.MyCalendarVO">
+        SELECT
+        emp_seq_no       AS empSeqNo,
+        emp_wanted_title AS empWantedTitle,
+        emp_busi_nm      AS empBusiNm,
+        emp_wanted_stdt  AS empWantedStdt,
+        emp_wanted_endt  AS empWantedEndt,
+        emp_wanted_type_nm AS empWantedTypeNm,
+        reg_log_img_nm   AS regLogImgNm,
+        emp_wanted_homepg_detail AS empWantedHomepgDetail
+        FROM job_postings
+        WHERE emp_seq_no IN
+        <foreach item="seqNo" collection="empSeqNos" open="(" separator="," close=")">
+            #{seqNo}
+        </foreach>
+    </select>
+
 
 
 </mapper>
