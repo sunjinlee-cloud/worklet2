@@ -29,5 +29,9 @@ resumeBtn.addEventListener('click',function (){
     location.href="/user/resume";
 })
 
+let userModify=document.querySelector(".userModify");
+userModify.addEventListener('click',function (){
+    location.href = "/user/modify";
+})
 
 

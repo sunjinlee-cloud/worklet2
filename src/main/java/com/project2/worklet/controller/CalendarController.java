@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -67,6 +70,89 @@ public class CalendarController {
         }
 
         return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+
+    }
+
+    //종료일
+    @GetMapping("/eventsEndDay")
+    @ResponseBody
+    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        List<CalendarVO> events = calendarService.getEndDayEvents(userId);
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
+    }
+
+    //공채시작일
+    @ResponseBody
+    @GetMapping("/getStartDayEventsOnlyY")
+    public List<CalendarVO> getStartDayEventsOnlyY() {
+        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+
+        if(userId == null) {
+            return calendarService.getStartDayEventsOnlyY(null);
+        }
+
+        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+
+    }
+
+    //공채종료일
+    @GetMapping("/getEndDayEventsOnlyY")
+    @ResponseBody
+    public List<Map<String, Object>> getEndDayEventsOnlyY(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        List<CalendarVO> events = calendarService.getEndDayEventsOnlyY(userId);
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
+    }
+
+    //채용시작일
+    @ResponseBody
+    @GetMapping("/getStartDayEventsOnlyN")
+    public List<CalendarVO> getStartDayEventsOnlyN() {
+        String userId = getUserIdFromSession(); //세션에서 userId 가져오기
+
+        if(userId == null) {
+            return calendarService.getStartDayEventsOnlyN(null);
+        }
+
+        return calendarService.getStartDayEvents(userId); //내부에 favorite 설정 완료
+
+    }
+
+    //채용종료일
+    @GetMapping("/getEndDayEventsOnlyN")
+    @ResponseBody
+    public List<Map<String, Object>> getEndDayEventsOnlyN(HttpSession session) {
+        String userId = (String) session.getAttribute("userId");
+        List<CalendarVO> events = calendarService.getEndDayEventsOnlyN(userId);
+
+        return events.stream().map(vo -> {
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", vo.getEmpWantedTitle());
+            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+            event.put("empSeqNo", vo.getEmpSeqNo());
+            event.put("favorite", vo.isFavorite());
+            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            return event;
+        }).collect(Collectors.toList());
     }
 
 
