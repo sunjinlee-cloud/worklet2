@@ -249,15 +249,15 @@ img {
 
     .heart {
         color: var(--main-color1);
-        width: 25px;
-        height: 25px;
+        width: 22px;
+        height: 22px;
         position: absolute;
-        bottom: 30px;
-        left: 25px;
+        bottom: 20px;
+        left: 20px;
     }
 
     .heart > i {
-        font-size: 25px;
+        font-size: 22px;
     }
 
     .bottomPageChangeButtonBox {
@@ -767,7 +767,8 @@ img {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-bottom: 10px;
+        margin: 2px;
+        margin-bottom: 8px;
 
         position: relative;
         /* overflow: hidden; 기준점 설정 */
@@ -782,6 +783,19 @@ img {
         width: 100%;
         height: 60px;
         z-index: -1;
+    }
+    
+    .heart {
+        color: var(--main-color1);
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        bottom: -3px;
+        left: 8px;
+    }
+
+    .heart > i {
+        font-size: 22px;
     }
 
     .bottomPageChangeButtonBox {
@@ -1076,7 +1090,7 @@ img {
         /* padding: 7px; */
         /* z-index: 1; */
         border-radius:20px;
-        
+        margin: 2px;
 
     }
 
