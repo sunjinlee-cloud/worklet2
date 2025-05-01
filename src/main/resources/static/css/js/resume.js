@@ -244,8 +244,8 @@ licenseCancelBtn.addEventListener('click', () => {
 
 // '저장' 버튼 누르면 리스트에 카드형태로 추가
 licenseSaveBtn.addEventListener('click', () => {
-    const name = document.querySelector('.license-name').value.trim();
-    const org = document.querySelector('.license-org').value.trim();
+    const name = document.querySelector('input[name="licenseName"]').value.trim();
+    const org = document.querySelector('input[name="licenseOrg"]').value.trim();
     const start = document.querySelector('input[name="acquisition"]').value.trim();
     const end = document.querySelector('input[name="expiration"]').value.trim();
 
@@ -271,8 +271,8 @@ licenseSaveBtn.addEventListener('click', () => {
     licenseList.appendChild(li);
 
     // 입력값 초기화
-    document.querySelector('.license-name').value = '';
-    document.querySelector('.license-org').value = '';
+    document.querySelector('input[name="licenseName"]').value = '';
+    document.querySelector('input[name="licenseName"]').value = '';
     document.querySelector('input[name="acquisition"]').value = '';
     document.querySelector('input[name="expiration"]').value = '';
 
