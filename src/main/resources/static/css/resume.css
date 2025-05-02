@@ -26,6 +26,49 @@
     position: relative;
 }
 
+.tag-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tag {
+    display: inline-block;
+    color: #333;
+    border: 1px solid var(--sub-color1);
+    padding: 6px 12px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 15px;
+}
+
+.tag:hover {
+    background-color: #d0d0d0;
+    border: 1px solid var(--main-color1);
+    background-color: var(--sub-color2);
+    color: var(--main-color1);
+    font-weight: bold;
+}
+
+.save-sticky .save {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.save-sticky .save span{
+    width: 5px;
+    height: 5px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: 4px 0;
+}
+
 /* 모바일 (최대 너비 767px까지 적용) */
 @media (max-width: 767px) {
 
@@ -1453,22 +1496,9 @@
         top: 730px;
         right: 100px;
         background-color: var(--main-color1);
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
+
     }
 
-    .save figure{
-        width: 25px;
-        margin-bottom: 3px;
-    }
-    .save figure img{
-        width: 100%;
-    }
 
 
     .ham-menu {
@@ -1658,10 +1688,12 @@
 
     #content-title input{
         padding: 15px;
-        width: 50%;
-        border-radius: 8px;
+        width: 80%;
+        /*border-radius: 8px;*/
         border-style: none;
-        border: 1px solid #c1c1c1
+        border-bottom: 1px solid #dcdcdc;
+        background-color: transparent;
+        font-size: 18px;
     }
 
     #content-title input:focus{
