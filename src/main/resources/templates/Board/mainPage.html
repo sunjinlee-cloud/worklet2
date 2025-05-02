@@ -76,29 +76,18 @@
                         <div class="notice_slide">
                             <div class="swiper mySwiper2">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <p>비전공자도 6개월만에 AI 앱을
-                                            직접 개발하는 역량 강화 교육!</p>
-                                        <span>2025.04.06</span>
+                                    <div class="swiper-slide" th:each="notice : ${noticeList}">
+                                        <!-- 각 공지 제목을 클릭하면 해당 공지의 상세 페이지로 이동 -->
+                                        <a th:href="@{'/notice/notice_list'}">
+                                            <p th:text="${notice.noticeTitle}">공지 제목</p>
+                                            <span th:text="${#temporals.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">날짜</span>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="swiper-pagination"></div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -163,174 +152,74 @@
                     <div class="swiper-wrapper-mask">
                         <div class="swiper mySwiper3">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
+                                <!-- 채용정보 동적 출력 -->
+                                <div th:each="vo, status:${list}" class="swiper-slide">
+                                    <h3 th:text="${vo.empRecrNm}">기획/영업</h3>
+                                    <p th:text="${vo.empBusiNm}">구글</p>
                                     <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
+                                        <img th:src="@{${vo.regLogImgNm}}" alt="회사 로고">
                                     </figure>
                                     <div class="hidden-box">
                                         <h4>지원자격</h4>
                                         <ul>
                                             <li>
                                                 <span>경력</span>
-                                                <b>3년이상</b>
+                                                <b th:text="${vo.empWantedCareerNm}">3년 이상</b>
                                             </li>
                                             <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
+                                                <span>정규직</span>
+                                                <b th:text="${vo.empWantedTypeNm}">초대졸 이상</b>
                                             </li>
                                             <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
+                                                <span>지역</span>
+                                                <b th:text="${vo.empWantedCareerNm}">컴퓨터 활용능력, 아웃소싱</b>
                                             </li>
                                             <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
+                                                <span>기간</span>
+                                                <b th:text="${vo.workRegionNm}">자동차 운전면허</b>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <!-- 반복문 끝 -->
+                            </div>
+
+
+
+
+
+                <!--                                <div class="swiper-slide">-->
+<!--                                    <h3>기획/영업</h3>-->
+<!--                                    <p>구글</p>-->
+<!--                                    <figure class="slide_logo">-->
+<!--                                        <img src="../image/slideLogo.png" alt="">-->
+<!--                                    </figure>-->
+<!--                                    <div class="hidden-box">-->
+<!--                                        <h4>지원자격</h4>-->
+<!--                                        <ul>-->
+<!--                                            <li>-->
+<!--                                                <span>경력</span>-->
+<!--                                                <b>3년이상</b>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <span>학력</span>-->
+<!--                                                <b>초대졸 이상</b>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <span>스킬</span>-->
+<!--                                                <b>컴퓨터 활용능력, 아웃소싱</b>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <span>우대</span>-->
+<!--                                                <b>자동차 운전면허</b>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -526,55 +415,42 @@
                     <div class="list_title flex">
                         <p>공지사항</p>
                         <div class="more flex">
-                            <p>더보기</p>
+                            <a href="/notice/notice_list"><p>더보기</p></a>
                             <figure><img src="../image/Arrow.png" alt=""></figure>
                         </div>
                     </div>
 
                     <ul>
                         <li th:each="notice : ${noticeList}">
-                            <p th:text="${notice.noticeTitle}">공지 제목</p>
-                            <span th:text="${#temporals.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">날짜</span>
+                            <a th:href="@{'/notice/notice_list'}">
+                                <p th:text="${notice.noticeTitle}">공지 제목</p>
+                                <span th:text="${#temporals.format(notice.noticeCreatedAt, 'yyyy.MM.dd')}">날짜</span>
+                            </a>
                         </li>
                     </ul>
+
                 </div>
 
                 <div class="employment_list">
                     <div class="list_title flex">
                         <p>채용</p>
                         <div class="more flex">
-                            <p>더보기</p>
-                            <figure><img src="../image/Arrow.png" alt=""></figure>
+                            <a href="/job_postings/job_posting_list">
+                                <a id="goPostingPage"><p>더보기</p></a>
+                                <figure><img src="../image/Arrow.png" alt=""></figure>
+                            </a>
                         </div>
                     </div>
-
                     <ul>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
-                        </li>
-                        <li>
-                            <p>비전공자도 6개월만에 AI 앱을 직접하하하하</p>
-                            <span>2025.04.10</span>
+                        <li th:each="job : ${jobPostingList}">
+                            <a th:href="${job.empWantedHomepgDetail}" target="_blank">
+                                <p th:text="${job.empWantedTitle}">채용공고 제목</p>
+                            </a>
+                            <span th:text="${job.empWantedStdt}">채용공고 날짜</span>
                         </li>
                     </ul>
                 </div>
+
             </div>
             <div class="call">
                 <div class="call_title flex">
@@ -597,6 +473,18 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script th:src="@{/css/js/header.js}"></script>
     <script th:src="@{/css/js/mainPage.js}"></script>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const goPostingPage = document.getElementById('goPostingPage');
+            goPostingPage.addEventListener('click', function () {
+                event.preventDefault();
+                location.href = "/jobposting";
+            });
+        });
+
+    </script>
 </body>
 
 </html>

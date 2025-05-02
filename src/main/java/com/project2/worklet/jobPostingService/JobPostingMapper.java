@@ -18,8 +18,12 @@ public interface JobPostingMapper {
     public List<JobPostingVO2> getList(@Param("cri") Criteria cri,
                                        @Param("userId") String userId);
     public int getTotal(Criteria cri);
+
+    public List<JobPostingVO2> getRecentJobPostings();
+
     int scrapJob(@Param("userId") String userId,
                  @Param("empNo") String empNoToScrap);
     int unscrapJob(@Param("userId") String userId,
                    @Param("empNo") String empNoToScrap);
+
 }

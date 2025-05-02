@@ -1520,7 +1520,7 @@
         align-items: center;
         border-radius: 50px;
         gap: 50px;
-        padding: 20px;
+        padding: 20px 40px;
         min-width: 548px;
     }
 
@@ -2830,6 +2830,7 @@
         top: 13px;
         right: 10px;
     }
+
 
     /*------자격증추가--------*/
     .edit-license-form {
