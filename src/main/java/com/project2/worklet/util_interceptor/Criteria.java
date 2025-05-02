@@ -14,6 +14,7 @@ public class Criteria {
     private List<String> searchJob;
 
 
+
     //페이지 처음 진입시 1페이지, 한페이지에 9개 데이터 보여줌
     public Criteria () {
         this.page = 1;
