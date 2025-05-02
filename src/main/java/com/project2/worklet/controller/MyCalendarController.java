@@ -99,7 +99,6 @@ public class MyCalendarController {
         }).collect(Collectors.toList());
     }
 
-
     //종료일
 //    @GetMapping("/eventsEndDay")
 //    @ResponseBody
@@ -145,6 +144,23 @@ public class MyCalendarController {
         }).collect(Collectors.toList());
     };
 
+    //종료일
+//    @GetMapping("/eventsEndDay")
+//    @ResponseBody
+//    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
+//        String userId = (String) session.getAttribute("userId");
+//        List<MyCalendarVO> events = myCalendarService.getEndDayEvents(userId);
+//
+//        return events.stream().map(vo -> {
+//            Map<String, Object> event = new HashMap<>();
+//            event.put("title", vo.getEmpWantedTitle());
+//            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
+//            event.put("empSeqNo", vo.getEmpSeqNo());
+//            event.put("favorite", vo.isFavorite());
+//            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+//            return event;
+//        }).collect(Collectors.toList());
+//    }
 
     //찜 추가
     @PostMapping("/favorite/add")
