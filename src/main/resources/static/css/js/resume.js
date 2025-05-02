@@ -316,3 +316,12 @@ licensePencil.addEventListener('click',function (){
 
 
 })
+
+
+document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+        const input = document.getElementById('resume-title');
+        input.value = tag.textContent;
+        input.focus();
+    });
+});
