@@ -13,7 +13,10 @@ public interface JobPostingService {
     int getTotal(Criteria cri);
 
     public List<JobPostingVO2> getRecentJobPostings();
+
+
     int scrapJob(String userId, String empNoToScrap);
     int unscrapJob(String userId, String empNoToScrap);
+
 
 }

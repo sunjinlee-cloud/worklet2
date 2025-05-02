@@ -201,6 +201,7 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
 
+
     public int scrapJob(String userId, String empNoToScrap) {
         return mapper.scrapJob(userId, empNoToScrap);
     }
