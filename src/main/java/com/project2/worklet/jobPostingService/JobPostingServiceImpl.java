@@ -195,14 +195,20 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
+
+    public List<JobPostingVO2> getRecentJobPostings() {
+        return mapper.getRecentJobPostings();
+    }
+
+
     public int scrapJob(String userId, String empNoToScrap) {
         return mapper.scrapJob(userId, empNoToScrap);
     }
-
     @Override
     public int unscrapJob(String userId, String empNoToScrap) {
         return mapper.unscrapJob(userId, empNoToScrap);
     }
+
 
 
 }

@@ -11,6 +11,9 @@ public interface JobPostingService {
     public int postDetail(List<String> list);
     public List<JobPostingVO2> getList(Criteria cri, String userId);
     int getTotal(Criteria cri);
+
+    public List<JobPostingVO2> getRecentJobPostings();
     int scrapJob(String userId, String empNoToScrap);
     int unscrapJob(String userId, String empNoToScrap);
+
 }

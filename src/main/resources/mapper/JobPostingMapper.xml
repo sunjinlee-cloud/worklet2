@@ -132,6 +132,23 @@
                 </if>
     </select>
 
+    <select id="getRecentJobPostings" resultType="JobPostingVO2">
+        SELECT emp_wanted_title, emp_wanted_stdt, emp_wanted_homepg_detail
+        FROM job_postings
+        ORDER BY emp_wanted_stdt DESC
+            LIMIT 6
+    </select>
+
+
+
+
+
+
+
+
+
+
+
     <insert id="scrapJob" parameterType="String">
         insert into my_calendar values(#{userId}, #{empNo})
     </insert>
@@ -139,6 +156,7 @@
     <delete id="unscrapJob" parameterType="String">
         delete from my_calendar where user_id = #{userId} and emp_seq_no = #{empNo}
     </delete>
+
 
 </mapper>
 

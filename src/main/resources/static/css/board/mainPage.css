@@ -1326,7 +1326,7 @@
 
     #sec04 .list ul li {
         margin: 20px 0;
-        display: flex;
+        display: flow;
         justify-content: space-between;
     }
 
