@@ -32,6 +32,13 @@
 
 
     <div id="titleToolTip"></div>
+    <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
+                                        left: 1600px">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
+        <span style="display: inline-block">: 공고 시작일</span>
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
+        <span style="display: inline-block">: 공고 종료일</span>
+    </div>
     <div id='calendar'></div>
 
 
@@ -118,14 +125,15 @@
             }
 
             if(e === 'startDay') {
-                calendar.setOption('events', '/mycalendar/eventsStartDay');
+                calendar.removeAllEventSources();
+                calendar.addEventSource({ url: '/mycalendar/eventsStartDay', method: 'GET' });
 
             } else if(e === 'endDay') {
-                calendar.setOption('events', '/mycalendar/eventsEndDay')
+                calendar.removeAllEventSources();
+                calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
 
             } else if(e === 'allPosting') {
                 calendar.removeAllEventSources();
-
                 calendar.addEventSource({ url: '/mycalendar/favoriteList', method: 'GET' });
                 // calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
 
@@ -370,9 +378,12 @@
                 mainEl.style.backgroundColor = '#fff';
                 mainEl.style.marginTop = '3px';
 
+
+
                 var titleSpan = document.createElement('span');
                 titleSpan.textContent = info.event.title;
-                titleSpan.style.color = '#000'; // ✅ 글씨 검정
+                titleSpan.style.color = '#000';
+
                 titleSpan.style.flex = '1';
                 titleSpan.style.overflow = 'hidden';
                 titleSpan.style.textOverflow = 'ellipsis';
@@ -421,7 +432,7 @@
                     tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
                     tooltip.style.left = (rect.left + window.scrollX) + 'px';
                     tooltip.style.minWidth = rect.width + 'px';
-                    tooltip.style.backgroundColor = '#e4e4e4';
+                    tooltip.style.backgroundColor = 'var(--sub-color2)';
                     tooltip.style.color = '#000';
                     tooltip.style.display = 'block';
 
@@ -435,7 +446,7 @@
                 titleSpan.addEventListener('click', function () {
                     var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
                     if (homepgDetail) {
-                        window.location.href = homepgDetail;
+                        window.open(homepgDetail, '_blank');
                     } else {
                         alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
                     }
@@ -452,9 +463,13 @@
 
                     titleSpan.style.marginLeft = '5px'; // 하트와 제목 사이 여백
 
+                    mainEl.style.backgroundColor = 'var(--sub-color2)';
+                    mainEl.style.borderRadius = "10px"
+
                     allWrapper.appendChild(heart);
                     allWrapper.appendChild(titleSpan);
                     mainEl.appendChild(allWrapper);
+
                 } else {
                     // 시작일/종료일 모드
                     var colorDot = document.createElement('span');

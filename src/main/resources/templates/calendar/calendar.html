@@ -66,7 +66,15 @@
 
 
     <div id="titleToolTip"></div>
+    <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
+                                        left: 1600px">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
+        <span style="display: inline-block">: 공고 시작일</span>
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
+        <span style="display: inline-block">: 공고 종료일</span>
+    </div>
     <div id='calendar'></div>
+
 
 
 
@@ -100,6 +108,7 @@
     var containerEl = document.getElementById('external-events');
     var calendarEl = document.getElementById('calendar');
     var tooltip = document.getElementById('titleToolTip');
+    var explanationToolTip = document.getElementById('explanationToolTip');
 
     // initialize the external events
     // -----------------------------------------------------------------
@@ -187,7 +196,24 @@
                         }
                     }
                 }
-            }
+            },
+            // explanation: {
+            //     text: '?',
+            //     className: 'explanation',
+            //     click: function () {
+            //         var clickButton = event.target.getBoundingClientRect();
+            //
+            //         explanationToolTip.style.display = 'block';
+            //         explanationToolTip.style.top = (clickButton.top + window.scrollY - explanationToolTip.offsetHeight / 2 - 132) + 'px';
+            //         explanationToolTip.style.left = (clickButton.left + window.scrollX + clickButton.width - 300) + 'px'; // 왼쪽에 표시
+            //     }
+            //
+            //
+            //
+            // }
+
+
+
         };
 
         function ButtonClick(e) {
@@ -205,10 +231,12 @@
             }
 
             if(e === 'startDay') {
-                calendar.setOption('events', '/calendar/eventsStartDay');
+                calendar.removeAllEventSources();
+                calendar.addEventSource({ url: '/calendar/eventsStartDay', method: 'GET' });
 
             } else if(e === 'endDay') {
-                calendar.setOption('events', '/calendar/eventsEndDay')
+                calendar.removeAllEventSources();
+                calendar.addEventSource({ url: '/calendar/eventsEndDay', method: 'GET' });
 
             } else if(e === 'allPosting') {
                 calendar.removeAllEventSources();
@@ -225,9 +253,7 @@
                 calendar.addEventSource({ url: '/calendar/getStartDayEventsOnlyN', method: 'GET' });
                 calendar.addEventSource({ url: '/calendar/getEndDayEventsOnlyN', method: 'GET' });
 
-
             } else {
-
                     calendar.setOption('events', []);
                 }
         }
@@ -318,7 +344,7 @@
                         tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
                         tooltip.style.left = (rect.left + window.scrollX) + 'px';
                         tooltip.style.minWidth = rect.width + 'px';
-                        tooltip.style.backgroundColor = '#e4e4e4';
+                        tooltip.style.backgroundColor = 'var(--sub-color2)';
                         tooltip.style.color = '#000';
 
                         tooltip.style.display = 'block';
@@ -338,7 +364,7 @@
                         var homepgDetail = info.event.extendedProps.empWantedHomepgDetail;
 
                         if (homepgDetail) {
-                            window.location.href = homepgDetail;
+                            window.open(homepgDetail, '_blank');
                         } else {
                             alert('현재 해당 공고의 상세페이지로 접근할 수 없습니다!');
                         }
