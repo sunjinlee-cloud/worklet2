@@ -349,6 +349,7 @@ public class MyCalendarServiceImpl implements MyCalendarService {
 //                .collect(Collectors.toList());
 //    }
 
+
         List<Integer> empSeqNos = myCalendarMapper.findFavoriteEmpSeqNosUserId(userId);
         if (empSeqNos == null || empSeqNos.isEmpty()) {
             return Collections.emptyList();
@@ -363,7 +364,6 @@ public class MyCalendarServiceImpl implements MyCalendarService {
 
         return events;
     }
-
 
 
 }
