@@ -1,31 +1,28 @@
 package com.project2.worklet.controller;
 
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfDocument;
-import com.lowagie.text.pdf.PdfWriter;
 import com.project2.worklet.component.ResumeVO;
+import com.project2.worklet.component.UserVO;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import com.project2.worklet.resume.service.ResumeService;
 
 
-
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-@RestController
+@Controller
 public class ResumeController {
 
-
+   @Autowired
+   @Qualifier("resumeService")
+   private ResumeService resumeService;
 
 
     @PostMapping("/submitresume")
@@ -105,70 +102,67 @@ public class ResumeController {
 
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 
-
-
-
-//        Map<String, Object> parameters = new HashMap<>();
-//        parameters.put("userName", "이선진");
-//        parameters.put("userBirthday", "1990-09-18");
-//        parameters.put("userAddress", "집주소");
-//        parameters.put("resumeEarlyLife", resumeVO.getResumeEarlyLife());
-//        parameters.put("resumeApplyReason", resumeVO.getResumeApplyReason());
-//        parameters.put("resumeStrengthWeakness", resumeVO.getResumeStrengthWeakness());
-//        parameters.put("resumeApplyAfterDream", resumeVO.getResumeApplyAfterDream());
-
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
-
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-
-//        byte[] pdfBytes = outputStream.toByteArray();
-
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_PDF);
-//        headers.setContentDisposition(ContentDisposition.attachment().filename("resume.pdf").build());
-
-//        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/resume/create")
+    public String createResume(
+            @RequestParam String title,
+            @RequestParam String growth,
+            @RequestParam String student_day,
+            @RequestParam String pros_and_cons,
+            @RequestParam String aspiration,
+            @RequestParam List<Long> education_ids,  // 다중 선택된 값들을 받는 경우
+            @RequestParam List<Long> career_ids,
+            @RequestParam List<Long> license_ids) {
+
+        // ResumeVO 객체 생성 후 저장
+        ResumeVO resumeVO = new ResumeVO();
+        resumeVO.setTitle(title);
+        resumeVO.setGrowth(growth);
+        resumeVO.setStudentDay(student_day);
+        resumeVO.setProsAndCons(pros_and_cons);
+        resumeVO.setAspiration(aspiration);
+        resumeVO.setEducationIds(education_ids);
+        resumeVO.setCareerIds(career_ids);
+        resumeVO.setLicenseIds(license_ids);
+
+        resumeService.insertResume(resumeVO);  // 이력서 저장 서비스 호출
+
+        return "이력서가 성공적으로 저장되었습니다.";
+    }
+
+    @GetMapping("/resume/create")
+    public String createResume(){
+        return "User/resume";
+    }
+
+
+    @GetMapping("/user/resumeProc")
+    public String resumeProc(HttpSession session) {
+        long uniqueTime = System.currentTimeMillis();
+
+        // 로그인된 사용자 정보에서 user_num 꺼내기
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+        int userNum = loginUser.getUserNum();
+
+        // VO에 값 넣기
+        ResumeVO resume = new ResumeVO();
+        resume.setResumeId(uniqueTime);
+        resume.setUserNum(userNum);
+
+        System.out.println(">>> [resumeProc] session ID: " + session.getId());
+        System.out.println(">>> [resumeProc] loginUser: " + session.getAttribute("loginUser"));
+        System.out.println("resume: " + resume);
+        // 서비스 호출
+        resumeService.insertResume(resume);
+
+        return "redirect:/user/resume?uniqueTime="+uniqueTime;
+    }
+
+
+
+
 }
 
 
-/// /////////////////////////////////////////////////////////////////////////////////////////
 
-// jasper에 띄울 데이터 date에 맞춰 받아오기
-//List<ResumeVO> result = new ArrayList<>();
-//        ResumeVO vo = new ResumeVO("이선진", "1990-09-18", "집주소",
-//                "이메일@이메일.com", "010-1234-1234",
-//                "기타", "2009.03-2013.02", "",
-//                "한양대학교 분자생명과학부 졸업", "",
-//                "2020.01-2024.07", "",
-//                "성화물산 경영관리팀", "",
-//                "무역사무", "","2024.11",
-//                "TOEIC 920", "YBM토익", "",
-//                "","","","","",
-//                "","","",
-//                resumeVO.getResumeEarlyLife(), resumeVO.getResumeStrengthWeakness(),
-//                resumeVO.getResumeApplyReason(), resumeVO.getResumeApplyAfterDream());
-//result.add(vo);
-
-// 받아온 데이터를 jasper datasource로 등록
-//JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(result);
-
-// jasper 컴파일할 양식 설정 - 만들어둔 jrxml 파일 경로 설정
-//JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/resume_ex_01.jrxml"));
-
-// datasource를 매핑해 양식(jrxml)에 맞게 컴파일
-//HashMap<String, Object> map =new HashMap<>();
-//JasperPrint report1 = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
-
-// return 방식1. 컴파일된 pdf파일을 현재 폴더에 생성
-//			JasperExportManager.exportReportToPdfFile(report, "resume.pdf");
-//			return "generated";
-
-// return 방식2. 프린트 및 adobe pdf 화면 띄우기
-// *주의: 프론트에서 화면을 띄울 수 없고, 서버 url을 직접 띄워야함..
-//        byte[] data = JasperExportManager.exportReportToPdf(report);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=BoardStatus.pdf");
-//
-//        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);

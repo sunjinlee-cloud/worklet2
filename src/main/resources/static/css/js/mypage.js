@@ -26,7 +26,12 @@ var swiper6 = new Swiper(".mySwiper6", {
 
 let resumeBtn=document.querySelector(".resumeBtn");
 resumeBtn.addEventListener('click',function (){
-    location.href="/user/resume";
+    location.href="/user/resumeProc";
+})
+
+let plus=document.querySelector(".sec03 .plus");
+plus.addEventListener('click',function (){
+    location.href="/user/resumeProc";
 })
 
 let userModify=document.querySelector(".userModify");

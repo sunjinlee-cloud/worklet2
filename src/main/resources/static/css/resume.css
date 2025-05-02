@@ -22,6 +22,9 @@
     color: #939393;
 }
 
+.content-wrap{
+    position: relative;
+}
 
 /* 모바일 (최대 너비 767px까지 적용) */
 @media (max-width: 767px) {
@@ -29,9 +32,19 @@
     .save-sticky {
         height: 746vh;
         position: absolute;
-        right: 20px;
+        right: 0px;
         top: 130px;
         overflow: visible;
+    }
+
+
+    .save-sticky #save{
+        position: sticky;
+        top: 730px;
+        right: 100px;
+        border-style: none;
+        background: transparent;
+        cursor: pointer;
     }
 
     .save {
@@ -1242,11 +1255,48 @@
         outline: none;
     }
 
-    .license-list .pencil{
+    .license-list .licensePencil{
         position: absolute;
         right: 0;
         top: 0;
         opacity: .8;
+    }
+
+    /*------자격증추가--------*/
+    .edit-license-form {
+        display: none;
+        gap: 10px;
+        margin-top: 15px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        flex-wrap: wrap;
+    }
+
+    .edit-license-form.add {
+        display: flex;
+    }
+
+
+    .edit-license-form input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 24%;
+    }
+
+    .edit-license-form .button {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+
+    .sec05 .edit-license-form input:focus {
+        border-color: #2563eb;
+        outline: none;
     }
 
 
@@ -1382,9 +1432,18 @@
     .save-sticky {
         height: 400vh;
         position: absolute;
-        right: 100px;
+        right: -90px;
         top: 100px;
         overflow: visible;
+    }
+
+    .save-sticky #save{
+        position: sticky;
+        top: 730px;
+        right: 100px;
+        border-style: none;
+        background: transparent;
+        cursor: pointer;
     }
 
     .save {
@@ -1578,6 +1637,35 @@
         margin-top: 150px;
         width: 250%;
         max-width: 1088px;
+    }
+
+    #content-title{
+        margin: 50px 0;
+        padding: 30px;
+    }
+
+    #content-title h2{
+        color: var(--main-color1);
+        font-size: 2.5rem;
+        margin-bottom: 0.3em;
+    }
+
+    #content-title p{
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 1.5em;
+    }
+
+    #content-title input{
+        padding: 15px;
+        width: 50%;
+        border-radius: 8px;
+        border-style: none;
+        border: 1px solid #c1c1c1
+    }
+
+    #content-title input:focus{
+        outline: none;
     }
 
     .sec01>h3 {
@@ -2660,13 +2748,14 @@
         margin-top: 4px;
     }
 
-    .license-list .pencil{
+    .license-list .licensePencil{
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 54px;
+        top: 23px;
         opacity: .8;
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
     }
 
     /*------자격증추가--------*/
@@ -2734,6 +2823,12 @@
     .sec05 .add-license-form input:focus {
         border-color: #2563eb;
         outline: none;
+    }
+
+    .sec05 .delete-btn{
+        position: absolute;
+        top: 13px;
+        right: 10px;
     }
 
     /*------자격증추가--------*/

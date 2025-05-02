@@ -49,6 +49,7 @@ pencil.forEach((btn) => {
             const department = eduDiv.querySelector('.school p')?.innerText || '';
             const dates = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
             const position = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+            const jobDescription = eduDiv.querySelector('.job_description')?.innerText || '';
 
             const [joinDate, quitDate] = dates.split(' ~ '); // 입사일과 퇴사일 나누기
 
@@ -57,8 +58,10 @@ pencil.forEach((btn) => {
             form.querySelector('input[name="joinDate"]').value = joinDate?.trim() || '';
             form.querySelector('input[name="quitDate"]').value = quitDate?.trim() || '';
             form.querySelector('input[name="position"]').value = position;
+            form.querySelector('textarea[name="jobDescription"]').value = jobDescription;
 
-        } else if (section.classList.contains('sec05')) {
+
+        }  else if (section.classList.contains('sec05')) {
             // 자격증 수정
             const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
             const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
@@ -70,7 +73,6 @@ pencil.forEach((btn) => {
             form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
             form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
         }
-
     });
 });
 
@@ -294,5 +296,11 @@ document.addEventListener("DOMContentLoaded", function () {
 let modifyPencil=document.querySelector(".modifyPencil");
 modifyPencil.addEventListener('click',function (){
     location.herf="/user/modify  "
+})
+
+var licensePencil =document.querySelector(".licensePencil");
+licensePencil.addEventListener('click',function (){
+    var editLicenseForm = document.querySelector(".edit-license-form");
+    editLicenseForm.classList.add("add");
 })
 
