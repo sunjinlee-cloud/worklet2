@@ -71,4 +71,6 @@ public interface UserService {
 
     // 자격증 삭제
     int deleteLicense(Long licenseId);
+
+
 }

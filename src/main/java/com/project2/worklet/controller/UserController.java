@@ -1,9 +1,6 @@
 package com.project2.worklet.controller;
 
-import com.project2.worklet.component.CareerVO;
-import com.project2.worklet.component.EduVO;
-import com.project2.worklet.component.LicenseVO;
-import com.project2.worklet.component.UserVO;
+import com.project2.worklet.component.*;
 
 import com.project2.worklet.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -97,6 +94,7 @@ public class UserController {
         if (user != null) {
             model.addAttribute("user", user);
             session.setAttribute("loginUser", user);
+            session.setAttribute("userNum", user.getUserNum());
             session.setAttribute("userId",user.getUserId());
             System.out.println(">>> login – session: " + session.getId());
             System.out.println(">>> loginUser: " + session.getAttribute("loginUser"));
@@ -305,7 +303,8 @@ public class UserController {
     }
 
     @PostMapping("/updateEdu")
-    public String updateEducation(@RequestParam("userNum") String userNum,
+    public String updateEducation(@RequestParam("resumeId") Long resumeId,
+                                  @RequestParam("userNum") String userNum,
                                   @RequestParam("schoolName") String schoolName,
                                   @RequestParam("major") String major,
                                   @RequestParam("part") String part,
@@ -325,6 +324,7 @@ public class UserController {
 
         // EduVO 객체에 폼에서 받은 데이터를 설정
         EduVO eduVO = new EduVO();
+        eduVO.setResumeId(resumeId);
         eduVO.setUserNum(Integer.parseInt(userNum));
         eduVO.setSchoolName(schoolName);
         eduVO.setMajor(major);
@@ -332,6 +332,7 @@ public class UserController {
         eduVO.setDegreeType(degreeType);
         eduVO.setGraduationStatus(graduationStatus);
         eduVO.setGraduationDate(graduationDateLocal);
+
 
         // 데이터 삽입
         int result = userService.insertEdu(eduVO);
@@ -681,7 +682,6 @@ public class UserController {
         // 학력 리스트 페이지로 리디렉션
         return "redirect:/user/resume";
     }
-
 
 
 

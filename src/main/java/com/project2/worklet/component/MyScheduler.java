@@ -9,10 +9,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -25,14 +23,14 @@ public class MyScheduler {
     }
 
      //매일 오전 7시에 실행
-    @Scheduled(cron = "10 49 18 * * *")
+    @Scheduled(cron = "00 00 07 * * *")
     public void runEveryMorningAt7() {
-        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         try {
-            File file = new File("C:\\Users\\user\\Desktop\\updates.txt");
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            bw.write(date);
-            bw.write(jobPostingService.postList());
+            File file = new File("C:\\Users\\user\\Desktop\\worklet\\job_update_list.txt");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+            bw.write(date+" "+jobPostingService.postList());
+            bw.newLine();
             bw.close();
         } catch (Exception e) {
             e.printStackTrace();

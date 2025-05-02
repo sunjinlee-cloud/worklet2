@@ -76,7 +76,7 @@ public class JobPostingServiceImpl implements JobPostingService {
                     seqList.add(obj.optString("empSeqno"));
 
                     JobPostingVO2 vo2 = new JobPostingVO2();
-                    vo2.setEmpSeqno(Integer.parseInt(obj.optString("empSeqno")));
+                    vo2.setEmpSeqNo(Integer.parseInt(obj.optString("empSeqno")));
                     vo2.setEmpWantedTitle(obj.optString("empWantedTitle"));
                     vo2.setEmpBusiNm(obj.optString("empBusiNm"));
                     vo2.setEmpWantedStdt(obj.optString("empWantedStdt"));
@@ -132,7 +132,7 @@ public class JobPostingServiceImpl implements JobPostingService {
                 JSONObject obj = XML.toJSONObject(response.body());
                 JSONObject root = obj.getJSONObject("dhsOpenEmpInfoDetailRoot");
 
-                int empSeqno = root.getInt("empSeqno");
+                int empSeqNo = root.getInt("empSeqno");
 
                 Object object1 = root.getJSONObject("empRecrList").get("empRecrListInfo");
                 if (object1 instanceof JSONArray) {
@@ -170,7 +170,7 @@ public class JobPostingServiceImpl implements JobPostingService {
                 }
 
 
-                JobPostingDetailVO detail = new JobPostingDetailVO(null, empSeqno, empRecrNm, empWantedCareerNm, workRegionNm,
+                JobPostingDetailVO detail = new JobPostingDetailVO(null, empSeqNo, empRecrNm, empWantedCareerNm, workRegionNm,
                                                                     jobsCd, jobsCdKorNm);
                 dlist.add(detail);
             }
@@ -184,9 +184,9 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
-    public List<JobPostingVO2> getList(Criteria cri) {
+    public List<JobPostingVO2> getList(Criteria cri, String userId) {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        return mapper.getList(cri);
+        return mapper.getList(cri, userId);
     }
 
     @Override
@@ -195,10 +195,19 @@ public class JobPostingServiceImpl implements JobPostingService {
     }
 
     @Override
+
     public List<JobPostingVO2> getRecentJobPostings() {
         return mapper.getRecentJobPostings();
     }
 
+
+    public int scrapJob(String userId, String empNoToScrap) {
+        return mapper.scrapJob(userId, empNoToScrap);
+    }
+    @Override
+    public int unscrapJob(String userId, String empNoToScrap) {
+        return mapper.unscrapJob(userId, empNoToScrap);
+    }
 
 
 
