@@ -3,6 +3,7 @@ package com.project2.worklet.controller;
 import com.project2.worklet.component.*;
 
 import com.project2.worklet.user.service.UserService;
+import com.project2.worklet.util_interceptor.Criteria;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,13 +108,28 @@ public class UserController {
 
 
     @GetMapping("/mypage")
-    public String mypage(HttpSession session, Model model) {
+    public String mypage(HttpSession session, Model model, Criteria cri) {
 
         UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 
         if(loginUser != null) {
+            String userId = loginUser.getUserId();
 
+            //스크랩공고 가져오기
+            List<JobPostingVO2> list = userService.getScrappedJob(userId, cri);
             UserVO fullUser = userService.getUserById(loginUser.getUserId());
+            model.addAttribute("list", list);
+
+            //추천공고 가져오기
+            List<String> preferredJobTypes = new ArrayList<>();
+            preferredJobTypes.add(loginUser.getPreferredJobType1());
+            preferredJobTypes.add(loginUser.getPreferredJobType2());
+            preferredJobTypes.add(loginUser.getPreferredJobType3());
+            System.out.println("희망직업번호 가져와짐? "+preferredJobTypes.toString());
+            List<JobPostingVO2> recList = userService.getRecommendedJob(preferredJobTypes, cri);
+            System.out.println(recList.toString());
+
+            model.addAttribute("recList", recList);
 
             List<String> wantJobTypes = new ArrayList<>();
             if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());

@@ -26,6 +26,7 @@ public class ResumeController {
 
 
     @PostMapping("/submitresume")
+    @ResponseBody
     public Map<String, String> airesume(@RequestBody Map<String, String> payload) {
 
         String content = payload.get("content");
@@ -48,7 +49,9 @@ public class ResumeController {
         return result;
     }
 
+
     @PostMapping("/generatepdf")
+    @ResponseBody
     public ResponseEntity<byte[]> generateStatus(@RequestBody ResumeVO resumeVO) throws Exception, JRException {
 
         System.out.println("컨트롤러 탔음");
@@ -60,30 +63,30 @@ public class ResumeController {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("userName", "김길동");
-        parameters.put("userBirthday", "1990-01-01");
+        parameters.put("userBirthday", "2000-01-01");
         parameters.put("userAddress", "서울 마포구 망원로2길 63");
         parameters.put("userEmail", "abc@adfasfdas.com");
         parameters.put("userPhone", "010-1234-1234");
         parameters.put("army", "군필");
-        parameters.put("resumeEduPeriod1", "2009.03-2015.02");
-        parameters.put("resumeEduPeriod2", "2006.03-2009.02");
+        parameters.put("resumeEduPeriod1", "2016.03-2019.02");
+        parameters.put("resumeEduPeriod2", "2019.03-2025.02");
         parameters.put("resumeEduCont1", "서울대학교 컴퓨터공학과 졸업");
         parameters.put("resumeEduCont2", "경기고등학교 졸업");
-        parameters.put("resumeCarPeriod1", "2017.05-2022.03");
-        parameters.put("resumeCarPeriod2", "2015.03-2017.02");
-        parameters.put("resumeCarBusiName1", "좋은 직장이겠지요");
-        parameters.put("resumeCarBusiName2", "괜찮은 직장인듯");
-        parameters.put("resumeCarWorkCont1", "이런저런 직무 as 대리");
-        parameters.put("resumeCarWorkCont2", "이런저런 직무 as 사원");
-        parameters.put("resumeCertRegDate1", "2014.01");
-        parameters.put("resumeCertRegDate2", "2017.04");
-        parameters.put("resumeCertRegDate3", "2020.09");
-        parameters.put("resumeCertName1", "자격증1");
-        parameters.put("resumeCertName2", "자격증2");
-        parameters.put("resumeCertName3", "자격증3");
-        parameters.put("resumeCertFrom1", "자격증발급기관1");
-        parameters.put("resumeCertFrom2", "자격증발급기관2");
-        parameters.put("resumeCertFrom3", "자격증발급기관3");
+        parameters.put("resumeCarPeriod1", "");
+        parameters.put("resumeCarPeriod2", "");
+        parameters.put("resumeCarBusiName1", "");
+        parameters.put("resumeCarBusiName2", "");
+        parameters.put("resumeCarWorkCont1", "");
+        parameters.put("resumeCarWorkCont2", "");
+        parameters.put("resumeCertRegDate1", "2020.01");
+        parameters.put("resumeCertRegDate2", "2024.04");
+        parameters.put("resumeCertRegDate3", "2024.11");
+        parameters.put("resumeCertName1", "정보처리기사");
+        parameters.put("resumeCertName2", "토익 950");
+        parameters.put("resumeCertName3", "리눅스마스터 2급");
+        parameters.put("resumeCertFrom1", "한국산업인력공단");
+        parameters.put("resumeCertFrom2", "YBM토익");
+        parameters.put("resumeCertFrom3", "KAIT");
         parameters.put("resumeEarlyLife", resumeVO.getResumeEarlyLife());
         parameters.put("resumeStrengthWeakness", resumeVO.getResumeStrengthWeakness());
         parameters.put("resumeApplyReason", resumeVO.getResumeApplyReason());
