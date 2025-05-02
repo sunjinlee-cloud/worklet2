@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class JobPostingDetailVO {
     private Integer jpdno;
-    private int empSeqno;
+    private int empSeqNo;
     private String empRecrNm;
     private String empWantedCareerNm;
     private String workRegionNm;

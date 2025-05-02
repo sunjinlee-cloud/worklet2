@@ -101,7 +101,9 @@
         };
 
         function ButtonClick(e) {
+
             currentEventMode = e; //현재 모드 저당
+
             var buttonClasses = ['fc-startDay-button', 'fc-endDay-button', 'fc-allCalendar-button'];
 
             for (var i = 0; i < buttonClasses.length; i++) {
@@ -123,10 +125,12 @@
 
             } else if(e === 'allPosting') {
                 calendar.removeAllEventSources();
+
                 calendar.addEventSource({ url: '/mycalendar/favoriteList', method: 'GET' });
                 // calendar.addEventSource({ url: '/mycalendar/eventsEndDay', method: 'GET' });
 
                 // calendar.setOption('events', '/mycalendar/favoriteList')
+
 
             } else {
 
@@ -460,9 +464,11 @@
                     colorDot.style.borderRadius = '50%';
                     colorDot.style.marginRight = '5px';
 
+
                     if (currentEventMode === 'startDay') {
                         colorDot.style.backgroundColor = 'green';
                     } else if (currentEventMode === 'endDay') {
+
                         colorDot.style.backgroundColor = 'red';
                     }
 

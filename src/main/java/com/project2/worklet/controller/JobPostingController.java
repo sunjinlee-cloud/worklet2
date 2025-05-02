@@ -16,9 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,25 +32,55 @@ public class JobPostingController {
     @Qualifier("JobPosting")
     private JobPostingService jobPostingService;
 
+    @Autowired
+    private HttpSession session; //세션 가져오기
+
+    public String getUserIdFromSession() {
+        Object userId = session.getAttribute("userId");
+        return userId != null ? userId.toString() : null;
+    };
+
 
     @GetMapping("/jobposting")
     public String jobPosting(Model model, Criteria cri) {
 
-
-        List<JobPostingVO2> list = jobPostingService.getList(cri);
+        String userId = getUserIdFromSession();
+//        String userId = "test1234";
+        List<JobPostingVO2> list = jobPostingService.getList(cri, userId);
+        System.out.println(list.toString());
 
         int total = jobPostingService.getTotal(cri);
 
         PageVO pagevo = new PageVO(cri, total);
         model.addAttribute("list", list);
         model.addAttribute("pageVO", pagevo);
+        model.addAttribute("userId", userId);
 
         return "jobposting";
     }
 
-    @GetMapping("/openjobposting")
-    public String openJobPosting() {
-        return "openjobposting";
+    @PostMapping("scrap")
+    public ResponseEntity<String> scrapJob(
+            @RequestParam String empNoToScrap,
+            @RequestParam String userId) {
+
+        // 전달받은 값 출력 (디버깅용)
+        System.out.println("empNoToScrap: " + empNoToScrap);
+        System.out.println("userId: " + userId);
+
+        int result = jobPostingService.scrapJob(userId,empNoToScrap);
+        System.out.println("result는 : "+result);
+
+        // 성공적으로 처리되었음을 알리는 응답 반환
+        return ResponseEntity.ok("찜 목록 저장 성공");
+    }
+
+    @PostMapping("unscrap")
+    public ResponseEntity<String> unscrapJob(@RequestParam String userId,
+                                             @RequestParam String empNoToScrap) {
+        int result = jobPostingService.unscrapJob(userId,empNoToScrap);
+        System.out.println("찜삭제 result는 : "+result);
+        return ResponseEntity.ok("찜 삭제 성공");
     }
 
     @GetMapping("/airesume")
@@ -76,14 +108,6 @@ public class JobPostingController {
 //        model.addAttribute("result", formatted);
 //
 //        return "airesumeresult";
-//    }
-
-
-//    @GetMapping("/apiexam")
-//    public String apiExam() {
-//        int result = jobPostingService.postList();
-//        log.info("postList: " + result);
-//        return "apiexam";
 //    }
 
 }

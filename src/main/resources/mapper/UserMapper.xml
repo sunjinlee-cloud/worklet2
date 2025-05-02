@@ -102,7 +102,8 @@
             graduation_status,
             graduation_date,
             created_at,
-            updated_at
+            updated_at,
+                               RESUME_ID
         ) VALUES (
                      #{userNum},
                      #{schoolName},
@@ -112,7 +113,8 @@
                      #{graduationStatus},
                      #{graduationDate},
                      NOW(),
-                     NOW()
+                     NOW(),
+                  #{resumeId}
                  );
     </insert>
 

@@ -22,6 +22,7 @@ public class EduVO {
     private LocalDate graduationDate;  // 졸업일
     private LocalDate createdAt;  // 생성일
     private LocalDate updatedAt;  // 수정일
+    private Long resumeId;
 
     private String formattedGraduationDate;
 }
