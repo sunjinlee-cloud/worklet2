@@ -141,14 +141,6 @@
 
 
 
-
-
-
-
-
-
-
-
     <insert id="scrapJob" parameterType="String">
         insert into my_calendar values(#{userId}, #{empNo})
     </insert>
@@ -156,6 +148,43 @@
     <delete id="unscrapJob" parameterType="String">
         delete from my_calendar where user_id = #{userId} and emp_seq_no = #{empNo}
     </delete>
+
+    <select id="getJobPostingForSwipe" resultType="com.project2.worklet.component.JobPostingVO2">
+        SELECT j1.emp_seq_no, j1.emp_wanted_title, j1.emp_busi_nm, j1.emp_wanted_stdt, j1.emp_wanted_endt, j1.emp_wanted_type_nm,
+        j1.reg_log_img_nm, j1.emp_wanted_homepg_detail,
+        c.emp_recr_nm, c.emp_wanted_career_nm, c.work_region_nm,
+        CASE WHEN mc.emp_seq_no IS NOT NULL THEN true ELSE false END AS is_scrapped
+        FROM job_postings AS j1
+        RIGHT JOIN (
+        SELECT emp_seq_no, emp_recr_nm, emp_wanted_career_nm, work_region_nm, jobs_cd, jobs_cd_kor_nm, secondary_category_num, secondary_category_name
+        FROM job_postings_detail AS j2
+        LEFT JOIN category AS c1 ON j2.jobs_cd = c1.tertiary_category_num
+        ) AS c ON j1.emp_seq_no = c.emp_seq_no
+        LEFT JOIN my_calendar mc ON j1.emp_seq_no = mc.emp_seq_no
+
+        WHERE <![CDATA[ curdate() <= j1.emp_wanted_endt ]]>
+        <if test="cri.searchJob != null and cri.searchJob.size() > 0">
+            AND c.secondary_category_num IN
+            <foreach item="job" collection="cri.searchJob" open="(" separator="," close=")">
+                #{job}
+            </foreach>
+        </if>
+        <if test="cri.searchRegion != null and cri.searchRegion.size() > 0">
+            AND (
+            <foreach item="region" collection="cri.searchRegion" open="" separator=" OR " close="">
+                <if test="region == '전국'">
+                    1 = 1
+                </if>
+                <if test="region != '전국'">
+                    c.work_region_nm LIKE CONCAT('%', #{region}, '%')
+                </if>
+            </foreach>
+            )
+        </if>
+        ORDER BY j1.emp_seq_no DESC
+        LIMIT #{cri.pageStart}, 6;
+    </select>
+
 
 
 </mapper>
