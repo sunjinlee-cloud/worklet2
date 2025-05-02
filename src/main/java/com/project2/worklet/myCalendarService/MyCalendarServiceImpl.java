@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -323,28 +324,42 @@ public class MyCalendarServiceImpl implements MyCalendarService {
     @Override
     public List<MyCalendarVO> getFavoriteEvents(String userId) {
         // 찜한 일정만 가져오기
-        List<MyCalendarVO> events = myCalendarMapper.getAllEvent();  // 모든 이벤트를 가져옴
+//        List<MyCalendarVO> events = myCalendarMapper.getAllEvent();  // 모든 이벤트를 가져옴
+//
+//        if (userId == null) {
+//            log.warn("UserId is null, returning empty favorite events");
+//            return List.of();  // 사용자 없으면 빈 리스트 반환
+//        }
+//
+//        log.info("UserId from session: {}", userId);
+//
+//        // 사용자가 찜한 empSeqNos 가져오기
+//        List<Integer> favoriteEmpseqNos = myCalendarMapper.findFavoriteEmpSeqNosUserId(userId);
+//        log.info("Favorite empSeqNos for user {}: {}", userId, favoriteEmpseqNos);
+//
+//        // 찜한 empSeqNo만 필터링
+//        Set<Integer> favoriteEmpSeqNoSet = new HashSet<>(favoriteEmpseqNos);
+//
+//        return events.stream()
+//                .filter(event -> favoriteEmpSeqNoSet.contains(event.getEmpSeqNo()))
+//                .peek(event -> event.setFavorite(true))  // 찜 표시
+//                .collect(Collectors.toList());
+//    }
 
-        if (userId == null) {
-            log.warn("UserId is null, returning empty favorite events");
-            return List.of();  // 사용자 없으면 빈 리스트 반환
+        List<Integer> empSeqNos = myCalendarMapper.findFavoriteEmpSeqNosUserId(userId);
+        if (empSeqNos == null || empSeqNos.isEmpty()) {
+            return Collections.emptyList();
         }
 
-        log.info("UserId from session: {}", userId);
+        List<MyCalendarVO> events = myCalendarMapper.findEventsByEmpSeqNos(empSeqNos);
 
-        // 사용자가 찜한 empSeqNos 가져오기
-        List<Integer> favoriteEmpseqNos = myCalendarMapper.findFavoriteEmpSeqNosUserId(userId);
-        log.info("Favorite empSeqNos for user {}: {}", userId, favoriteEmpseqNos);
+        // 찜 표시를 직접 붙이기 (favorite = true)
+        for (MyCalendarVO vo : events) {
+            vo.setFavorite(true);
+        }
 
-        // 찜한 empSeqNo만 필터링
-        Set<Integer> favoriteEmpSeqNoSet = new HashSet<>(favoriteEmpseqNos);
-
-        return events.stream()
-                .filter(event -> favoriteEmpSeqNoSet.contains(event.getEmpSeqNo()))
-                .peek(event -> event.setFavorite(true))  // 찜 표시
-                .collect(Collectors.toList());
+        return events;
     }
-
 
 
 }
