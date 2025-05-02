@@ -162,34 +162,6 @@ public class MyCalendarController {
 //        }).collect(Collectors.toList());
 //    }
 
-    //종료일
-    @GetMapping("/eventsEndDay")
-    @ResponseBody
-    public List<Map<String, Object>> getEndDayEvents(HttpSession session) {
-        String userId = getUserIdFromSession();
-        if (userId == null) return List.of();
-        List<MyCalendarVO> events = myCalendarService.getFavoriteEvents(userId);
-
-        // events가 비어있는지 확인하는 로그
-        log.info("Number of favorite events: {}", events.size());
-
-        if (events.isEmpty()) {
-            log.info("No favorite events found for user {}", userId);
-        }
-
-        return events.stream().map(vo -> {
-            Map<String, Object> event = new HashMap<>();
-            event.put("title", vo.getEmpWantedTitle());
-            event.put("start", vo.getOnlyEndAsStart()); // 종료일을 start로 사용
-            event.put("end", null);
-            event.put("empSeqNo", vo.getEmpSeqNo());
-            event.put("favorite", vo.isFavorite());
-            event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
-            return event;
-        }).collect(Collectors.toList());
-    };
-
-
     //찜 추가
     @PostMapping("/favorite/add")
     @ResponseBody
