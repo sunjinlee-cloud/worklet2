@@ -303,7 +303,8 @@ public class UserController {
     }
 
     @PostMapping("/updateEdu")
-    public String updateEducation(@RequestParam("resumeId") Long resumeId,
+    public String updateEducation(EduVO edu,
+                                  @RequestParam("resumeId") Long resumeId,
                                   @RequestParam("userNum") String userNum,
                                   @RequestParam("schoolName") String schoolName,
                                   @RequestParam("major") String major,
@@ -357,7 +358,7 @@ public class UserController {
             log.error("학력 추가 실패");
         }
 
-        return "redirect:/user/resume";
+        return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
     }
 
 
@@ -384,7 +385,8 @@ public class UserController {
 
     // 학력 수정 처리
     @PostMapping("/editEdu")
-    public String editEducation(@RequestParam("educationId") Long educationId,
+    public String editEducation(EduVO edu,
+                                @RequestParam("educationId") Long educationId,
                                 @RequestParam("userNum") String userNum,
                                 @RequestParam("schoolName") String schoolName,
                                 @RequestParam("major") String major,
@@ -411,12 +413,14 @@ public class UserController {
         } else {
             log.error("학력 수정 실패");
         }
-        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+        return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
     }
 
     // 경력 추가 처리
     @PostMapping("/updateCareer")
-    public String updateCareer(@RequestParam("userNum") String userNum,
+    public String updateCareer(CareerVO career,
+                               @RequestParam("resumeId") Long resumeId,
+                               @RequestParam("userNum") String userNum,
                                @RequestParam("companyName") String companyName,
                                @RequestParam("department") String department,
                                @RequestParam("position") String position,
@@ -435,6 +439,7 @@ public class UserController {
         LocalDate quitDateLocal = convertStringToLocalDate(quitDate);
 
         CareerVO careerVO = new CareerVO();
+        careerVO.setResumeId(resumeId);
         careerVO.setUserNum(Integer.parseInt(userNum));
         careerVO.setCompanyName(companyName);
         careerVO.setDepartment(department);
@@ -456,12 +461,13 @@ public class UserController {
         } else {
             log.error("경력 추가 실패");
         }
-        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+        return "redirect:/user/resume?uniqueTime=" + career.getResumeId();
     }
 
     // 경력 수정 처리
     @PostMapping("/editCareer")
-    public String editCareer(@RequestParam("careerId") Long careerId,
+    public String editCareer(CareerVO career,
+                             @RequestParam("careerId") Long careerId,
                              @RequestParam("userNum") String userNum,
                              @RequestParam("companyName") String companyName,
                              @RequestParam("department") String department,
@@ -490,11 +496,11 @@ public class UserController {
         } else {
             log.error("경력 수정 실패");
         }
-        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+        return "redirect:/user/resume?uniqueTime=" + career.getResumeId();// 수정 후 프로필 페이지로 리디렉션
     }
 
     @PostMapping("/deleteEdu/{educationId}")
-    public String deleteEducation(@PathVariable("educationId") Long educationId, @ModelAttribute UserVO userVO) {
+    public String deleteEducation(EduVO edu,@PathVariable("educationId") Long educationId, @ModelAttribute UserVO userVO) {
 
         int result = userService.deleteEducation(educationId);
 
@@ -506,12 +512,12 @@ public class UserController {
         }
 
         // 학력 리스트 페이지로 리디렉션
-        return "redirect:/user/resume";
+        return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
     }
 
 
     @PostMapping("/deleteCareer/{careerId}")
-    public String deleteCareer(@PathVariable("careerId") Long careerId, @ModelAttribute UserVO userVO) {
+    public String deleteCareer(CareerVO career,@PathVariable("careerId") Long careerId, @ModelAttribute UserVO userVO) {
 
         int result = userService.deleteCareer(careerId);
 
@@ -523,7 +529,7 @@ public class UserController {
         }
 
         // 학력 리스트 페이지로 리디렉션
-        return "redirect:/user/resume";
+        return "redirect:/user/resume?uniqueTime=" + career.getResumeId();
     }
 
     @GetMapping("/modify")
@@ -567,9 +573,15 @@ public class UserController {
         user.setWantJobType2(wantJobTypes.length > 1 ? wantJobTypes[1] : null);
         user.setWantJobType3(wantJobTypes.length > 2 ? wantJobTypes[2] : null);
 
-        user.setPreferredJobType1(preferredJobTypes.length > 0 ? preferredJobTypes[0] : null);
-        user.setPreferredJobType2(preferredJobTypes.length > 1 ? preferredJobTypes[1] : null);
-        user.setPreferredJobType3(preferredJobTypes.length > 2 ? preferredJobTypes[2] : null);
+        if (preferredJobTypes != null) {
+            user.setPreferredJobType1(preferredJobTypes.length > 0 ? preferredJobTypes[0] : null);
+            user.setPreferredJobType2(preferredJobTypes.length > 1 ? preferredJobTypes[1] : null);
+            user.setPreferredJobType3(preferredJobTypes.length > 2 ? preferredJobTypes[2] : null);
+        } else {
+            user.setPreferredJobType1(null);
+            user.setPreferredJobType2(null);
+            user.setPreferredJobType3(null);
+        }
 
         int result = userService.updateUser(user);
         if(result == 1) {
@@ -586,7 +598,9 @@ public class UserController {
 
     // 자격증 추가
     @PostMapping("/updateLicens")
-    public String updateLicens(@RequestParam("userNum") String userNum,
+    public String updateLicens(LicenseVO license,
+                               @RequestParam("resumeId") Long resumeId,
+                               @RequestParam("userNum") String userNum,
                                @RequestParam("licenseName") String licenseName,
                                @RequestParam("licenseOrg") String licenseOrg,
                                @RequestParam("acquisition") String acquisition,
@@ -602,6 +616,7 @@ public class UserController {
         LocalDate expDate = convertStringToLocalDate(expiration);
 
         LicenseVO licenseVO = new LicenseVO();
+        licenseVO.setResumeId(resumeId);
         licenseVO.setUserNum(Integer.parseInt(userNum));
         licenseVO.setLicenseName(licenseName);
         licenseVO.setLicenseOrg(licenseOrg);
@@ -632,13 +647,14 @@ public class UserController {
             log.info("자격증 추가 실패!!!!!!!!!!!!!!!");
         }
 
-        return "redirect:/user/resume";
+        return "redirect:/user/resume?uniqueTime=" + license.getResumeId();
 
     }
 
     // 학력 수정 처리
     @PostMapping("/editLicens")
-    public String editEducation(@RequestParam("licenseId") Long licenseId,
+    public String editEducation(LicenseVO license,
+                                @RequestParam("licenseId") Long licenseId,
                                 @RequestParam("userNum") String userNum,
                                 @RequestParam("licenseName") String licenseName,
                                 @RequestParam("licenseOrg") String licenseOrg,
@@ -663,12 +679,13 @@ public class UserController {
         } else {
             log.error("자격증 수정 실패");
         }
-        return "redirect:/user/resume"; // 수정 후 프로필 페이지로 리디렉션
+        return "redirect:/user/resume?uniqueTime=" + license.getResumeId(); // 수정 후 프로필 페이지로 리디렉션
     }
 
 
     @PostMapping("/deleteLicens/{licenseId}")
-    public String deleteLicens(@PathVariable("licenseId") Long licenseId, @ModelAttribute UserVO userVO) {
+    public String deleteLicens(LicenseVO license,
+                               @PathVariable("licenseId") Long licenseId, @ModelAttribute UserVO userVO) {
 
         int result = userService.deleteLicense(licenseId);
 
@@ -680,7 +697,7 @@ public class UserController {
         }
 
         // 학력 리스트 페이지로 리디렉션
-        return "redirect:/user/resume";
+        return "redirect:/user/resume?uniqueTime=" + license.getResumeId();
     }
 
 
