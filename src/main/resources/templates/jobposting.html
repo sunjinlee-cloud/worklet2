@@ -168,12 +168,12 @@
                     searchToggleButtonLegion.style.fontWeight = 'normal';
                     legionUnderBar.style.backgroundColor = '#D0D0D0';
 
-                    for(var j = 0; j<LegionCheckBox.length; j++) {
-                        LegionCheckBox[j].checked=false;
-                        LegionCheckBox[j].parentElement.style.borderColor = '#D0D0D0';
-                        LegionCheckBox[j].parentElement.style.backgroundColor = '#ffffff';
-                        LegionCheckBox[j].parentElement.style.color = '#000000';
-                    }
+                    // for(var j = 0; j<LegionCheckBox.length; j++) {
+                    //     LegionCheckBox[j].checked=false;
+                    //     LegionCheckBox[j].parentElement.style.borderColor = '#D0D0D0';
+                    //     LegionCheckBox[j].parentElement.style.backgroundColor = '#ffffff';
+                    //     LegionCheckBox[j].parentElement.style.color = '#000000';
+                    // }
 
 
 
@@ -207,6 +207,22 @@
                         this.style.borderColor = '#ffffff'
                         this.style.backgroundColor = '#255EEE'
                         this.style.color = '#ffffff'
+
+                        // ✅ hidden input 추가
+                        const form = document.forms["jobsearch"];
+                        const existingHidden = form.querySelectorAll('input[type="hidden"][name="searchRegion"]');
+                        existingHidden.forEach(h => h.remove()); // 기존 값 제거
+
+                        // 현재 체크된 값만 hidden input으로 추가
+                        const selected = document.querySelectorAll('.searchCheckLegion:checked');
+                        selected.forEach(cb => {
+                            const hidden = document.createElement("input");
+                            hidden.type = "hidden";
+                            hidden.name = "searchRegion";
+                            hidden.value = cb.value;
+                            form.appendChild(hidden);
+                        });
+
                     }
 
                 });
