@@ -61,18 +61,19 @@ pencil.forEach((btn) => {
             form.querySelector('textarea[name="jobDescription"]').value = jobDescription;
 
 
-        }  else if (section.classList.contains('sec05')) {
-            // 자격증 수정
-            const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
-            const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
-            const dateRange = eduDiv.querySelector('.sec05 .date')?.innerText || '';
-            const [acquisition, expiration] = dateRange.split(' ~ ');
-
-            form.querySelector('input[name="licenseName"]').value = licenseName;
-            form.querySelector('input[name="licenseOrg"]').value = licenseOrg;
-            form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
-            form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
         }
+        // else if (section.classList.contains('sec05')) {
+        //     // 자격증 수정
+        //     const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
+        //     const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
+        //     const dateRange = eduDiv.querySelector('.sec05 .date')?.innerText || '';
+        //     const [acquisition, expiration] = dateRange.split(' ~ ');
+        //
+        //     form.querySelector('input[name="licenseName"]').value = licenseName;
+        //     form.querySelector('input[name="licenseOrg"]').value = licenseOrg;
+        //     form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
+        //     form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
+        // }
     });
 });
 
@@ -228,20 +229,28 @@ function updateCount() {
 
 const plusBtn05 = document.querySelector('.sec05 .plus figure');
 const licenseForm = document.querySelector('.sec05 .add-license-form');
+const licenseEditForm = document.querySelector('.sec05 .edit-license-form');
 const licenseSaveBtn = document.querySelector('.sec05 .btn-license-save');
-const licenseCancelBtn = document.querySelector('.sec05 .btn-license-cancel');
+const licenseCancelBtn = document.querySelector('.sec05 .addCancel');
+const editDel = document.querySelector('.sec05 .editDel');
 const licenseList = document.querySelector('.sec05 .license-list');
 
 // 추가
 plusBtn05.addEventListener('click', () => {
-    licenseForm.style.display = 'flex';
-    licenseForm.classList.add('show');
+
+    licenseForm.classList.add('add');
 });
 
 // 취소
 licenseCancelBtn.addEventListener('click', () => {
-    licenseForm.style.display = 'none';
-    licenseForm.classList.remove('show');
+
+    licenseForm.classList.remove('add');
+});
+
+// 취소
+editDel.addEventListener('click', () => {
+
+    licenseEditForm.classList.remove('add');
 });
 
 // '저장' 버튼 누르면 리스트에 카드형태로 추가
@@ -268,6 +277,7 @@ licenseSaveBtn.addEventListener('click', () => {
         <h3 class="name">${name}</h3>
         <span class="org">${org}</span>
         <p class="date">${start} ${end ? `~ ${end}` : ''}</p>
+         <img src="../image/pencil.png" alt="" class="licensePencil">
     `;
 
     licenseList.appendChild(li);
@@ -299,8 +309,10 @@ modifyPencil.addEventListener('click',function (){
 })
 
 var licensePencil =document.querySelector(".licensePencil");
+
 licensePencil.addEventListener('click',function (){
     var editLicenseForm = document.querySelector(".edit-license-form");
     editLicenseForm.classList.add("add");
-})
 
+
+})

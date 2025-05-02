@@ -11,7 +11,6 @@
                 <li style="display: none"></li>
                 <li><a href="/calendar/calendar">채용공고</a></li>
 
-                <li><a href="/user/resume">내 이력서</a></li>
                 <li><a href="/qna/qna_list">문의사항</a></li>
             </ul>
             <ul class="flex logout" th:if="${session.loginUser != null}">
@@ -34,7 +33,6 @@
                     <li><a href="#">기업소개</a></li>
                     <li><a href="#">공지사항</a></li>
                     <li><a href="/calendar/calendar">채용공고</a></li>
-                    <li><a href="/user/resume">내 이력서</a></li>
                     <li><a href="#">문의사항</a></li>
                 </ul>
                 <ul class="ham-logout" th:if="${session.loginUser != null}">

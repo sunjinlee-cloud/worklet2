@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/css/Board/qna_reply.css">
 </head>
 <body>
+
+<div th:replace="include/header :: headerFragment"></div>
 <div class="container">
     <h1>1:1문의 답변 관리자 페이지</h1>
     <div class="inquiry-list">
@@ -53,6 +55,7 @@
         <span class="page-arrow">&gt;&gt;</span>
     </div>
 </div>
+<div th:replace="include/footer :: footerFragment"></div>
 
 <script>
     // 아코디언 토글

@@ -441,12 +441,12 @@ button:focus-visible {
   header .menu {
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  ;
+    padding: 20px 40px;
+    justify-content: space-between;
     height: 50px;
     align-items: center;
     border-radius: 50px;
     gap: 50px;
-    padding: 20px;
     min-width: 548px;
   }
 
@@ -706,7 +706,7 @@ button:focus-visible {
   }
 
   button.fc-next-button.fc-button.fc-button-primary {
-    padding-right: 105px;
+    padding-right: 110px;
   }
 
   .goPostingPageBox {

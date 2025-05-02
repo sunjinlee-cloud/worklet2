@@ -147,7 +147,8 @@
             quit_date,
             job_description,
             created_at,
-            updated_at
+            updated_at,
+            RESUME_ID
         ) VALUES (
                      #{userNum},
                      #{companyName},
@@ -157,7 +158,8 @@
                      #{quitDate},
                      #{jobDescription},
                      NOW(),
-                     NOW()
+                     NOW(),
+                     #{resumeId}
                  );
     </insert>
 
@@ -221,13 +223,15 @@
             license_name,
             license_org,
             acquisition,
-            expiration
+            expiration,
+            RESUME_ID
         ) VALUES (
                      #{userNum},
                      #{licenseName},
                      #{licenseOrg},
                      #{acquisition},
-                     #{expiration}
+                     #{expiration},
+                     #{resumeId}
                  )
     </insert>
 

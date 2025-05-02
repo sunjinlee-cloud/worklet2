@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>mainPage</title>
     <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/board/mainPage.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -142,84 +142,46 @@
             <div class="sec03_wrap">
                 <div class="sec03Title flex">
                     <h2>진행 하고 있는 공채 소식</h2>
-                    <button type="button" class="flex">더보기 <figure><img src="../image/Arrow.png" alt=""></figure>
+                    <button type="button" class="flex">
+                        <a id="goPostingPage"><p>더보기</p></a> <figure><img src="../image/Arrow.png" alt=""></figure>
                     </button>
                 </div>
-
-
 
                 <div class="sec03_pc_slide">
                     <div class="swiper-wrapper-mask">
                         <div class="swiper mySwiper3">
                             <div class="swiper-wrapper">
-                                <!-- 채용정보 동적 출력 -->
-                                <div th:each="vo, status:${list}" class="swiper-slide">
-                                    <h3 th:text="${vo.empRecrNm}">기획/영업</h3>
-                                    <p th:text="${vo.empBusiNm}">구글</p>
-                                    <figure class="slide_logo">
-                                        <img th:src="@{${vo.regLogImgNm}}" alt="회사 로고">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b th:text="${vo.empWantedCareerNm}">3년 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>정규직</span>
-                                                <b th:text="${vo.empWantedTypeNm}">초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>지역</span>
-                                                <b th:text="${vo.empWantedCareerNm}">컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>기간</span>
-                                                <b th:text="${vo.workRegionNm}">자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <!-- 각 슬라이드 아이템을 동적으로 렌더링 -->
+                                <div class="swiper-slide" th:each="vo : ${list}">
+                                    <a th:href="${vo.empWantedHomepgDetail}" target="_blank" class="slide-link">
+                                        <h3>[[${vo.empWantedTitle}]]</h3>
+                                        <p>[[${vo.empRecrNm}]]</p>
+                                        <figure class="slide_logo">
+                                            <img th:src="@{${vo.regLogImgNm}}" alt="로고">
+                                        </figure>
+                                        <div class="hidden-box">
+                                            <h4>지원자격</h4>
+                                            <ul>
+                                                <li>
+                                                    <span>회사명</span>
+                                                    <b>[[${vo.empWantedTitle}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>경력</span>
+                                                    <b>[[${vo.empWantedCareerNm}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>지역</span>
+                                                    <b>[[${vo.workRegionNm}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>기타</span>
+                                                    <b>[[${vo.empWantedTypeNm}]]</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </a>
                                 </div>
-                                <!-- 반복문 끝 -->
-                            </div>
-
-
-
-
-
-                <!--                                <div class="swiper-slide">-->
-<!--                                    <h3>기획/영업</h3>-->
-<!--                                    <p>구글</p>-->
-<!--                                    <figure class="slide_logo">-->
-<!--                                        <img src="../image/slideLogo.png" alt="">-->
-<!--                                    </figure>-->
-<!--                                    <div class="hidden-box">-->
-<!--                                        <h4>지원자격</h4>-->
-<!--                                        <ul>-->
-<!--                                            <li>-->
-<!--                                                <span>경력</span>-->
-<!--                                                <b>3년이상</b>-->
-<!--                                            </li>-->
-<!--                                            <li>-->
-<!--                                                <span>학력</span>-->
-<!--                                                <b>초대졸 이상</b>-->
-<!--                                            </li>-->
-<!--                                            <li>-->
-<!--                                                <span>스킬</span>-->
-<!--                                                <b>컴퓨터 활용능력, 아웃소싱</b>-->
-<!--                                            </li>-->
-<!--                                            <li>-->
-<!--                                                <span>우대</span>-->
-<!--                                                <b>자동차 운전면허</b>-->
-<!--                                            </li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -232,172 +194,19 @@
                     <div class="swiper-wrapper-mask">
                         <div class="swiper mySwiper4">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
+                                <!-- 각 슬라이드 아이템을 동적으로 렌더링 -->
+                                <div class="swiper-slide" th:each="vo : ${list}">
+                                    <div>
+                                        <img th:src="@{${vo.regLogImgNm}}" alt="로고">
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <h3>기획/영업</h3>
-                                    <p>구글</p>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                    <div class="hidden-box">
-                                        <h4>지원자격</h4>
-                                        <ul>
-                                            <li>
-                                                <span>경력</span>
-                                                <b>3년이상</b>
-                                            </li>
-                                            <li>
-                                                <span>학력</span>
-                                                <b>초대졸 이상</b>
-                                            </li>
-                                            <li>
-                                                <span>스킬</span>
-                                                <b>컴퓨터 활용능력, 아웃소싱</b>
-                                            </li>
-                                            <li>
-                                                <span>우대</span>
-                                                <b>자동차 운전면허</b>
-                                            </li>
-                                        </ul>
+                                    <p class="mobileHoverCardTitle"><b>[[${vo.empWantedTitle}]]</b></p>
+                                    <hr>
+                                    <p class="mobileHoverCardContent">[[${vo.empRecrNm}]]</p>
+
+                                    <div class="moveButtonBox">
+                                        <a th:href="@{${vo.empWantedHomepgDetail}}" target='_blank'>
+                                            <input type="button" value="바로가기" class="moveButton">
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -408,6 +217,7 @@
                 </div>
             </div>
         </section>
+
 
         <section id="sec04">
             <div class="list flex">
