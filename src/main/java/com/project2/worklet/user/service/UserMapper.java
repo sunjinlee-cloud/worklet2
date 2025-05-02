@@ -1,8 +1,6 @@
 package com.project2.worklet.user.service;
-import com.project2.worklet.component.CareerVO;
-import com.project2.worklet.component.EduVO;
-import com.project2.worklet.component.LicenseVO;
-import com.project2.worklet.component.UserVO;
+import com.project2.worklet.component.*;
+import com.project2.worklet.util_interceptor.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -61,4 +59,11 @@ public interface UserMapper {
 
     // 자격증 삭제
     int deleteLicense(Long licenseId);
+
+    //스크랩공고
+    List<JobPostingVO2> getScrappedJob(String userId, Criteria cri);
+
+    //추천공고
+    List<JobPostingVO2> getRecommendedJob(@Param("preferredJobTypes") List<String> preferredJobTypes,
+                                         @Param("cri") Criteria cri);
 }

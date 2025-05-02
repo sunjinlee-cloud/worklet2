@@ -2,11 +2,10 @@ package com.project2.worklet.user.service;
 
 
 
-import com.project2.worklet.component.CareerVO;
-import com.project2.worklet.component.EduVO;
-import com.project2.worklet.component.LicenseVO;
-import com.project2.worklet.component.UserVO;
+import com.project2.worklet.component.*;
 
+import com.project2.worklet.jobPostingService.JobPostingMapper;
+import com.project2.worklet.util_interceptor.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -123,6 +122,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteLicense(Long licenseId) {
         return userMapper.deleteLicense(licenseId);
+    }
+
+    @Override
+    public List<JobPostingVO2> getScrappedJob(String userId, Criteria cri) {
+        return userMapper.getScrappedJob(userId, cri);
+    }
+
+    @Override
+    public List<JobPostingVO2> getRecommendedJob(List<String> preferredJobTypes, Criteria cri) {
+        return userMapper.getRecommendedJob(preferredJobTypes, cri);
     }
 
 }

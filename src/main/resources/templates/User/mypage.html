@@ -77,55 +77,16 @@
                     <div class="swiper-wrapper-mask">
                         <div class="swiper mySwiper5">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
+                                <div class="swiper-slide" th:each="vo, status:${list}" th:data-url="${vo.empWantedHomepgDetail}"
+                                     th:onclick="|window.location.href=this.getAttribute('data-url');|">
+                                        <div class="flex">
+                                            <p>[[${vo.empBusiNm}]]</p>
+                                            <h3>[[${vo.empWantedTitle}]]</h3>
+                                            <span>~<b th:text="${#temporals.createDate(vo.empWantedEndt, 'yyyyMMdd')}"></b></span>
+                                        </div>
+                                        <figure class="slide_logo">
+                                            <img th:src="@{${vo.regLogImgNm}}" alt="#">
+                                        </figure>
                                 </div>
                             </div>
                             <div class="swiper-scrollbar"></div>
@@ -139,54 +100,15 @@
                     <div class="swiper-wrapper-mask">
                         <div class="swiper mySwiper6">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
+                                <div class="swiper-slide" th:each="vo, status:${list}" th:data-url="${vo.empWantedHomepgDetail}"
+                                     th:onclick="|window.location.href=this.getAttribute('data-url');|">
                                     <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
+                                        <p>[[${vo.empBusiNm}]]</p>
+                                        <h3>[[${vo.empWantedTitle}]]</h3>
+                                        <span>~<b th:text="${#temporals.createDate(vo.empWantedEndt, 'yyyyMMdd')}"></b></span>
                                     </div>
                                     <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
-                                    </figure>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="flex">
-                                        <p>구글</p>
-                                        <h3>시설관리(기계, 전기), 시공관리(전기),제목 어쩌고</h3>
-                                        <span>~05/23</span>
-                                    </div>
-                                    <figure class="slide_logo">
-                                        <img src="../image/slideLogo.png" alt="">
+                                        <img th:src="@{${vo.regLogImgNm}}" alt="#">
                                     </figure>
                                 </div>
                             </div>
@@ -247,61 +169,19 @@
             <h3>나만의 추천 공고</h3>
             <p>희망직종을 선택하여서 ai가 추천해주는 공고를 찾아보세요! </p>
             <ul class="flex">
-                <li>
+                <li th:each="vo, status:${recList}">
                     <div class="sec04_img">
-                        <img src="../image/slideLogo.png" alt="">
+                        <img th:src="@{${vo.regLogImgNm}}" alt="#">
                     </div>
-                    <p class="title">2025년 상반기 동원그룹 신입사원 모집</p>
-                    <p class="name">동원산업(주)</p>
-                    <p class="date">~05/30 (수)</p>
-                    <button type="button">
+                    <p class="title">[[${vo.empWantedTitle}]]</p>
+                    <p class="name">[[${vo.empBusiNm}]]</p>
+                    <p class="date">~<b th:text="${#temporals.createDate(vo.empWantedEndt, 'yyyyMMdd')}"></b></p>
+                    <button type="button" th:data-url="${vo.empWantedHomepgDetail}" th:onclick="|window.location.href=this.getAttribute('data-url');|">
                         <p>보러가기</p>
                         <figure> 
                             <img src="../image/Arrow-blue.png" alt="">
                         </figure>
 
-                    </button>
-                </li>
-                <li>
-                    <div class="sec04_img">
-                        <img src="../image/slideLogo.png" alt="">
-                    </div>
-                    <p class="title">2025년 상반기 동원그룹 신입사원 모집</p>
-                    <p class="name">동원산업(주)</p>
-                    <p class="date">~05/30 (수)</p>
-                    <button type="button">
-                        <p>보러가기</p>
-                        <figure> 
-                            <img src="../image/Arrow-blue.png" alt="">
-                        </figure>
-                    </button>
-                </li>
-                <li>
-                    <div class="sec04_img">
-                        <img src="../image/slideLogo.png" alt="">
-                    </div>
-                    <p class="title">2025년 상반기 동원그룹 신입사원 모집</p>
-                    <p class="name">동원산업(주)</p>
-                    <p class="date">~05/30 (수)</p>
-                    <button type="button">
-                        <p>보러가기</p>
-                        <figure> 
-                            <img src="../image/Arrow-blue.png" alt="">
-                        </figure>
-                    </button>
-                </li>
-                <li>
-                    <div class="sec04_img">
-                        <img src="../image/slideLogo.png" alt="">
-                    </div>
-                    <p class="title">2025년 상반기 동원그룹 신입사원 모집</p>
-                    <p class="name">동원산업(주)</p>
-                    <p class="date">~05/30 (수)</p>
-                    <button type="button">
-                        <p>보러가기</p>
-                        <figure> 
-                            <img src="../image/Arrow-blue.png" alt="">
-                        </figure>
                     </button>
                 </li>
             </ul>

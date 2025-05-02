@@ -88,6 +88,11 @@ public class JobPostingController {
         return "airesume";
     }
 
+
+
+}
+
+
 //    @PostMapping("/submitresume")
 //    public String airesume(@RequestParam String content,
 //                           Model model) {
@@ -109,5 +114,3 @@ public class JobPostingController {
 //
 //        return "airesumeresult";
 //    }
-
-}

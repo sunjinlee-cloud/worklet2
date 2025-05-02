@@ -1082,21 +1082,28 @@
         overflow: hidden;
         position: relative;
         padding: 30px;
+        cursor: pointer;
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .flex {
         align-items: center;
         text-align: center;
+        /* border: 1px solid red; */
+        flex-direction: column;
+        height: 100px;
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .flex p {
         color: var(--text-color2);
         margin-right: 20px;
+        /* border: 1px solid yellow; */
+        margin-top: 10px;
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .flex span {
         font-size: 13px;
         color: var(--text-color2);
+        /* border: 1px solid blue; */
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .flex h3 {
@@ -1104,11 +1111,14 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        /* border: 1px solid green; */
+        margin-top: 5px;
+        text-align: center;
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .slide_logo {
         width: 230px;
-        margin-top: 30px;
+        margin: 0 auto;
     }
 
     .sec02 .sec02_pc_slide .swiper-slide .slide_logo img {
