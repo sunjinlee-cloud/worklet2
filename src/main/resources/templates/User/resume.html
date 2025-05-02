@@ -75,6 +75,7 @@
         </div>
 
         <div class="contents">
+
             <section class="sec01">
                 <h3>AI 이력서 작성 안내</h3>
                 <div class="sec01-box">
@@ -88,6 +89,13 @@
                     </figure>
                 </div>
             </section>
+
+
+            <div id="content-title">
+                <h2>00</h2>
+                <p>제목</p>
+                <input type="text" name="title" placeholder="이력서 제목을 작성하세요" th:text="${resume?.title}" required>
+            </div>
 
             <section class="sec02">
                 <h2>01</h2>
@@ -177,6 +185,9 @@
                 <div class="add-edu-form">
                     <h5>추가</h5>
                     <form action="/user/updateEdu" method="post">
+                        <!-- uniqueTime을 URL 파라미터로 받아서 사용하는 예시 -->
+                        <input type="hidden" th:value="${param.uniqueTime}" name="resumeId" >
+
                         <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
                         <input type="text" class="input-school" placeholder="학교명" name="schoolName">
                         <div class="flex">
@@ -259,7 +270,7 @@
                         </div>
                         <div class="button">
                             <button type="submit" class="btn-save">저장</button>
-                            <button type="button" class="btn-del">취소</button>
+                            <button type="button" class="btn-del editDel">취소</button>
                         </div>
                     </form>
                 </div>
@@ -340,7 +351,7 @@
                         <p><span id="charCount6">0</span>/300자</p>
                         <div class="button">
                             <button type="submit" class="btn-save">저장</button>
-                            <button type="button" class="btn-del">취소</button>
+                            <button type="button" class="btn-del editDel">취소</button>
                         </div>
                     </form>
                 </div>
@@ -362,7 +373,7 @@
                             <h3 class="name"  th:text="${license.licenseName}">정보처리기사</h3>
                             <span class="org" th:text="${license.licenseOrg}">발급기관</span>
                             <p class="date" th:text="${#temporals.format(license.acquisition, 'yyyy-MM-dd')} + ' ~ ' + ${#temporals.format(license.expiration, 'yyyy-MM-dd')}">2025-04-22 ~ 2046-02-33</p>
-                            <img src="../image/pencil.png" alt="" class="pencil">
+                            <img src="../image/pencil.png" alt="" class="licensePencil">
 
                             <form th:action="@{/user/deleteLicens/{licenseId}(licenseId=${license.licenseId})}" method="POST">
                                 <button type="submit" class="delete-btn">
@@ -396,21 +407,22 @@
                     <form action="/user/editLicens" method="post">
                         <input type="hidden" name="userNum"  th:value="${userVO.userNum}">
                         <div th:each="license : ${licenseList}">
-                            <input type="hidden" name="licenseId  " th:value="${license.licenseId}" />
+                            <input type="hidden" name="licenseId" th:value="${license.licenseId}" />
                         </div>
 
-                        <input type="text" class="license-name" placeholder="자격증명 입력" name="licenseName">
-                        <input type="text" class="license-org" placeholder="발급 기관" name="licenseOrg">
+                        <input type="text" class="" placeholder="자격증명 입력" name="licenseName">
+                        <input type="text" class="" placeholder="발급 기관" name="licenseOrg">
                         <input type="text" name="acquisition" class="custom-date widthstyle" placeholder="자격증 취득일" />
                         <input type="text" name="expiration" class="custom-date widthstyle" placeholder="자격증 만료일" />
                         <div class="button">
                             <button type="submit" class="btn-license-save">저장</button>
 
-                            <button type="button" class="btn-license-cancel">취소</button>
+                            <button type="button" class="btn-license-cancel editDel">취소</button>
                         </div>
                     </form>
                 </div>
             </section>
+
 
             <section class="sec06">
                 <h2>05</h2>
