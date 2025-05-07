@@ -30,7 +30,7 @@
                     </button>
                 </div>
                 <div class="profile">
-                    <h3 class="name" th:text="${userVO.userName}">이름</h3>
+                    <h3 class="name" th:if="${userVO != null}" th:text="${userVO.userName}">이름</h3>
                     <ul class="email">
                         <li th:text="${userVO.userEmail}">이메일</li>
                         <li th:text="${userVO.userPhone}">전화번호</li>
