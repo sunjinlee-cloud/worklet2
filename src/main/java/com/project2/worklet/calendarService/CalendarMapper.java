@@ -20,7 +20,8 @@ public interface CalendarMapper {
 
     //찜 추가 삭제
     public void insertFavorite(@Param("empSeqNo") int empSeqNo,
-                        @Param("userId") String userId);
+                        @Param("userId") String userId,
+                        @Param("color") String color);
 
     public void deleteFavorite(@Param("empSeqNo") int empSeqNo,
                         @Param("userId") String userId);

@@ -114,8 +114,8 @@
 
 
     <insert id="insertFavorite" parameterType="map">
-        INSERT INTO my_calendar (user_id, emp_seq_no)
-        VALUES (#{userId}, #{empSeqNo})
+        INSERT INTO my_calendar (user_id, emp_seq_no, color)
+        VALUES (#{userId}, #{empSeqNo}, #{color})
     </insert>
 
     <delete id="deleteFavorite" parameterType="map">
