@@ -210,6 +210,7 @@ button:focus-visible {
     margin: 20px auto;
     /*margin-top: 150px;*/
     margin-top: 10px;
+    /*margin-bottom: 100px;*/
     height: 500px;
   }
 
@@ -520,7 +521,7 @@ button:focus-visible {
   max-width: 80%;
   margin: 20px auto;
   margin-top: 150px;
-  /*margin-bottom: 20px;*/
+  margin-bottom: 100px;
     height: 1400px;
   }
 
@@ -719,14 +720,30 @@ button:focus-visible {
   }
 
   #goPostingPage {
-    width: 200px;
-    height: 50px;
-    font-size: 22px;
-    text-align: center;
+
+    position: fixed;
+    bottom: 120px;
+    right: 50px;
+    width: 92px;
+    height: 92px;
     background-color: #255EEE;
-    color: #fff;
+    color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: bottom 0.3s ease;
+
+    /*width: 200px;*/
+    /*height: 50px;*/
+    /*font-size: 22px;*/
+    /*text-align: center;*/
+    /*background-color: #255EEE;*/
+    /*color: #fff;*/
+    /*border: none;*/
+    /*border-radius: 10px;*/
   }
 
 
