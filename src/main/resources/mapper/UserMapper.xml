@@ -257,13 +257,27 @@
     </delete>
 
     <!--  스크랩공고-->
+<!--    <select id="getScrappedJob" resultType="com.project2.worklet.component.JobPostingVO2">-->
+<!--        select emp_wanted_homepg_detail, emp_wanted_title,-->
+<!--               reg_log_img_nm, emp_busi_nm, emp_wanted_endt-->
+<!--        from job_postings as j right join select * from job_postings; as c-->
+<!--                                          on j.emp_seq_no = c.emp_seq_no-->
+<!--        where c.user_id = #{userId};-->
+<!--    </select>-->
+
+    <!--  스크랩공고-->
     <select id="getScrappedJob" resultType="com.project2.worklet.component.JobPostingVO2">
-        select emp_wanted_homepg_detail, emp_wanted_title,
-               reg_log_img_nm, emp_busi_nm, emp_wanted_endt
-        from job_postings as j right join my_calendar as c
-                                          on j.emp_seq_no = c.emp_seq_no
-        where c.user_id = #{userId};
+        SELECT j.emp_wanted_homepg_detail,
+               j.emp_wanted_title,
+               j.reg_log_img_nm,
+               j.emp_busi_nm,
+               j.emp_wanted_endt
+        FROM job_postings AS j
+                 RIGHT JOIN my_calendar AS c
+                            ON j.emp_seq_no = c.emp_seq_no
+        WHERE c.user_id = #{userId};
     </select>
+
 
     <!-- 추천공고-->
     <select id="getRecommendedJob" resultType="com.project2.worklet.component.JobPostingVO2">

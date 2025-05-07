@@ -15,4 +15,9 @@ public interface ResumeService {
     ResumeVO getResumeById(Long resumeId);
 
     List<ResumeVO> getResumesByUserNum(int userNum);
+
+    // 자격증 저장
+    int saveResume(ResumeVO resume);
+
+    ResumeVO getResumeByResumeId(Long resumeId);
 }
