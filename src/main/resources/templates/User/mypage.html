@@ -131,37 +131,29 @@
             </div>
             <div class="resume">
                 <ul>
-                    <li>
-                        <div class="content">
-                            <h4>성실하고 성실한 신입 ㅇㅇㅇ입니다.성실하고 성실한 신입 ㅇㅇㅇ입니다.</h4>
-                            <span>2025.04.10 15.50 수정</span>
-                        </div>
-                        <div class="edit">
-                            <button type="button">수정하기</button>
-                            <button type="button">삭제하기</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="content">
-                            <h4>성실하고 성실한 신입 ㅇㅇㅇ입니다</h4>
-                            <span>2025.04.10 15.50 수정</span>
-                        </div>
-                        <div class="edit">
-                            <button type="button">수정하기</button>
-                            <button type="button">삭제하기</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="content">
-                            <h4>성실하고 성실한 신입 ㅇㅇㅇ입니다</h4>
-                            <span>2025.04.10 15.50 수정</span>
-                        </div>
-                        <div class="edit">
-                            <button type="button">수정하기</button>
-                            <button type="button">삭제하기</button>
-                        </div>
-                    </li>
+
+                        <li th:each="resume : ${resumeList}">
+                            <div class="content">
+                                <h4 th:text="${resume.title}">이력서 제목</h4>
+                                <span th:text="${#temporals.format(resume.updatedAt != null ? resume.updatedAt : T(java.time.LocalDateTime).now(), 'yyyy.MM.dd HH:mm')}">수정일 없음</span>
+
+
+
+                            </div>
+                            <div class="edit">
+                                <form th:action="@{/user/editResume}" method="post" style="display:inline;">
+                                    <input type="hidden" name="resumeId" th:value="${resume.resumeId}" />
+                                    <button type="submit">수정하기</button>
+                                </form>
+                                <form th:action="@{/user/deleteResume}" method="post" style="display:inline;">
+                                    <input type="hidden" name="resumeId" th:value="${resume.resumeId}" />
+                                    <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제하기</button>
+                                </form>
+                            </div>
+                        </li>
+
                 </ul>
+
             </div>
         </section>
 

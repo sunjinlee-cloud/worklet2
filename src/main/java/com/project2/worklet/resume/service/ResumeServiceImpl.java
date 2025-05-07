@@ -40,4 +40,14 @@ public class ResumeServiceImpl implements ResumeService{
     public List<ResumeVO> getResumesByUserNum(int userNum) {
         return resumeMapper.getResumesByUserNum(userNum);
     }
+
+    @Override
+    public int saveResume(ResumeVO resume) {
+        return resumeMapper.saveResume(resume);
+    }
+
+    @Override
+    public ResumeVO getResumeByResumeId(Long resumeId) {
+        return resumeMapper.getResumeByResumeId(resumeId);
+    }
 }

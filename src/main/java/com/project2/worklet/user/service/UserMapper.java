@@ -66,4 +66,7 @@ public interface UserMapper {
     //추천공고
     List<JobPostingVO2> getRecommendedJob(@Param("preferredJobTypes") List<String> preferredJobTypes,
                                          @Param("cri") Criteria cri);
+
+
+
 }
