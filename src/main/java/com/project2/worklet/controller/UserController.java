@@ -336,8 +336,16 @@ public class UserController {
             return "redirect:/error"; // 유효하지 않으면 에러 페이지로 리디렉션
         }
 
+
         // graduationDate 처리: String -> LocalDate 변환
-        LocalDate graduationDateLocal = convertStringToLocalDate(graduationDate);
+        LocalDate graduationDateLocal = null;
+
+        if (graduationDate != null && !graduationDate.isEmpty()) {
+            graduationDateLocal = convertStringToLocalDate(graduationDate);
+        } else {
+            // graduationDate가 빈 값일 경우 기본값 설정 (예: null, 특정 기본 날짜 등)
+            graduationDateLocal = LocalDate.now(); // 기본값을 오늘 날짜로 설정하는 예시
+        }
 
         // EduVO 객체에 폼에서 받은 데이터를 설정
         EduVO eduVO = new EduVO();
@@ -464,11 +472,17 @@ public class UserController {
         careerVO.setQuitDate(quitDateLocal);
         careerVO.setJobDescription(jobDescription);
 
+        if (joinDateLocal != null) {
+            careerVO.setJoinDate(joinDateLocal);
+            careerVO.setFormattedJoinDate(joinDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
+
+        if (quitDateLocal != null) {
+            careerVO.setQuitDate(quitDateLocal);
+            careerVO.setFormattedQuitDate(quitDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }
 
         int result = userService.insertCareer(careerVO);
-
-        careerVO.setFormattedJoinDate(joinDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        careerVO.setFormattedQuitDate(quitDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         model.addAttribute("career", careerVO);
 
@@ -643,6 +657,20 @@ public class UserController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+
+        if (acqDate != null) {
+            licenseVO.setFormattedAcquisition(acqDate.format(formatter));
+        } else {
+            licenseVO.setFormattedAcquisition(null); // 혹은 빈 문자열 ""로 설정할 수 있음
+        }
+
+        if (expDate != null) {
+            licenseVO.setFormattedExpiration(expDate.format(formatter));
+        } else {
+            licenseVO.setFormattedExpiration(null); // 혹은 빈 문자열 ""로 설정할 수 있음
+        }
+
+
         if (acqDate != null) {
             licenseVO.setFormattedAcquisition(acqDate.format(formatter));
         } else {
@@ -715,6 +743,13 @@ public class UserController {
         // 학력 리스트 페이지로 리디렉션
         return "redirect:/user/resume?uniqueTime=" + license.getResumeId();
     }
+
+    @GetMapping("/info")
+    public String info() {
+        return "User/info";
+    }
+
+
 
 
 
