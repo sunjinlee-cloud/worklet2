@@ -15,7 +15,7 @@
             </ul>
             <ul class="flex logout" th:if="${session.loginUser != null}">
                 <li><a href="/user/mypage" style="color: var(--main-color1); font-weight: bold;">마이페이지</a></li>
-                <li><a href="/user/logout">로그아웃</a></li>
+                <li><a href="/user/logout" onclick="logout()">로그아웃</a></li>
             </ul>
 
             <ul class="flex login" th:unless="${session.loginUser != null}">
@@ -37,7 +37,7 @@
                 </ul>
                 <ul class="ham-logout" th:if="${session.loginUser != null}">
                     <li><a href="#" style="color: var(--main-color1); font-weight: bold;">마이페이지</a></li>
-                    <li><a href="/user/logout">로그아웃</a></li>
+                    <li><a href="/user/logout" onclick="logout()">로그아웃</a></li>
                 </ul>
 
                 <ul class="ham-login" th:unless="${session.loginUser != null}">
