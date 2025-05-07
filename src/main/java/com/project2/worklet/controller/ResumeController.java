@@ -3,6 +3,7 @@ package com.project2.worklet.controller;
 import com.project2.worklet.component.LicenseVO;
 import com.project2.worklet.component.ResumeVO;
 import com.project2.worklet.component.UserVO;
+import com.project2.worklet.user.service.UserService;
 import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,7 @@ import com.project2.worklet.resume.service.ResumeService;
 
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,10 @@ public class ResumeController {
    @Autowired
    @Qualifier("resumeService")
    private ResumeService resumeService;
+
+    @Autowired
+    @Qualifier("userService")
+    private UserService userService;
 
 
     @PostMapping("/submitresume")
@@ -219,6 +225,18 @@ public class ResumeController {
             System.out.println("이력서 목록: " + resumeList);
 
             model.addAttribute("resumeList", resumeList);
+
+            // userVO 가져와서 모델에 추가 (타임리프 오류 방지)
+            UserVO fullUser = userService.getUserById(loginUser.getUserId());
+
+            // 희망직업 배열로 구성해서 넣기 (UserController 참고)
+            List<String> wantJobTypes = new ArrayList<>();
+            if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());
+            if (fullUser.getWantJobType2() != null) wantJobTypes.add(fullUser.getWantJobType2());
+            if (fullUser.getWantJobType3() != null) wantJobTypes.add(fullUser.getWantJobType3());
+            fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
+
+            model.addAttribute("userVO", fullUser);
 
             return "User/mypage"; // 타임리프 페이지
         }
