@@ -19,6 +19,7 @@ public class MyCalendarVO {
     private String empWantedTypeNm;
     private String regLogImgNm;
     private String empWantedHomepgDetail;
+    private String color;
 
     private boolean favorite;
 

@@ -187,7 +187,7 @@ public class CalendarController {
     @PostMapping("/favorite/add")
     @ResponseBody
     public ResponseEntity<Void> addFavorite(@RequestBody CalendarDTO request) {
-        calendarService.addFavorite(request.getEmpSeqNo(), request.getUserId());
+        calendarService.addFavorite(request.getEmpSeqNo(), request.getUserId(), request.getColor());
         return ResponseEntity.ok().build();
     }
 

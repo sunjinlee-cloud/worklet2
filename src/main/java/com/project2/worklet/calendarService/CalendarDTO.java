@@ -11,5 +11,6 @@ public class CalendarDTO {
 
     private int empSeqNo;
     private String userId;
+    private String color; //color 필드 추가
 
 }
