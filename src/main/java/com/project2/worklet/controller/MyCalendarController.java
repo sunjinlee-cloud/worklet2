@@ -202,6 +202,7 @@ public class MyCalendarController {
             event.put("empSeqNo", vo.getEmpSeqNo());
             event.put("favorite", vo.isFavorite());
             event.put("empWantedHomepgDetail", vo.getEmpWantedHomepgDetail());
+            event.put("color", vo.getColor());
             return event;
         }).collect(Collectors.toList());
     }
