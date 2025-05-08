@@ -32,8 +32,9 @@
 	<parameter name="resumeCertFrom4" class="java.lang.String"/>
 	<parameter name="resumeEarlyLife" class="java.lang.String"/>
 	<parameter name="resumeStrengthWeakness" class="java.lang.String"/>
-	<parameter name="resumeApplyReason" class="java.lang.String"/>
+	<parameter name="resumeSchoolCareer" class="java.lang.String"/>
 	<parameter name="resumeApplyAfterDream" class="java.lang.String"/>
+	<parameter name="resume_title" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -42,23 +43,16 @@
 	</background>
 	<title>
 		<band height="121" splitType="Stretch">
-			<staticText>
-				<reportElement x="191" y="90" width="110" height="20" uuid="25b0ee3a-ae08-4dd5-b6fd-49c2ddee9c59"/>
-				<textElement>
-					<font fontName="KR_맑은고딕" size="12"/>
-				</textElement>
-				<text><![CDATA[의 이력서입니다]]></text>
-			</staticText>
 			<image>
 				<reportElement x="350" y="20" width="89" height="100" uuid="2036cb83-9964-4562-905c-941709b9c37e"/>
 				<imageExpression><![CDATA["C:/Users/user/Desktop/worklet/src/main/resources/static/image/background_img.png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="92" y="76" width="186" height="34" uuid="870d22f5-5345-4ab8-ad76-d1aaaa249ed4"/>
+				<reportElement x="79" y="74" width="260" height="30" uuid="e358535b-e569-44a1-b3cd-9e44c6501d51"/>
 				<textElement>
-					<font fontName="KR_맑은고딕" size="24"/>
+					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{resume_title}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -633,25 +627,25 @@
 		</band>
 		<band height="170">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="86" y="7" width="94" height="21" uuid="9c7e12c8-08b5-4a58-9700-63b9f0c4defa"/>
-				<textElement>
-					<font fontName="KR_맑은고딕" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[성격의 장단점]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="180" y="7" width="288" height="152" uuid="22d6bf22-7ff0-4909-9e88-2ecb3d177daf"/>
-				<textElement>
-					<font fontName="KR_맑은고딕"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{resumeStrengthWeakness}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="80" y="0" width="399" height="1" uuid="d3a14751-b72b-4dd8-a640-b9458a6cc5df">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
+			<staticText>
+				<reportElement x="86" y="7" width="82" height="19" uuid="861765da-0066-4f8f-8ef4-1189d0782790"/>
+				<textElement>
+					<font fontName="KR_맑은고딕" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[학창 시절 및 경력]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="181" y="7" width="288" height="148" uuid="4b245edc-fdfe-4735-bfd3-eaf68f74acbe"/>
+				<textElement>
+					<font fontName="KR_맑은고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{resumeSchoolCareer}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="170">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -661,18 +655,18 @@
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="86" y="11" width="70" height="21" uuid="861765da-0066-4f8f-8ef4-1189d0782790"/>
+				<reportElement x="86" y="10" width="94" height="21" uuid="9c7e12c8-08b5-4a58-9700-63b9f0c4defa"/>
 				<textElement>
-					<font fontName="KR_맑은고딕" size="14" isBold="true"/>
+					<font fontName="KR_맑은고딕" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[지원 동기]]></text>
+				<text><![CDATA[성격의 장단점]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="180" y="11" width="288" height="148" uuid="4b245edc-fdfe-4735-bfd3-eaf68f74acbe"/>
+				<reportElement x="180" y="9" width="288" height="152" uuid="22d6bf22-7ff0-4909-9e88-2ecb3d177daf"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{resumeApplyReason}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{resumeStrengthWeakness}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="170">
@@ -699,7 +693,7 @@
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
 				</textElement>
-				<textFieldExpression><![CDATA[  $P{resumeApplyAfterDream}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{resumeApplyAfterDream}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
