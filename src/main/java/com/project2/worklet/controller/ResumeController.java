@@ -14,6 +14,7 @@ import com.project2.worklet.resume.service.ResumeService;
 
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,10 @@ public class ResumeController {
    @Autowired
    @Qualifier("resumeService")
    private ResumeService resumeService;
+
+    @Autowired
+    @Qualifier("userService")
+    private UserService userService;
 
 
     @PostMapping("/user/submitresume")
@@ -178,7 +183,122 @@ public class ResumeController {
         return "redirect:/user/resume?uniqueTime="+uniqueTime;
     }
 
+    @PostMapping("/user/saveResume")
+    public String saveResume(
+            @RequestParam("resumeId") long   resumeId,
+            @RequestParam("title2") String title,
+            @RequestParam("growth2") String growth,
+            @RequestParam("studentDay2") String studentDay,
+            @RequestParam("prosAndCons2") String prosAndCons,
+            @RequestParam("aspiration2") String aspiration
+    ) {
+        ResumeVO resumeVO = new ResumeVO();
+        resumeVO.setResumeId(resumeId);
+        resumeVO.setTitle(title);
+        resumeVO.setGrowth(growth);
+        resumeVO.setStudentDay(studentDay);
+        resumeVO.setProsAndCons(prosAndCons);
+        resumeVO.setAspiration(aspiration);
 
+        int result= resumeService.saveResume(resumeVO);
+
+
+        // ✅ 올바른 VO 전달
+        if(result==1){
+            // 업데이트된 이력서를 가져옴
+            ResumeVO updatedResume = resumeService.getResumeById(resumeVO.getResumeId());
+
+            // updatedAt 값 확인을 위한 출력
+            System.out.println("updatedAt 값 확인"+updatedResume.getUpdatedAt());
+        }else{
+            System.out.println("안됨");
+        }
+
+        return "redirect:/user/resumePage?uniqueTime=" + resumeVO.getResumeId();
+    }
+
+    @GetMapping("/user/resumePage")
+    public String saveResume(HttpSession session, Model model) {
+        // 로그인한 사용자 정보 가져오기
+        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+
+
+        // 로그인 정보가 없으면 userNum이 0일 가능성 있음
+        if (loginUser == null || loginUser.getUserNum() == 0) {
+            System.out.println("로그인 정보가 없습니다.");
+            return "redirect:/user/login"; // 로그인 페이지로 리다이렉트할 수도 있음
+        } else {
+            int userNum = loginUser.getUserNum();
+            System.out.println("로그인한 사용자: " + userNum);
+
+            // 서비스에서 이력서 목록 가져오기
+            List<ResumeVO> resumeList = resumeService.getResumesByUserNum(userNum);
+            System.out.println("이력서 목록: " + resumeList);
+
+            model.addAttribute("resumeList", resumeList);
+
+            // userVO 가져와서 모델에 추가 (타임리프 오류 방지)
+            UserVO fullUser = userService.getUserById(loginUser.getUserId());
+
+            // 희망직업 배열로 구성해서 넣기 (UserController 참고)
+            List<String> wantJobTypes = new ArrayList<>();
+            if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());
+            if (fullUser.getWantJobType2() != null) wantJobTypes.add(fullUser.getWantJobType2());
+            if (fullUser.getWantJobType3() != null) wantJobTypes.add(fullUser.getWantJobType3());
+            fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
+
+            model.addAttribute("userVO", fullUser);
+
+            return "User/mypage"; // 타임리프 페이지
+        }
+    }
+
+
+    // 이력서 수정
+    @PostMapping("/user/editResume")
+    public String editResume(@RequestParam("resumeId") long resumeId,
+                             @RequestParam("title") String title,
+                             @RequestParam("growth") String growth,
+                             @RequestParam("studentDay") String studentDay,
+                             @RequestParam("prosAndCons") String prosAndCons,
+                             @RequestParam("aspiration") String aspiration) {
+        // 수정된 내용을 ResumeVO에 담기
+        ResumeVO resumeVO = new ResumeVO();
+        resumeVO.setResumeId(resumeId);
+        resumeVO.setTitle(title);
+        resumeVO.setGrowth(growth);
+        resumeVO.setStudentDay(studentDay);
+        resumeVO.setProsAndCons(prosAndCons);
+        resumeVO.setAspiration(aspiration);
+
+        // 이력서 수정 서비스 호출
+        int result = resumeService.updateResume(resumeVO);
+
+        // 수정 결과에 따라 리다이렉트
+        if (result == 1) {
+            return "redirect:/user/resumePage"; // 수정된 이력서 목록 페이지로 리다이렉트
+        } else {
+            return "redirect:/user/editResume?resumeId=" + resumeId; // 수정 실패 시 다시 수정 페이지로 리다이렉트
+        }
+    }
+
+
+    @GetMapping("/user/editResume")
+    public String editResume(@RequestParam("resumeId") long resumeId, Model model) {
+        // resumeId로 해당 이력서 정보 가져오기
+        ResumeVO resumeVO = resumeService.getResumeById(resumeId);
+        model.addAttribute("resume", resumeVO);
+
+        return "User/resume"; // 수정 페이지로 이동
+    }
+
+    @PostMapping("/user/deleteResume")
+    public String deleteResume(@RequestParam("resumeId") long resumeId) {
+
+        ResumeVO resumeVO = new ResumeVO();
+        resumeVO.setResumeId(resumeId);
+       return "redirect:/user/resumePage?resumeId=" + resumeId;
+    }
 
 
 }

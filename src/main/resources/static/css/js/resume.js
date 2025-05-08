@@ -211,11 +211,11 @@ function updateCount() {
     const count2 = growth.value.length;
     document.getElementById("charCount2").textContent = count2;
 
-    const studentDay = document.getElementById("student-day");
+    const studentDay = document.getElementById("studentDay");
     const count3 = studentDay.value.length;
     document.getElementById("charCount3").textContent = count3;
 
-    const prosAndCons = document.getElementById("pros-and-cons");
+    const prosAndCons = document.getElementById("prosAndCons");
     const count4 = prosAndCons.value.length;
     document.getElementById("charCount4").textContent = count4;
 
@@ -325,3 +325,40 @@ document.querySelectorAll('.tag').forEach(tag => {
         input.focus();
     });
 });
+
+
+
+    const saveBtn = document.getElementById("saveBtn");
+    const popup = document.getElementById("savePopup");
+
+    saveBtn.addEventListener("click", function () {
+        popup.classList.toggle("active");
+    });
+
+    document.getElementById("saveResumeBtn").addEventListener("click", function () {
+        alert("이력서가 저장되었습니다.");
+        hiddenForm = document.getElementById("hiddenForm");
+        document.getElementById("title2").value = document.getElementById("resume-title").value;
+        document.getElementById("growth2").value = document.getElementById("growth").value;
+        document.getElementById("studentDay2").value = document.getElementById("student-day").value;
+        document.getElementById("prosAndCons2").value = document.getElementById("pros-and-cons").value;
+        document.getElementById("aspiration2").value = document.getElementById("aspiration").value;
+
+        popup.style.display = "none";
+        hiddenForm.submit();
+    });
+
+    // document.getElementById("downloadResumeBtn").addEventListener("click", function () {
+    //     alert("이력서가 파일로 저장되었습니다.");
+    //     popup.style.display = "none";
+    // });
+    //
+    // // 바깥쪽 클릭 시 팝업 닫기
+    // document.addEventListener("click", function (e) {
+    //     const isClickInside = saveBtn.contains(e.target) || popup.contains(e.target);
+    //     if (!isClickInside) {
+    //         popup.style.display = "none";
+    //     }
+    // });
+
+

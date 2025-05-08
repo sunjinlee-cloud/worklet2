@@ -75,4 +75,6 @@ public interface UserService {
 
     //추천공고
     List<JobPostingVO2> getRecommendedJob(List<String> preferredJobTypes, Criteria cri);
+
+
 }

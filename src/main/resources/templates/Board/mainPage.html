@@ -196,18 +196,34 @@
                             <div class="swiper-wrapper">
                                 <!-- 각 슬라이드 아이템을 동적으로 렌더링 -->
                                 <div class="swiper-slide" th:each="vo : ${list}">
-                                    <div>
-                                        <img th:src="@{${vo.regLogImgNm}}" alt="로고">
-                                    </div>
-                                    <p class="mobileHoverCardTitle"><b>[[${vo.empWantedTitle}]]</b></p>
-                                    <hr>
-                                    <p class="mobileHoverCardContent">[[${vo.empRecrNm}]]</p>
-
-                                    <div class="moveButtonBox">
-                                        <a th:href="@{${vo.empWantedHomepgDetail}}" target='_blank'>
-                                            <input type="button" value="바로가기" class="moveButton">
-                                        </a>
-                                    </div>
+                                    <a th:href="${vo.empWantedHomepgDetail}" target="_blank" class="slide-link">
+                                        <h3>[[${vo.empWantedTitle}]]</h3>
+                                        <p>[[${vo.empRecrNm}]]</p>
+                                        <figure class="slide_logo">
+                                            <img th:src="@{${vo.regLogImgNm}}" alt="로고">
+                                        </figure>
+                                        <div class="hidden-box">
+                                            <h4>지원자격</h4>
+                                            <ul>
+                                                <li>
+                                                    <span>회사명</span>
+                                                    <b>[[${vo.empWantedTitle}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>경력</span>
+                                                    <b>[[${vo.empWantedCareerNm}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>지역</span>
+                                                    <b>[[${vo.workRegionNm}]]</b>
+                                                </li>
+                                                <li>
+                                                    <span>기타</span>
+                                                    <b>[[${vo.empWantedTypeNm}]]</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>

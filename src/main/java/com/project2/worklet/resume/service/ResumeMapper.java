@@ -44,4 +44,11 @@ public interface ResumeMapper {
 
     // 자격증 연관 삭제
     int deleteResumeLicenses(Long resumeId);
+
+
+    // 이력서 저장
+    int saveResume(ResumeVO resume);
+
+    // 이력서 뿌리기
+    ResumeVO getResumeByResumeId(Long resumeId);
 }

@@ -31,43 +31,12 @@
         </div>
     </div>
 
-    <div id='external-events'>
-    <!--
-        <p>
-            <strong>Draggable Events</strong>
-        </p>
-
-        <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-            <div class='fc-event-main'>My Event 1</div>
-        </div>
-        <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-            <div class='fc-event-main'>My Event 2</div>
-        </div>
-        <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-            <div class='fc-event-main'>My Event 3</div>
-        </div>
-        <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-            <div class='fc-event-main'>My Event 4</div>
-        </div>
-        <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-            <div class='fc-event-main'>My Event 5</div>
-        </div>
-
-        <p>
-            <input type='checkbox' id='drop-remove' />
-            <label for='drop-remove'>remove after drop</label>
-        </p>
-        </div>
-
-        <div id='calendar-container'>
-
-        -->
-    </div>
+    <div id='external-events'></div>
 
 
     <div id="titleToolTip"></div>
     <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
-                                        left: 1600px">
+                                        left: 1400px">
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
         <span style="display: inline-block">: 공고 시작일</span>
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
@@ -372,59 +341,6 @@
 
                 }
 
-
-                // var morePopover = document.querySelector('.fc-popover');
-                //
-                // if(morePopover) {
-                //     morePopover.addEventListener('mouseenter', function(e) {
-                //         if(e.target && e.target.classList.contains('fc-event-main')) {
-                //             var el = info.el;
-                //             var rect = el.getBoundingClientRect();
-                //
-                //             tooltip.innerHTML = title;
-                //             tooltip.style.position = 'absolute';
-                //             tooltip.style.zIndex = '9999' ;
-                //             tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
-                //             tooltip.style.left = (rect.left + window.scrollX) + 'px';
-                //             tooltip.style.minWidth = rect.width + 'px';
-                //             tooltip.style.backgroundColor = '#e4e4e4';
-                //             tooltip.style.color='#000';
-                //             tooltip.style.paddingLeft = '5px';
-                //             tooltip.style.paddingRigth = '10px';
-                //             tooltip.style.borderRadius = '5px';
-                //             tooltip.style.fontSize = '16px';
-                //             tooltip.style.whiteSpace = 'normal';
-                //             tooltip.style.wordBreak = 'break-word';
-                //             tooltip.style.display = 'block';
-                //
-                //             el.style.cursor = 'pointer'
-                //         }
-                //
-                //     })
-                //
-                //     morePopover.addEventListener('mouseleave', function(e) {
-                //         if(e.target && e.target.classList.contains('fc-event-main')) {
-                //
-                //             tooltip.style.display = 'none';
-                //
-                //             info.el.style.cursor = 'default';
-                //
-                //         }
-                //     })
-                //
-                //     morePopover.addEventListener('click', function(e) {
-                //         if(e.target && e.target.classList.contains('fc-event-main')) {
-                //
-                //
-                //
-                //         }
-                //
-                //
-                //
-                //     })
-                //
-                // }
-
                 // ⭐ 즐겨찾기 하트 추가 시작
                 var heart = document.createElement('span');
 
@@ -460,7 +376,9 @@
 
                     var userId = sessionStorage.getItem('userId');
                     if(userId == null) {
-                        alert('로그인이 필요한 서비스입니다. 로그인 하시겠습니까?');
+                        if (confirm('로그인이 필요한 서비스입니다. 로그인 하시겠습니까?')) {
+                            location.href = '/user/login';
+                        }
                         return;
                     }
 
@@ -468,7 +386,17 @@
                     var isFav = heart.getAttribute('data-favorited') === 'true';
                     var empSeqNo = Number(info.event.extendedProps.empSeqNo);
 
+                    //getrandomcolor 함수 추가
+                    function getRandomColor() {
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for(var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)]; //랜덤색상생성
+                        }
+                        return color;
+                    }
 
+                    var randomColor = getRandomColor();
 
 
                     if (isFav) {
@@ -504,6 +432,7 @@
                         xhr.send(JSON.stringify({
                             empSeqNo: empSeqNo,
                             userId: sessionStorage.getItem('userId')
+
                         }))
 
 
@@ -540,7 +469,8 @@
 
                         xhr.send(JSON.stringify({
                             empSeqNo: empSeqNo,
-                            userId: sessionStorage.getItem('userId')
+                            userId: sessionStorage.getItem('userId'),
+                            color: randomColor //color 필드를 추가하여 랜덤 색상 보내기
                         }))
 
                     }

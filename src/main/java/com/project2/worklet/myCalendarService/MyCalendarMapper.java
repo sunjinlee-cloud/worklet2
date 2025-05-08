@@ -28,8 +28,9 @@ public interface MyCalendarMapper {
                                @Param("userId") String userId);
 
     List<Integer> findFavoriteEmpSeqNosUserId(@Param("userId") String userId);
-
+    List<MyCalendarVO> getFavoriteEventsWithColor(@Param("userId") String userId); //색깔컬럼까지 join해서 찾기
+    
     List<MyCalendarVO> findEventsByEmpSeqNos(@Param("empSeqNos") List<Integer> empSeqNos);
-
+    
 
 }
