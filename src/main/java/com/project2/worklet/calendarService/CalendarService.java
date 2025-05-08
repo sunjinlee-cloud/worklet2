@@ -21,7 +21,7 @@ public interface CalendarService {
     List<CalendarVO> getEndDayEventsOnlyN(String userId);
 
     //즐겨찾기 추가,삭제
-    void addFavorite(int empSeqNo, String userId) ;
+    void addFavorite(int empSeqNo, String userId, String color) ;
     void removeFavorite(int empSeqNo, String userId);
 
     List<Integer> getFavoriteEmpSeqNos(String userId);

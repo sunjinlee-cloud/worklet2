@@ -33,7 +33,7 @@
 
     <div id="titleToolTip"></div>
     <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
-                                        left: 1600px">
+                                        left: 1400px">
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
         <span style="display: inline-block">: 공고 시작일</span>
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
@@ -403,7 +403,9 @@
 
                     var userId = sessionStorage.getItem('userId');
                     if (!userId) {
-                        alert('로그인 후 이용할 수 있는 기능입니다');
+                        if(confirm('로그인이 필요한 서비스입니다. 로그인 하시겠습니까?')) {
+                            location.href = '/user/login';
+                        }
                         return;
                     }
 
@@ -463,8 +465,17 @@
 
                     titleSpan.style.marginLeft = '5px'; // 하트와 제목 사이 여백
 
-                    mainEl.style.backgroundColor = 'var(--sub-color2)';
-                    mainEl.style.borderRadius = "10px"
+                    var bgColor = info.event.extendedProps.color;
+                    if(bgColor) {
+                        console.log("색상 값: ", bgColor);
+                        mainEl.style.backgroundColor = bgColor;
+                    } else {
+                        mainEl.style.backgroundColor = '#e4e4e4';
+                    }
+
+                    mainEl.style.borderRadius = "5px";
+                    mainEl.style.paddingTop = "3px";
+                    mainEl.style.paddingBottom = "3px";
 
                     allWrapper.appendChild(heart);
                     allWrapper.appendChild(titleSpan);

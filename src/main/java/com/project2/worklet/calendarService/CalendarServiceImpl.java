@@ -299,9 +299,9 @@ public class CalendarServiceImpl implements CalendarService {
 
     //찜기능
     @Override
-    public void addFavorite(int empSeqNo, String userId) {
-        log.info("Adding favorite: EmpSeqNo = {}, UserId = {}", empSeqNo, userId);
-        calendarMapper.insertFavorite(empSeqNo, userId);
+    public void addFavorite(int empSeqNo, String userId, String color) {
+        log.info("Adding favorite: EmpSeqNo = {}, UserId = {}, Color ={}", empSeqNo, userId, color);
+        calendarMapper.insertFavorite(empSeqNo, userId, color);
     }
 
     @Override

@@ -15,7 +15,10 @@ headerLogo.addEventListener('click',function (){
     location.href="/Board/mainPage ";
 })
 
-
+function logout() {
+    sessionStorage.clear(); // 모든 세션스토리지 제거
+    window.location.href = "/logout"; // 서버 로그아웃 요청
+}
 
 
 

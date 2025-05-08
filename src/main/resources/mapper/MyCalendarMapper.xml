@@ -146,6 +146,24 @@
         </foreach>
     </select>
 
+    <select id="getFavoriteEventsWithColor" resultType="com.project2.worklet.component.MyCalendarVO">
+        SELECT
+            jp.emp_seq_no AS empSeqNo,
+            jp.emp_wanted_title AS empWantedTitle,
+            jp.emp_busi_nm AS empBusiNm,
+            jp.emp_wanted_stdt AS empWantedStdt,
+            jp.emp_wanted_endt AS empWantedEndt,
+            jp.emp_wanted_type_nm AS empWantedTypeNm,
+            jp.reg_log_img_nm AS regLogImgNm,
+            jp.emp_wanted_homepg_detail AS empWantedHomepgDetail,
+            mc.color AS color
+        FROM job_postings jp
+        INNER JOIN my_calendar mc
+        ON CAST(jp.emp_seq_no AS SIGNED) = mc.emp_seq_no <!-- CAST(jp.emp_seq_no AS INT) job_postings 의 emp_seq_no는 문자열이라 int로 캐스팅-->
+        WHERE mc.user_id = #{userId}
+    </select>
+
+
 
 
 </mapper>
