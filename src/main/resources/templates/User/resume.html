@@ -445,45 +445,50 @@
                 <h2>05</h2>
                 <p>자기소개서</p>
                 <div class="introduceMyself">
-                    <div class="resume-item">
+                    <div class="resume-item outerBox">
                         <label>
                             성장과정 <img src="../image/pencil.png" alt="수정" class="edit-icon">
                         </label>
 
                         <p><span id="charCount2">0</span>&nbsp; 자</p>
-                        <textarea placeholder="성장과정을 입력하세요." name="growth" id="growth"  oninput="updateCount()"></textarea>
+                        <textarea class="writeBox" data-type="resumeEarlyLife" data-name="성장과정" placeholder="성장과정을 입력하세요." name="growth" id="growth"  oninput="updateCount()"></textarea>
                         <button type="button" class="preview-btn">AI이력서 미리보기</button>
+                        <div class="spinner" style="display: none;"></div>
                     </div>
 
-                    <div class="resume-item">
+                    <div class="resume-item outerBox">
                         <label>
                             학창 시절 및 경력 <img src="../image/pencil.png" alt="수정" class="edit-icon">
                         </label>
                         <p><span id="charCount3">0 </span>&nbsp; 자</p>
-                        <textarea placeholder="학창 시절 및 경력을 입력하세요." name="student-day" id="student-day" oninput="updateCount()"></textarea>
+                        <textarea class="writeBox" data-type="resumeSchoolCareer" data-name="학창 시절 및 경력" placeholder="학창 시절 및 경력을 입력하세요." name="student-day" id="student-day" oninput="updateCount()"></textarea>
                         <button type="button" class="preview-btn">AI이력서 미리보기</button>
+                        <div class="spinner" style="display: none;"></div>
                     </div>
 
-                    <div class="resume-item">
+                    <div class="resume-item outerBox">
                         <label>
                             성격의 장단점 <img src="../image/pencil.png" alt="수정" class="edit-icon">
                         </label>
                         <p><span id="charCount4">0</span>&nbsp; 자</p>
-                        <textarea placeholder="성격의 장단점을 입력하세요." name="pros-and-cons" id="pros-and-cons" oninput="updateCount()"></textarea>
+                        <textarea class="writeBox" data-type="resumeStrengthWeakness" data-name="성격의 장단점" placeholder="성격의 장단점을 입력하세요." name="pros-and-cons" id="pros-and-cons" oninput="updateCount()"></textarea>
                         <button type="button" class="preview-btn">AI이력서 미리보기</button>
+                        <div class="spinner" style="display: none;"></div>
                     </div>
 
-                    <div class="resume-item">
+                    <div class="resume-item outerBox">
                         <label>
                             입사 후 포부 <img src="../image/pencil.png" alt="수정" class="edit-icon">
                         </label>
                         <p><span id="charCount5">0</span>&nbsp; 자</p>
-                        <textarea placeholder="입사 후 포부를 입력하세요." name="aspiration" id="aspiration"  oninput="updateCount()"></textarea>
+                        <textarea class="writeBox" data-type="resumeApplyAfterDream" data-name="입사 후 포부" placeholder="입사 후 포부를 입력하세요." name="aspiration" id="aspiration"  oninput="updateCount()"></textarea>
                         <button type="button" class="preview-btn">AI이력서 미리보기</button>
+                        <div class="spinner" style="display: none;"></div>
                     </div>
                 </div>
 
             </section>
+            <input type="button" id="downloadPDF" class="downloadPDF" value="작성한 이력서 pdf로 다운로드">
         </div>
     </div>
 
@@ -494,6 +499,162 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="../css/js/header.js"></script>
 <script src="../css/js/resume.js"></script>
+
+    <script>
+        document.querySelectorAll('.preview-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const textarea = this.previousElementSibling;
+                const content = textarea.value;
+                const name = textarea.getAttribute('data-name');
+
+                // 로딩 스피너를 해당 텍스트 영역 아래에 표시
+                const spinner = textarea.nextElementSibling.nextElementSibling; // "spinner" 클래스를 찾음
+
+                // 스피너 보이기
+                spinner.style.display = "block";
+                textarea.innerText = ""; // 이전 결과 지우기
+
+
+                fetch('submitresume', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        name: name
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        spinner.style.display = "none";
+                        textarea.value = data.result || '응답이 없습니다.';
+                    })
+                    .catch(error => {
+                        console.error('에러 발생:', error);
+                        textarea.value = '오류가 발생했습니다.';
+                    });
+            });
+        });
+
+        document.getElementById("downloadPDF").addEventListener("click", async function () {
+            // 각 textarea 값 추출
+            const inputs = {};
+            inputs["resume_title"] =  document.getElementById("resume-title").value;
+
+            document.querySelectorAll(".writeBox").forEach(textarea => {
+                const key = textarea.getAttribute("data-type");
+                const valuee = textarea.value;
+                inputs[key] = valuee;
+
+            });
+
+            const educationList = [];
+
+            document.querySelectorAll(".school-list .education").forEach(eduEl => {
+                const schoolName = eduEl.querySelector("h4")?.textContent.trim();
+                const major = eduEl.querySelector("p")?.textContent.trim();
+
+                const spans = eduEl.querySelectorAll(".edu-info span");
+                const part = spans[0]?.textContent.trim();
+                const degreeType = spans[1]?.textContent.trim();
+                const graduationStatus = spans[2]?.textContent.trim();
+
+                const graduationDate = eduEl.querySelector(".graduration")?.textContent.trim();
+
+                educationList.push({
+                    schoolName,
+                    major,
+                    part,
+                    degreeType,
+                    graduationStatus,
+                    graduationDate
+                });
+            });
+
+            inputs["educationList"] = educationList;
+
+            const careerList = [];
+
+            document.querySelectorAll(".com-list .education").forEach(careerEl => {
+                const companyName = careerEl.querySelector("h4")?.textContent.trim();
+                const department = careerEl.querySelector("p")?.textContent.trim();
+
+                const spanEls = careerEl.querySelectorAll(".edu-info span");
+                const joinQuit = spanEls[0]?.textContent.trim().split(" ~ ");
+                const joinDate = joinQuit?.[0];
+                const quitDate = joinQuit?.[1];
+
+                const position = spanEls[1]?.textContent.trim();
+
+                const jobDescription = careerEl.querySelector(".job_description")?.textContent.trim();
+
+                careerList.push({
+                    companyName,
+                    department,
+                    joinDate,
+                    quitDate,
+                    position,
+                    jobDescription
+                });
+            });
+
+            inputs["careerList"] = careerList;
+
+            const licenseList = [];
+
+            document.querySelectorAll(".license-card").forEach(licenseEl => {
+                const licenseName = licenseEl.querySelector(".name")?.textContent.trim();
+                const licenseOrg = licenseEl.querySelector(".org")?.textContent.trim();
+
+                const dateText = licenseEl.querySelector(".date")?.textContent.trim();
+                let acquisition = "", expiration = "";
+                if (dateText.includes("~")) {
+                    const dates = dateText.split("~").map(d => d.trim());
+                    acquisition = dates[0];
+                    expiration = dates[1];
+                }
+
+                licenseList.push({
+                    licenseName,
+                    licenseOrg,
+                    acquisition,
+                    expiration
+                });
+            });
+
+            inputs["licenseList"] = licenseList;
+
+            console.log(inputs);
+
+            // Ajax 요청 보내기
+            fetch("/generatepdf", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(inputs)
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error("PDF 생성 실패");
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Blob으로 다운로드 처리
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "이력서.pdf";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => {
+                    console.error("에러:", error);
+                    alert("PDF 생성 중 오류 발생");
+                });
+        });
+    </script>
 
 </body>
 

@@ -308,14 +308,14 @@ modifyPencil.addEventListener('click',function (){
     location.herf="/user/modify  "
 })
 
-var licensePencil =document.querySelector(".licensePencil");
+var licensePencilList = document.querySelectorAll(".licensePencil");
 
-licensePencil.addEventListener('click',function (){
-    var editLicenseForm = document.querySelector(".edit-license-form");
-    editLicenseForm.classList.add("add");
-
-
-})
+licensePencilList.forEach(function (licensePencil) {
+    licensePencil.addEventListener('click', function () {
+        var editLicenseForm = document.querySelector(".edit-license-form");
+        editLicenseForm.classList.add("add");
+    });
+});
 
 
 document.querySelectorAll('.tag').forEach(tag => {

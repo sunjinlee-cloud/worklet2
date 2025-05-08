@@ -1,12 +1,12 @@
 package com.project2.worklet.controller;
 
-import com.project2.worklet.component.ResumeVO;
-import com.project2.worklet.component.UserVO;
+import com.project2.worklet.component.*;
 import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import com.project2.worklet.resume.service.ResumeService;
@@ -27,7 +27,7 @@ public class ResumeController {
    private ResumeService resumeService;
 
 
-    @PostMapping("/submitresume")
+    @PostMapping("/user/submitresume")
     @ResponseBody
     public Map<String, String> airesume(@RequestBody Map<String, String> payload) {
 
@@ -54,7 +54,8 @@ public class ResumeController {
 
     @PostMapping("/generatepdf")
     @ResponseBody
-    public ResponseEntity<byte[]> generateStatus(@RequestBody ResumeVO resumeVO) throws Exception, JRException {
+    public ResponseEntity<byte[]> generateStatus(@RequestBody ResumeVO resumeVO,
+                                                 HttpSession session) throws Exception, JRException {
 
         System.out.println("컨트롤러 탔음");
 
@@ -63,23 +64,36 @@ public class ResumeController {
                 getClass().getResourceAsStream("/resume_ex_01.jrxml")
         );
 
+        UserVO vo = (UserVO) session.getAttribute("loginUser");
+        System.out.println("resumevo는 "+resumeVO.toString());
+        System.out.println("uservo는 "+vo.toString());
+        System.out.println("eduvo는 "+resumeVO.getEducationList().toString());
+        System.out.println("careervo는 "+resumeVO.getCareerList().toString());
+        System.out.println("licensevo는 "+resumeVO.getLicenseList().toString());
+
+
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("userName", "김길동");
-        parameters.put("userBirthday", "2000-01-01");
-        parameters.put("userAddress", "서울 마포구 망원로2길 63");
-        parameters.put("userEmail", "abc@adfasfdas.com");
-        parameters.put("userPhone", "010-1234-1234");
+        parameters.put("resume_title", resumeVO.getTitle());
+        parameters.put("userName", vo.getUserName());
+        parameters.put("userBirthday", vo.getUserBirthday());
+        parameters.put("userAddress", vo.getUserAddress());
+        parameters.put("userEmail", vo.getUserEmail());
+        parameters.put("userPhone", vo.getUserPhone());
         parameters.put("army", "군필");
-        parameters.put("resumeEduPeriod1", "2016.03-2019.02");
-        parameters.put("resumeEduPeriod2", "2019.03-2025.02");
-        parameters.put("resumeEduCont1", "서울대학교 컴퓨터공학과 졸업");
-        parameters.put("resumeEduCont2", "경기고등학교 졸업");
-        parameters.put("resumeCarPeriod1", "");
-        parameters.put("resumeCarPeriod2", "");
-        parameters.put("resumeCarBusiName1", "");
-        parameters.put("resumeCarBusiName2", "");
-        parameters.put("resumeCarWorkCont1", "");
-        parameters.put("resumeCarWorkCont2", "");
+        for(int i = 0; i < resumeVO.getEducationList().size(); i++){
+            parameters.put("resumeEduPeriod"+(i+1), String.valueOf(resumeVO.getEducationList().get(i).getGraduationDate()));
+            parameters.put("resumeEduCont"+(i+1), resumeVO.getEducationList().get(i).getSchoolName()+" "
+                                                    +resumeVO.getEducationList().get(i).getMajor()+ " "
+                                                    +resumeVO.getEducationList().get(i).getGraduationStatus());
+        }
+        for(int i = 0; i < resumeVO.getCareerList().size(); i++){
+            parameters.put("resumeCarPeriod"+(i+1), resumeVO.getCareerList().get(i).getJoinDate()+"~"
+                                                        +resumeVO.getCareerList().get(i).getQuitDate());
+            parameters.put("resumeCarBusiName"+(i+1), resumeVO.getCareerList().get(i).getCompanyName());
+            parameters.put("resumeCarWorkCont"+(i+1), resumeVO.getCareerList().get(i).getJobDescription());
+
+        }
+
         parameters.put("resumeCertRegDate1", "2020.01");
         parameters.put("resumeCertRegDate2", "2024.04");
         parameters.put("resumeCertRegDate3", "2024.11");
@@ -91,7 +105,7 @@ public class ResumeController {
         parameters.put("resumeCertFrom3", "KAIT");
         parameters.put("resumeEarlyLife", resumeVO.getResumeEarlyLife());
         parameters.put("resumeStrengthWeakness", resumeVO.getResumeStrengthWeakness());
-        parameters.put("resumeApplyReason", resumeVO.getResumeApplyReason());
+        parameters.put("resumeSchoolCareer", resumeVO.getResumeSchoolCareer());
         parameters.put("resumeApplyAfterDream", resumeVO.getResumeApplyAfterDream());
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());

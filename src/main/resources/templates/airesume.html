@@ -9,7 +9,7 @@
             position: relative;
         }
 
-        .cont {
+        .writeBox {
             resize: none;
         }
 
@@ -40,36 +40,36 @@
 
     <h5>성장과정</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="resumeEarlyLife" data-name="성장과정" rows="10" cols="100"></textarea>
-    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <textarea class="writeBox" data-type="resumeEarlyLife" data-name="성장과정" rows="10" cols="100"></textarea>
+    <button type="button" class="preview-btn">글 다듬기</button>
     <div class="spinner" style="display: none;"></div>
     </div>
 
     <h5>직무 지원 계기</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="resumeApplyReason" data-name="직무 지원 계기" rows="10" cols="100"></textarea>
-    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <textarea class="writeBox" data-type="resumeApplyReason" data-name="직무 지원 계기" rows="10" cols="100"></textarea>
+    <button type="button" class="preview-btn">글 다듬기</button>
     <div class="spinner" style="display: none;"></div>
     </div>    
 
     <h5>자신의 강점과 약점</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="resumeStrengthWeakness" data-name="자신의 강점과 약점" rows="10" cols="100"></textarea>
-    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <textarea class="writeBox" data-type="resumeStrengthWeakness" data-name="자신의 강점과 약점" rows="10" cols="100"></textarea>
+    <button type="button" class="preview-btn">글 다듬기</button>
     <div class="spinner" style="display: none;"></div>
     </div>
 
     <h5>입사 후 포부</h5>
     <div class="outerBox">
-    <textarea class="cont" data-type="resumeApplyAfterDream" data-name="입사 후 포부" rows="10" cols="100"></textarea>
-    <button type="button" class="resumeSubmitBtn">글 다듬기</button>
+    <textarea class="writeBox" data-type="resumeApplyAfterDream" data-name="입사 후 포부" rows="10" cols="100"></textarea>
+    <button type="button" class="preview-btn">글 다듬기</button>
     <div class="spinner" style="display: none;"></div>
     </div>
     
     <input type="button" id="downloadPDF" value="pdf로 저장">
 
     <script>
-        document.querySelectorAll('.resumeSubmitBtn').forEach(function(button) {
+        document.querySelectorAll('.preview-btn').forEach(function(button) {
             button.addEventListener('click', function() {
                 const textarea = this.previousElementSibling;
                 const content = textarea.value;
@@ -109,7 +109,7 @@
         document.getElementById("downloadPDF").addEventListener("click", async function () {
             // 각 textarea 값 추출
             const inputs = {};
-            document.querySelectorAll(".cont").forEach(textarea => {
+            document.querySelectorAll(".writeBox").forEach(textarea => {
                 const key = textarea.getAttribute("data-type");
                 const valuee = textarea.value;
                 inputs[key] = valuee;

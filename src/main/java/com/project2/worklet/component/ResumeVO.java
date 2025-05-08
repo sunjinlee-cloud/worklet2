@@ -13,9 +13,13 @@ import java.util.List;
 @Data
 public class ResumeVO {
 
+
     private Long resumeId;
     private int userNum;
+    @JsonProperty("resume_title")
     private String title;
+    @JsonProperty("userName")
+    private String userName;
     private String growth;
     private String studentDay;
     private String prosAndCons;
@@ -39,8 +43,8 @@ public class ResumeVO {
     @JsonProperty("resumeStrengthWeakness")
     private String resumeStrengthWeakness;
 
-    @JsonProperty("resumeApplyReason")
-    private String resumeApplyReason;
+    @JsonProperty("resumeSchoolCareer")
+    private String resumeSchoolCareer;
 
     @JsonProperty("resumeApplyAfterDream")
     private String resumeApplyAfterDream;
