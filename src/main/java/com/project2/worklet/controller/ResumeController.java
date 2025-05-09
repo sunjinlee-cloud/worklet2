@@ -206,41 +206,41 @@ public class ResumeController {
         return "redirect:/user/resumePage?uniqueTime=" + resumeVO.getResumeId();
     }
 
-    @GetMapping("/user/resumePage")
-    public String saveResume(HttpSession session, Model model) {
-        // 로그인한 사용자 정보 가져오기
-        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
-
-
-        // 로그인 정보가 없으면 userNum이 0일 가능성 있음
-        if (loginUser == null || loginUser.getUserNum() == 0) {
-            System.out.println("로그인 정보가 없습니다.");
-            return "redirect:/user/login"; // 로그인 페이지로 리다이렉트할 수도 있음
-        } else {
-            int userNum = loginUser.getUserNum();
-            System.out.println("로그인한 사용자: " + userNum);
-
-            // 서비스에서 이력서 목록 가져오기
-            List<ResumeVO> resumeList = resumeService.getResumesByUserNum(userNum);
-            System.out.println("이력서 목록: " + resumeList);
-
-            model.addAttribute("resumeList", resumeList);
-
-            // userVO 가져와서 모델에 추가 (타임리프 오류 방지)
-            UserVO fullUser = userService.getUserById(loginUser.getUserId());
-
-            // 희망직업 배열로 구성해서 넣기 (UserController 참고)
-            List<String> wantJobTypes = new ArrayList<>();
-            if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());
-            if (fullUser.getWantJobType2() != null) wantJobTypes.add(fullUser.getWantJobType2());
-            if (fullUser.getWantJobType3() != null) wantJobTypes.add(fullUser.getWantJobType3());
-            fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
-
-            model.addAttribute("userVO", fullUser);
-
-            return "User/mypage"; // 타임리프 페이지
-        }
-    }
+//    @GetMapping("/user/resumePage")
+//    public String saveResume(HttpSession session, Model model) {
+//        // 로그인한 사용자 정보 가져오기
+//        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+//
+//
+//        // 로그인 정보가 없으면 userNum이 0일 가능성 있음
+//        if (loginUser == null || loginUser.getUserNum() == 0) {
+//            System.out.println("로그인 정보가 없습니다.");
+//            return "redirect:/user/login"; // 로그인 페이지로 리다이렉트할 수도 있음
+//        } else {
+//            int userNum = loginUser.getUserNum();
+//            System.out.println("로그인한 사용자: " + userNum);
+//
+//            // 서비스에서 이력서 목록 가져오기
+//            List<ResumeVO> resumeList = resumeService.getResumesByUserNum(userNum);
+//            System.out.println("이력서 목록: " + resumeList);
+//
+//            model.addAttribute("resumeList", resumeList);
+//
+//            // userVO 가져와서 모델에 추가 (타임리프 오류 방지)
+//            UserVO fullUser = userService.getUserById(loginUser.getUserId());
+//
+//            // 희망직업 배열로 구성해서 넣기 (UserController 참고)
+//            List<String> wantJobTypes = new ArrayList<>();
+//            if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());
+//            if (fullUser.getWantJobType2() != null) wantJobTypes.add(fullUser.getWantJobType2());
+//            if (fullUser.getWantJobType3() != null) wantJobTypes.add(fullUser.getWantJobType3());
+//            fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
+//
+//            model.addAttribute("userVO", fullUser);
+//
+//            return "User/mypage"; // 타임리프 페이지
+//        }
+//    }
 
 
     // 이력서 수정
@@ -267,7 +267,7 @@ public class ResumeController {
         if (result == 1) {
             return "redirect:/user/resumePage"; // 수정된 이력서 목록 페이지로 리다이렉트
         } else {
-            return "redirect:/user/editResume?resumeId=" + resumeId; // 수정 실패 시 다시 수정 페이지로 리다이렉트
+            return "redirect:/user/resume?resumeId=" + resumeId; // 수정 실패 시 다시 수정 페이지로 리다이렉트
         }
     }
 

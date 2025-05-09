@@ -44,7 +44,7 @@ public interface UserService {
     int updateCareer(CareerVO career);
 
     // 학력 조회 추가
-    List<EduVO> getUserEducation(int userNum);
+    List<EduVO> getUserEducation(int userNum, Long resumeId);
 
     // 경력 조회 추가
     List<CareerVO> getUserCareer(int userNum);

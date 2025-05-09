@@ -54,6 +54,7 @@ dependencies {
 	implementation 'com.lowagie:itext:2.1.7'
 	//implementation 'com.lowagie:itext:2.1.7.js6'
 	//implementation files('libs/itext-2.1.7.js6.jar')
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 }
 
 tasks.named('test') {
