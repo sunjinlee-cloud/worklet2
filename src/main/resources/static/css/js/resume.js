@@ -19,63 +19,65 @@ plusBtn.forEach((btn) => {
     });
 });
 
-pencil.forEach((btn) => {
-    btn.addEventListener('click', () => {
-        const section = btn.closest('section'); // 해당 버튼이 속한 섹션
-        const form = section.querySelector('.edit-edu-form');
-        form.classList.add('add');
+// pencil.forEach((btn) => {
+//     btn.addEventListener('click', () => {
+//         const section = btn.closest('section'); // 해당 버튼이 속한 섹션
+//         const form = section.querySelector('.edit-edu-form');
+//         form.classList.add('add');
+//
+//         const eduDiv = btn.closest('.education');
+//
+//         if (section.classList.contains('sec03')) {
+//             // 학력 수정
+//             const schoolName = eduDiv.querySelector('.school h4')?.innerText || '';
+//             const major = eduDiv.querySelector('.school p')?.innerText || '';
+//             const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
+//             const gradType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+//             const grad = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText || '';
+//             const gradDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '') || '';
+//
+//             form.querySelector('.input-school').value = schoolName;
+//             form.querySelector('.input-major').value = major;
+//             form.querySelector('.completion').value = part;
+//             form.querySelector('.level').value = gradType;
+//             form.querySelector('.grad').value = grad; // 디테일하게 조정 가능
+//             form.querySelector('input[name="graduationDate"]').value = gradDate;
+//
+//         } else if (section.classList.contains('sec04')) {
+//             // 경력 수정
+//             const companyName = eduDiv.querySelector('.school h4')?.innerText || '';
+//             const department = eduDiv.querySelector('.school p')?.innerText || '';
+//             const dates = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
+//             const position = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+//             const jobDescription = eduDiv.querySelector('.job_description')?.innerText || '';
+//
+//             const [joinDate, quitDate] = dates.split(' ~ '); // 입사일과 퇴사일 나누기
+//
+//             form.querySelector('.company-name').value = companyName;
+//             form.querySelector('.department').value = department;
+//             form.querySelector('input[name="joinDate"]').value = joinDate?.trim() || '';
+//             form.querySelector('input[name="quitDate"]').value = quitDate?.trim() || '';
+//             form.querySelector('input[name="position"]').value = position;
+//             form.querySelector('textarea[name="jobDescription"]').value = jobDescription;
+//
+//
+//         }
+//         // else if (section.classList.contains('sec05')) {
+//         //     // 자격증 수정
+//         //     const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
+//         //     const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
+//         //     const dateRange = eduDiv.querySelector('.sec05 .date')?.innerText || '';
+//         //     const [acquisition, expiration] = dateRange.split(' ~ ');
+//         //
+//         //     form.querySelector('input[name="licenseName"]').value = licenseName;
+//         //     form.querySelector('input[name="licenseOrg"]').value = licenseOrg;
+//         //     form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
+//         //     form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
+//         // }
+//     });
+// });
 
-        const eduDiv = btn.closest('.education');
 
-        if (section.classList.contains('sec03')) {
-            // 학력 수정
-            const schoolName = eduDiv.querySelector('.school h4')?.innerText || '';
-            const major = eduDiv.querySelector('.school p')?.innerText || '';
-            const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
-            const gradType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
-            const grad = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText || '';
-            const gradDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '') || '';
-
-            form.querySelector('.input-school').value = schoolName;
-            form.querySelector('.input-major').value = major;
-            form.querySelector('.completion').value = part;
-            form.querySelector('.level').value = gradType;
-            form.querySelector('.grad').value = grad; // 디테일하게 조정 가능
-            form.querySelector('input[name="graduationDate"]').value = gradDate;
-
-        } else if (section.classList.contains('sec04')) {
-            // 경력 수정
-            const companyName = eduDiv.querySelector('.school h4')?.innerText || '';
-            const department = eduDiv.querySelector('.school p')?.innerText || '';
-            const dates = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
-            const position = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
-            const jobDescription = eduDiv.querySelector('.job_description')?.innerText || '';
-
-            const [joinDate, quitDate] = dates.split(' ~ '); // 입사일과 퇴사일 나누기
-
-            form.querySelector('.company-name').value = companyName;
-            form.querySelector('.department').value = department;
-            form.querySelector('input[name="joinDate"]').value = joinDate?.trim() || '';
-            form.querySelector('input[name="quitDate"]').value = quitDate?.trim() || '';
-            form.querySelector('input[name="position"]').value = position;
-            form.querySelector('textarea[name="jobDescription"]').value = jobDescription;
-
-
-        }
-        // else if (section.classList.contains('sec05')) {
-        //     // 자격증 수정
-        //     const licenseName = eduDiv.querySelector('.sec05 .name')?.innerText || '';
-        //     const licenseOrg = eduDiv.querySelector('.sec05 .org')?.innerText || '';
-        //     const dateRange = eduDiv.querySelector('.sec05 .date')?.innerText || '';
-        //     const [acquisition, expiration] = dateRange.split(' ~ ');
-        //
-        //     form.querySelector('input[name="licenseName"]').value = licenseName;
-        //     form.querySelector('input[name="licenseOrg"]').value = licenseOrg;
-        //     form.querySelector('input[name="acquisition"]').value = acquisition?.trim() || '';
-        //     form.querySelector('input[name="expiration"]').value = expiration?.trim() || '';
-        // }
-    });
-});
 
 // 취소 버튼 클릭 시 해당 섹션의 폼만 닫기
 cancelBtn.forEach((btn) => {
@@ -109,7 +111,7 @@ sec03BtnSave.addEventListener('click', function () {
     const div = document.createElement('div');
     div.classList.add('education', 'flex');
     div.innerHTML = `
-     <div class="school">
+                    <div class="school">
                         <h4>${schoolName}</h4>
                         <p>${major}</p>
                     </div>
@@ -353,12 +355,199 @@ document.querySelectorAll('.tag').forEach(tag => {
     //     popup.style.display = "none";
     // });
     //
-    // // 바깥쪽 클릭 시 팝업 닫기
-    // document.addEventListener("click", function (e) {
-    //     const isClickInside = saveBtn.contains(e.target) || popup.contains(e.target);
-    //     if (!isClickInside) {
-    //         popup.style.display = "none";
-    //     }
-    // });
 
 
+    document.querySelector(".add-edu-form form").addEventListener("submit", function (event) {
+    event.preventDefault(); // 새로고침 방지
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    fetch("/user/updateEdu", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("서버 응답 실패");
+        return response.text();
+    })
+    .then(() => {
+        const schoolName = form.schoolName.value;
+        const major = form.major.value;
+        const part = form.part.value;
+        const degreeType = form.degreeType.value;
+        const graduationStatus = form.graduationStatus.value;
+        const graduationDate = form.graduationDate.value;
+
+
+    const newEdu = document.createElement("div");
+    newEdu.className = "education flex";
+    newEdu.innerHTML = `
+            <div class="school">
+                <h4>${schoolName}</h4>
+                <p>${major}</p>
+            </div>
+            <div class="edu-info">
+                <div>
+                    <span>${part}</span>
+                    <span>${degreeType}</span>
+                    <span>${graduationStatus || '미입력'}</span>
+                </div>
+                <p class="graduration">${graduationDate}</p>
+            </div>
+            <img src="../image/pencil.png" alt="" class="pencil">
+            <form method="POST" action="/user/deleteEdu">
+                <input type="hidden" name="resumeId" value="${form.resumeId.value}">
+                <input type="hidden" name="schoolName" value="${schoolName}">
+                <button type="submit" class="delete-btn">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </form>
+        `;
+
+    document.getElementById("educationList").appendChild(newEdu);
+
+
+    form.reset();
+})
+    .catch(error => {
+    console.error("에러 발생:", error);
+});
+});
+
+// 수정 버튼 눌렀을 때
+// document.querySelectorAll(".pencil").forEach(btn => {
+//     btn.addEventListener("click", function () {
+//         const eduDiv = btn.closest(".education");
+//         const eduForm = document.getElementById("eduEditForm");
+//
+//         const schoolName = eduDiv.querySelector("h4").textContent.trim();
+//         const major = eduDiv.querySelector("p").textContent.trim();
+//         const spans = eduDiv.querySelectorAll(".edu-info span");
+//         const part = spans[0].textContent.trim();
+//         const degreeType = spans[1].textContent.trim();
+//         const graduationStatus = spans[2].textContent.trim();
+//         const graduationDate = eduDiv.querySelector(".graduration").textContent.trim().split(" ")[0];
+//         const educationId = eduDiv.getAttribute("data-id");
+//
+//         // 값 넣기
+//         eduForm.schoolName.value = schoolName;
+//         eduForm.major.value = major;
+//         eduForm.part.value = part;
+//         eduForm.degreeType.value = degreeType;
+//         eduForm.graduationStatus.value = graduationStatus;
+//         eduForm.graduationDate.value = graduationDate;
+//
+//         // hidden input 추가 또는 수정
+//         let hiddenInput = eduForm.querySelector('input[name="educationId"]');
+//         if (!hiddenInput) {
+//             hiddenInput = document.createElement("input");
+//             hiddenInput.type = "hidden";
+//             hiddenInput.name = "educationId";
+//             eduForm.appendChild(hiddenInput);
+//         }
+//         hiddenInput.value = educationId;
+//
+//         // 폼 보이기
+//         eduForm.closest(".edit-edu-form").style.display = "block";
+//     });
+// });
+//
+//
+// document.getElementById("educationList").addEventListener("click", function (event) {
+//     if (event.target.classList.contains("pencil")) {
+//         const btn = event.target;
+//         const section = btn.closest('section');
+//         const form = section.querySelector('.edit-edu-form');
+//         form.classList.add('add');
+//
+//         const eduDiv = btn.closest('.education');
+//
+//         if (section.classList.contains('sec03')) {
+//             const schoolName = eduDiv.querySelector('.school h4')?.innerText || '';
+//             const major = eduDiv.querySelector('.school p')?.innerText || '';
+//             const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText || '';
+//             const gradType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText || '';
+//             const grad = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText || '';
+//             const gradDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '') || '';
+//
+//             form.querySelector('.input-school').value = schoolName;
+//             form.querySelector('.input-major').value = major;
+//             form.querySelector('.completion').value = part;
+//             form.querySelector('.level').value = gradType;
+//             form.querySelector('.grad').value = grad;
+//             form.querySelector('input[name="graduationDate"]').value = gradDate;
+//         }
+//
+//     }
+// });
+//
+//
+document.getElementById("educationList").addEventListener("click", function (event) {
+    if (event.target.classList.contains("pencil")) {
+        const btn = event.target;
+        const eduDiv = btn.closest('.education');
+        const educationId = eduDiv.getAttribute('data-id');
+
+        const schoolName = eduDiv.querySelector('.school h4')?.innerText.trim() || '';
+        const major = eduDiv.querySelector('.school p')?.innerText.trim() || '';
+        const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText.trim() || '';
+        const degreeType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText.trim() || '';
+        const graduationStatus = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText.trim() || '';
+        const graduationDate = eduDiv.querySelector('.graduration')?.innerText.replace(' 졸업', '').trim() || '';
+
+        const form = document.querySelector('.edit-edu-form');
+        form.classList.add('add'); // 폼 보여주기
+
+        // 값 채워주기
+        form.querySelector('input[name="educationId"]').value = educationId;
+        form.querySelector('.input-school').value = schoolName;
+        form.querySelector('.input-major').value = major;
+        form.querySelector('.completion').value = part;
+        form.querySelector('.level').value = degreeType;
+        form.querySelector('.grad').value = graduationStatus;
+        form.querySelector('input[name="graduationDate"]').value = graduationDate;
+
+
+    }
+});
+
+document.getElementById("saveEducationBtn").addEventListener("click", function () {
+    const form = document.querySelector(".edit-edu-form");
+
+
+    const data = {
+        educationId: form.querySelector('input[name="educationId"]').value,
+        schoolName: form.querySelector('.input-school').value,
+        major: form.querySelector('.input-major').value,
+        part: form.querySelector('.completion').value,
+        degreeType: form.querySelector('.level').value,
+        graduationStatus: form.querySelector('.grad').value,
+        graduationDate: form.querySelector('input[name="graduationDate"]').value
+    };
+
+    // AJAX 요청 보내기
+    fetch("/educationEdit.do", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            if (result.success) {
+                alert("수정 성공!");
+                location.reload(); // 필요하면 새로고침
+            } else {
+                alert("수정 실패: " + result.message);
+            }
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+            alert("에러 발생!");
+        });
+});

@@ -80,8 +80,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<EduVO> getUserEducation(int userNum) {
-        return userMapper.getUserEducation(userNum);
+    public List<EduVO> getUserEducation(int userNum, Long resumeId) {
+        return userMapper.getUserEducation(userNum, resumeId);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.project2.worklet.controller;
 
 import com.project2.worklet.component.*;
 
+import com.project2.worklet.resume.service.ResumeService;
 import com.project2.worklet.user.service.UserService;
 import com.project2.worklet.util_interceptor.Criteria;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,10 @@ public class UserController {
     @Autowired
     @Qualifier("userService")
     private UserService userService;
+
+    @Autowired
+    @Qualifier("resumeService")
+    private ResumeService resumeService;
 
 
     @GetMapping("/regist")
@@ -107,7 +112,45 @@ public class UserController {
     }
 
 
-    @GetMapping("/mypage")
+//    @GetMapping("/mypage")
+//    public String mypage(HttpSession session, Model model, Criteria cri) {
+//
+//        UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+//
+//        if(loginUser != null) {
+//            String userId = loginUser.getUserId();
+//
+//            //스크랩공고 가져오기
+//            List<JobPostingVO2> list = userService.getScrappedJob(userId, cri);
+//            UserVO fullUser = userService.getUserById(loginUser.getUserId());
+//            model.addAttribute("list", list);
+//
+//            //추천공고 가져오기
+//            List<String> preferredJobTypes = new ArrayList<>();
+//            preferredJobTypes.add(loginUser.getPreferredJobType1());
+//            preferredJobTypes.add(loginUser.getPreferredJobType2());
+//            preferredJobTypes.add(loginUser.getPreferredJobType3());
+//            System.out.println("희망직업번호 가져와짐? "+preferredJobTypes.toString());
+//            List<JobPostingVO2> recList = userService.getRecommendedJob(preferredJobTypes, cri);
+//            System.out.println(recList.toString());
+//
+//            model.addAttribute("recList", recList);
+//
+//            List<String> wantJobTypes = new ArrayList<>();
+//            if (fullUser.getWantJobType1() != null) wantJobTypes.add(fullUser.getWantJobType1());
+//            if (fullUser.getWantJobType2() != null) wantJobTypes.add(fullUser.getWantJobType2());
+//            if (fullUser.getWantJobType3() != null) wantJobTypes.add(fullUser.getWantJobType3());
+//            fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
+//
+//            model.addAttribute("userVO", fullUser);
+//            return "User/mypage";
+//        }else {
+//            return "redirect:/User/login";
+//        }
+//
+//    }
+
+    @GetMapping({"/resumePage", "/mypage"})
     public String mypage(HttpSession session, Model model, Criteria cri) {
 
         UserVO loginUser = (UserVO) session.getAttribute("loginUser");
@@ -138,12 +181,27 @@ public class UserController {
             fullUser.setWantJobType(wantJobTypes.toArray(new String[0]));
 
             model.addAttribute("userVO", fullUser);
+
+
+            // 이력서
+            int userNum = loginUser.getUserNum();
+            System.out.println("로그인한 사용자: " + userNum);
+
+            // 서비스에서 이력서 목록 가져오기
+            List<ResumeVO> resumeList = resumeService.getResumesByUserNum(userNum);
+            System.out.println("이력서 목록: " + resumeList);
+
+            model.addAttribute("resumeList", resumeList);
+
+
             return "User/mypage";
         }else {
+            System.out.println("로그인 정보가 없습니다.");
             return "redirect:/User/login";
         }
 
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -152,7 +210,7 @@ public class UserController {
     }
 
     @GetMapping("/resume")
-    public String resume(HttpSession session, Model model) {
+    public String resume(HttpSession session, Model model, @RequestParam long uniqueTime) {
 
         UserVO vo = (UserVO) session.getAttribute("loginUser");
 
@@ -160,26 +218,31 @@ public class UserController {
             UserVO fullUser = userService.getUserById(vo.getUserId());
 
             if (fullUser != null) {
+                EduVO eduVO = new EduVO();
+
                 // ✅ 추가: 학력 목록 조회해서 넣기
-                List<EduVO> educationList = userService.getUserEducation(fullUser.getUserNum());
+                List<EduVO> educationList = userService.getUserEducation(fullUser.getUserNum(), uniqueTime);
+                System.out.println("uniqueTime>>>>>>>>>>>>!!!!!!!!!!!!!!>>"+uniqueTime);
                 fullUser.setEducationList(educationList);
 
-                // ✅ 추가: 경력 목록 조회해서 넣기 (필요하면)
+                // ✅ 추가: 경력 목록 조회해서 넣기
                 List<CareerVO> careerList = userService.getUserCareer(fullUser.getUserNum());
                 fullUser.setCareerList(careerList);
 
-                // ✅ 추가: 경력 목록 조회해서 넣기 (필요하면)
+                // ✅ 추가: 경력 목록 조회해서 넣기
                 List<LicenseVO> licenseList = userService.getUserLicenses(fullUser.getUserNum());
                 fullUser.setLicenseList(licenseList);
 
                 model.addAttribute("educationList", educationList);
                 model.addAttribute("careerList", careerList);
                 model.addAttribute("licenseList", licenseList);
+
+                ResumeVO resume = resumeService.getResumeById(uniqueTime);
+                model.addAttribute("resume", resume);
+
             }
 
 
-            // String을 LocalDate로 변환
-            // 생일이 있을 경우 만나이 계산
             if (fullUser.getUserBirthday() != null && !fullUser.getUserBirthday().isEmpty()) {
                 try {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -189,7 +252,7 @@ public class UserController {
                     model.addAttribute("userBirthday", birthday); // 생일 자체도 넘기고
                     model.addAttribute("age", age); // 만나이도 넘김
                 } catch (Exception e) {
-                    e.printStackTrace(); // 파싱 실패 시 로그
+                    e.printStackTrace();
                 }
             }
 
@@ -358,16 +421,7 @@ public class UserController {
         eduVO.setGraduationStatus(graduationStatus);
         eduVO.setGraduationDate(graduationDateLocal);
 
-
-        // 데이터 삽입
         int result = userService.insertEdu(eduVO);
-        log.info("학교명: " + schoolName);
-        log.info("전공: " + major);
-        log.info("이수형태: " + part);
-        log.info("학위구분: " + degreeType);
-        log.info("졸업여부: " + graduationStatus);
-        log.info("졸업일: " + graduationDate);
-
 
         eduVO.setFormattedGraduationDate(graduationDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
@@ -409,36 +463,25 @@ public class UserController {
 
     // 학력 수정 처리
     @PostMapping("/editEdu")
-    public String editEducation(EduVO edu,
-                                @RequestParam("educationId") Long educationId,
-                                @RequestParam("userNum") String userNum,
-                                @RequestParam("schoolName") String schoolName,
-                                @RequestParam("major") String major,
-                                @RequestParam("part") String part,
-                                @RequestParam("degreeType") String degreeType,
-                                @RequestParam("graduationStatus") String graduationStatus,
-                                @RequestParam("graduationDate") String graduationDate) {
+    public String editEducation(@RequestBody EduVO edu) {
 
-        LocalDate graduationDateLocal = convertStringToLocalDate(graduationDate);
+        // graduationDate를 LocalDate로 변환
+        LocalDate graduationDateLocal = convertStringToLocalDate(String.valueOf(edu.getGraduationDate()));
 
-        EduVO eduVO = new EduVO();
-        eduVO.setEducationId(educationId);
-        eduVO.setUserNum(Integer.parseInt(userNum));
-        eduVO.setSchoolName(schoolName);
-        eduVO.setMajor(major);
-        eduVO.setPart(part);
-        eduVO.setDegreeType(degreeType);
-        eduVO.setGraduationStatus(graduationStatus);
-        eduVO.setGraduationDate(graduationDateLocal);
+        // graduationDate를 설정
+        edu.setGraduationDate(graduationDateLocal);
 
-        int result = userService.updateEdu(eduVO);
+        // 데이터 처리 후 업데이트
+        int result = userService.updateEdu(edu);
         if (result > 0) {
             log.info("학력 수정 성공");
         } else {
             log.error("학력 수정 실패");
         }
+
         return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
     }
+
 
     // 경력 추가 처리
     @PostMapping("/updateCareer")

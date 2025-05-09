@@ -137,13 +137,10 @@
                                 <h4 th:text="${resume.title}">이력서 제목</h4>
                                 <span th:text="${#temporals.format(resume.updatedAt != null ? resume.updatedAt : T(java.time.LocalDateTime).now(), 'yyyy.MM.dd HH:mm')}">수정일 없음</span>
 
-
-
                             </div>
                             <div class="edit">
-                                <form th:action="@{/user/editResume}" method="post" style="display:inline;">
-                                    <input type="hidden" name="resumeId" th:value="${resume.resumeId}" />
-                                    <button type="submit">수정하기</button>
+                                <form>
+                                     <button type="button" th:onclick="|location.href='/user/resume?uniqueTime=${resume.resumeId}'|">수정하기</button>
                                 </form>
                                 <form th:action="@{/user/deleteResume}" method="post" style="display:inline;">
                                     <input type="hidden" name="resumeId" th:value="${resume.resumeId}" />
