@@ -1440,6 +1440,22 @@
         color: var(--main-color1);
     }
 
+    .downloadPDF {
+        all: unset;
+        margin-top: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        width: 300px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
 
 
     /* --------footer----------- */
@@ -2951,6 +2967,33 @@
         margin-bottom: 1.5em;
     }
 
+    .outerBox {
+        position: relative;
+    }
+
+    .writeBox {
+        resize: none;
+    }
+
+    .spinner {
+        position: absolute;
+        top: 30%;
+        left: 45%;
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #255EEE;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        animation: spin 2s linear infinite;
+        /*margin-top: 10px;*/
+        /*margin-bottom: 10px;*/
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     .introduceMyself {
         display: flex;
         flex-direction: column;
@@ -3028,6 +3071,23 @@
 
     .sec06 .resume-item>p span {
         color: var(--main-color1);
+    }
+
+    .downloadPDF {
+        all: unset;
+        margin-top: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        width: 750px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+        margin-left: 100px;
+        margin-bottom: 50px;
     }
 
 

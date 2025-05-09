@@ -367,6 +367,7 @@
                 //     eventMain.appendChild(heart);
                 // }
                 // // ⭐ 즐겨찾기 하트 추가 끝
+                console.log(info.event.extendedProps);
 
                 var mainEl = info.el.querySelector('.fc-event-main');
                 if (!mainEl) return;
@@ -467,13 +468,12 @@
 
                     var bgColor = info.event.extendedProps.color;
                     if(bgColor) {
-                        console.log("색상 값: ", bgColor);
                         mainEl.style.backgroundColor = bgColor;
                     } else {
-                        mainEl.style.backgroundColor = '#e4e4e4';
+                        mainEl.style.backgroundColor = 'rgba(255, 255, 255, 0)';
                     }
 
-                    mainEl.style.borderRadius = "5px";
+                    mainEl.style.borderRadius = "7px";
                     mainEl.style.paddingTop = "3px";
                     mainEl.style.paddingBottom = "3px";
 
