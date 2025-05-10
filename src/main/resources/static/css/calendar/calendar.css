@@ -339,15 +339,15 @@ button:focus-visible {
   }
 
   .fc-today-button .fc-button .fc-button-primary:active {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:focus {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:hover {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   /*모바일버튼*/
@@ -366,7 +366,7 @@ button:focus-visible {
   }
 
   #mobileCalendarButton > div > button {
-    width: 24%;
+    width: 19%;
     height: 40px;
     padding: 0;
     margin: 0;
@@ -389,6 +389,13 @@ button:focus-visible {
 }
 
 
+#explanationToolTip {
+  display: none;
+}
+
+.fc-next-button.fc-button.fc-button-primary {
+  padding-right: 185px;
+}
 
 
 /* PC (데스크탑) 버전 */
@@ -667,15 +674,15 @@ button:focus-visible {
   }
 
   .fc-today-button .fc-button .fc-button-primary:active {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:focus {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:hover {
-    color: #000; !important;
+    color: #000 !important;
   }
 
 
@@ -829,6 +836,23 @@ button:focus-visible {
     border: 1px solid #fff;
     display: block;
   }
+
+
+  #explanationToolTip {
+    display: block;
+    position:absolute;
+    border:none;
+    padding: 10px;
+    z-index:10000;
+    left: 1400px
+  }
+
+  .blankBox {
+    display: none;
+  }
+
+
+
 
 }
 

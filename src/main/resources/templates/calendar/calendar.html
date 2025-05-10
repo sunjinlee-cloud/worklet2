@@ -24,6 +24,7 @@
 
     <div id="mobileCalendarButton" >
         <div>
+            <button type="button" id="allPosting">전체</button>
             <button type="button" id="mobileOpenJobPosting">공채정보</button>
             <button type="button" id="mobileJobPosting">채용정보</button>
             <button type="button" id="mobileStartDate">시작일</button>
@@ -35,8 +36,7 @@
 
 
     <div id="titleToolTip"></div>
-    <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
-                                        left: 1400px">
+    <div id="explanationToolTip">
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
         <span style="display: inline-block">: 공고 시작일</span>
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
@@ -227,10 +227,9 @@
                 }
         }
 
-
-
-
         var calendar = new Calendar(calendarEl, {
+
+
             locale: 'ko',
             headerToolbar: {
                 left: window.innerWidth < 767 ? '' : 'allPosting,openJobPosting,jobPosting,startDay,endDay',
@@ -592,7 +591,7 @@
 
 <script th:src="@{/css/js/header.js}"></script>
 
-<!--
+
 <div class="selectDate"></div>
 
 <div class="blankBox">
@@ -627,7 +626,7 @@
     </div>
 
 </div>
--->
+
 
 <div class="goPostingPageBox">
     <button type="button" id="goPostingPage">상세검색</button>
