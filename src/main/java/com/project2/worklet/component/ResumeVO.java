@@ -52,5 +52,8 @@ public class ResumeVO {
     @JsonProperty("resumeApplyAfterDream")
     private String resumeApplyAfterDream;
 
+    private String photoFileName;
+    private String photoFilePath;
+
 
 }

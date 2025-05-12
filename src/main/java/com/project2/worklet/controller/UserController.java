@@ -9,14 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -226,12 +230,13 @@ public class UserController {
                 fullUser.setEducationList(educationList);
 
                 // ✅ 추가: 경력 목록 조회해서 넣기
-                List<CareerVO> careerList = userService.getUserCareer(fullUser.getUserNum());
+                List<CareerVO> careerList = userService.getUserCareer(fullUser.getUserNum(), uniqueTime);
                 fullUser.setCareerList(careerList);
 
                 // ✅ 추가: 경력 목록 조회해서 넣기
-                List<LicenseVO> licenseList = userService.getUserLicenses(fullUser.getUserNum());
+                List<LicenseVO> licenseList = userService.getUserLicenses(fullUser.getUserNum(), uniqueTime);
                 fullUser.setLicenseList(licenseList);
+
 
                 model.addAttribute("educationList", educationList);
                 model.addAttribute("careerList", careerList);
@@ -239,6 +244,10 @@ public class UserController {
 
                 ResumeVO resume = resumeService.getResumeById(uniqueTime);
                 model.addAttribute("resume", resume);
+                model.addAttribute("growth", resume.getGrowth());
+                model.addAttribute("studentDay", resume.getStudentDay());
+                model.addAttribute("prosAndCons", resume.getProsAndCons());
+                model.addAttribute("aspiration", resume.getAspiration());
 
             }
 
@@ -264,6 +273,29 @@ public class UserController {
 
     }
 
+
+    // 사진 업로드 처리
+    @PostMapping("/uploadPhoto")
+    public ResponseEntity<Map<String, Object>> uploadPhoto(
+            @RequestParam("photo") MultipartFile file,
+            @RequestParam("userNum") int userNum,
+            @RequestParam("resumeId") Long resumeId) {
+
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Service에서 파일을 저장하고 사진 경로를 반환
+            String photoPath = userService.saveProfileImage(file, userNum, resumeId);
+
+            response.put("success", true);
+            response.put("photoPath", photoPath); // 클라이언트에 반환할 사진 경로
+            return ResponseEntity.ok(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "파일 업로드 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 
     @GetMapping("/id")
     public String id() {
@@ -381,63 +413,63 @@ public class UserController {
         return "User/idSearch";
     }
 
-    @PostMapping("/updateEdu")
-    public String updateEducation(EduVO edu,
-                                  @RequestParam("resumeId") Long resumeId,
-                                  @RequestParam("userNum") String userNum,
-                                  @RequestParam("schoolName") String schoolName,
-                                  @RequestParam("major") String major,
-                                  @RequestParam("part") String part,
-                                  @RequestParam("degreeType") String degreeType,
-                                  @RequestParam("graduationStatus") String graduationStatus,
-                                  @RequestParam("graduationDate") String graduationDate,
-                                  Model model) {
-
-        // userNum이 숫자인지 확인 (서비스에서 처리할 수도 있음)
-        if (!isValidUserNum(userNum)) {
-            log.error("유효하지 않은 userNum 값: " + userNum);
-            return "redirect:/error"; // 유효하지 않으면 에러 페이지로 리디렉션
-        }
-
-
-        // graduationDate 처리: String -> LocalDate 변환
-        LocalDate graduationDateLocal = null;
-
-        if (graduationDate != null && !graduationDate.isEmpty()) {
-            graduationDateLocal = convertStringToLocalDate(graduationDate);
-        } else {
-            // graduationDate가 빈 값일 경우 기본값 설정 (예: null, 특정 기본 날짜 등)
-            graduationDateLocal = LocalDate.now(); // 기본값을 오늘 날짜로 설정하는 예시
-        }
-
-        // EduVO 객체에 폼에서 받은 데이터를 설정
-        EduVO eduVO = new EduVO();
-        eduVO.setResumeId(resumeId);
-        eduVO.setUserNum(Integer.parseInt(userNum));
-        eduVO.setSchoolName(schoolName);
-        eduVO.setMajor(major);
-        eduVO.setPart(part);
-        eduVO.setDegreeType(degreeType);
-        eduVO.setGraduationStatus(graduationStatus);
-        eduVO.setGraduationDate(graduationDateLocal);
-
-        int result = userService.insertEdu(eduVO);
-
-        eduVO.setFormattedGraduationDate(graduationDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
-
-        model.addAttribute("education", eduVO);
-
-        if (result > 0) {
-            log.info("학력 추가 성공");
-            log.info("eduVO 객체 데이터: " + eduVO);
-
-        } else {
-            log.error("학력 추가 실패");
-        }
-
-        return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
-    }
+//    @PostMapping("/updateEdu")
+//    public String updateEducation(EduVO edu,
+//                                  @RequestParam("resumeId") Long resumeId,
+//                                  @RequestParam("userNum") String userNum,
+//                                  @RequestParam("schoolName") String schoolName,
+//                                  @RequestParam("major") String major,
+//                                  @RequestParam("part") String part,
+//                                  @RequestParam("degreeType") String degreeType,
+//                                  @RequestParam("graduationStatus") String graduationStatus,
+//                                  @RequestParam("graduationDate") String graduationDate,
+//                                  Model model) {
+//
+//        // userNum이 숫자인지 확인 (서비스에서 처리할 수도 있음)
+//        if (!isValidUserNum(userNum)) {
+//            log.error("유효하지 않은 userNum 값: " + userNum);
+//            return "redirect:/error"; // 유효하지 않으면 에러 페이지로 리디렉션
+//        }
+//
+//
+//        // graduationDate 처리: String -> LocalDate 변환
+//        LocalDate graduationDateLocal = null;
+//
+//        if (graduationDate != null && !graduationDate.isEmpty()) {
+//            graduationDateLocal = convertStringToLocalDate(graduationDate);
+//        } else {
+//            // graduationDate가 빈 값일 경우 기본값 설정 (예: null, 특정 기본 날짜 등)
+//            graduationDateLocal = LocalDate.now(); // 기본값을 오늘 날짜로 설정하는 예시
+//        }
+//
+//        // EduVO 객체에 폼에서 받은 데이터를 설정
+//        EduVO eduVO = new EduVO();
+//        eduVO.setResumeId(resumeId);
+//        eduVO.setUserNum(Integer.parseInt(userNum));
+//        eduVO.setSchoolName(schoolName);
+//        eduVO.setMajor(major);
+//        eduVO.setPart(part);
+//        eduVO.setDegreeType(degreeType);
+//        eduVO.setGraduationStatus(graduationStatus);
+//        eduVO.setGraduationDate(graduationDateLocal);
+//
+//        int result = userService.insertEdu(eduVO);
+//
+//        eduVO.setFormattedGraduationDate(graduationDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//
+//
+//        model.addAttribute("education", eduVO);
+//
+//        if (result > 0) {
+//            log.info("학력 추가 성공");
+//            log.info("eduVO 객체 데이터: " + eduVO);
+//
+//        } else {
+//            log.error("학력 추가 실패");
+//        }
+//
+//        return "redirect:/user/resume?uniqueTime=" + edu.getResumeId();
+//    }
 
 
     // 유효한 userNum인지 확인하는 메서드
@@ -484,58 +516,58 @@ public class UserController {
 
 
     // 경력 추가 처리
-    @PostMapping("/updateCareer")
-    public String updateCareer(CareerVO career,
-                               @RequestParam("resumeId") Long resumeId,
-                               @RequestParam("userNum") String userNum,
-                               @RequestParam("companyName") String companyName,
-                               @RequestParam("department") String department,
-                               @RequestParam("position") String position,
-                               @RequestParam("joinDate") String joinDate,
-                               @RequestParam("quitDate") String quitDate,
-                               @RequestParam("jobDescription") String jobDescription,
-                               Model model) {
-
-        if (!isValidUserNum(userNum)) {
-            log.error("유효하지 않은 userNum 값: " + userNum);
-            return "redirect:/error"; // 유효하지 않으면 에러 페이지로 리디렉션
-        }
-
-        // graduationDate 처리: String -> LocalDate 변환
-        LocalDate joinDateLocal = convertStringToLocalDate(joinDate);
-        LocalDate quitDateLocal = convertStringToLocalDate(quitDate);
-
-        CareerVO careerVO = new CareerVO();
-        careerVO.setResumeId(resumeId);
-        careerVO.setUserNum(Integer.parseInt(userNum));
-        careerVO.setCompanyName(companyName);
-        careerVO.setDepartment(department);
-        careerVO.setPosition(position);
-        careerVO.setJoinDate(joinDateLocal);
-        careerVO.setQuitDate(quitDateLocal);
-        careerVO.setJobDescription(jobDescription);
-
-        if (joinDateLocal != null) {
-            careerVO.setJoinDate(joinDateLocal);
-            careerVO.setFormattedJoinDate(joinDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        }
-
-        if (quitDateLocal != null) {
-            careerVO.setQuitDate(quitDateLocal);
-            careerVO.setFormattedQuitDate(quitDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        }
-
-        int result = userService.insertCareer(careerVO);
-
-        model.addAttribute("career", careerVO);
-
-        if (result > 0) {
-            log.info("경력 추가 성공");
-        } else {
-            log.error("경력 추가 실패");
-        }
-        return "redirect:/user/resume?uniqueTime=" + career.getResumeId();
-    }
+//    @PostMapping("/updateCareer")
+//    public String updateCareer(CareerVO career,
+//                               @RequestParam("resumeId") Long resumeId,
+//                               @RequestParam("userNum") String userNum,
+//                               @RequestParam("companyName") String companyName,
+//                               @RequestParam("department") String department,
+//                               @RequestParam("position") String position,
+//                               @RequestParam("joinDate") String joinDate,
+//                               @RequestParam("quitDate") String quitDate,
+//                               @RequestParam("jobDescription") String jobDescription,
+//                               Model model) {
+//
+//        if (!isValidUserNum(userNum)) {
+//            log.error("유효하지 않은 userNum 값: " + userNum);
+//            return "redirect:/error"; // 유효하지 않으면 에러 페이지로 리디렉션
+//        }
+//
+//        // graduationDate 처리: String -> LocalDate 변환
+//        LocalDate joinDateLocal = convertStringToLocalDate(joinDate);
+//        LocalDate quitDateLocal = convertStringToLocalDate(quitDate);
+//
+//        CareerVO careerVO = new CareerVO();
+//        careerVO.setResumeId(resumeId);
+//        careerVO.setUserNum(Integer.parseInt(userNum));
+//        careerVO.setCompanyName(companyName);
+//        careerVO.setDepartment(department);
+//        careerVO.setPosition(position);
+//        careerVO.setJoinDate(joinDateLocal);
+//        careerVO.setQuitDate(quitDateLocal);
+//        careerVO.setJobDescription(jobDescription);
+//
+//        if (joinDateLocal != null) {
+//            careerVO.setJoinDate(joinDateLocal);
+//            careerVO.setFormattedJoinDate(joinDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        }
+//
+//        if (quitDateLocal != null) {
+//            careerVO.setQuitDate(quitDateLocal);
+//            careerVO.setFormattedQuitDate(quitDateLocal.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        }
+//
+//        int result = userService.insertCareer(careerVO);
+//
+//        model.addAttribute("career", careerVO);
+//
+//        if (result > 0) {
+//            log.info("경력 추가 성공");
+//        } else {
+//            log.error("경력 추가 실패");
+//        }
+//        return "redirect:/user/resume?uniqueTime=" + career.getResumeId();
+//    }
 
     // 경력 수정 처리
     @PostMapping("/editCareer")
@@ -794,7 +826,138 @@ public class UserController {
 
 
 
+    @PostMapping("/careerInsert")
+    public ResponseEntity<CareerVO> careerInsert(@RequestBody CareerVO careerVO) {
+        System.out.println(careerVO);
 
+
+        LocalDate joinDateLocal = convertStringToLocalDate(String.valueOf(careerVO.getJoinDate()));
+        LocalDate quitDateLocal = convertStringToLocalDate(String.valueOf(careerVO.getQuitDate()));
+
+        careerVO.setJoinDate(joinDateLocal);
+        careerVO.setQuitDate(quitDateLocal);
+
+        // 데이터 처리 후 업데이트
+        int result = userService.insertCareer(careerVO);
+        if (result > 0) {
+            log.info("학력 insert 성공");
+        } else {
+            log.error("학력 insert 실패");
+        }
+
+        return ResponseEntity.ok(careerVO);
+    }
+
+    @PostMapping("/careerUpdate")
+    public ResponseEntity<CareerVO> careerUpdate(@RequestBody CareerVO careerVO) {
+        System.out.println(careerVO);
+
+        LocalDate joinDateLocal = convertStringToLocalDate(String.valueOf(careerVO.getJoinDate()));
+        LocalDate quitDateLocal = convertStringToLocalDate(String.valueOf(careerVO.getQuitDate()));
+
+        careerVO.setJoinDate(joinDateLocal);
+        careerVO.setQuitDate(quitDateLocal);
+
+        int result = userService.updateCareer(careerVO);
+        if (result > 0) {
+            log.info("경력 수정 성공");
+        } else {
+            log.error("경력 수정 실패");
+        }
+        return ResponseEntity.ok(careerVO);
+    }
+
+    @PostMapping("/eduInsert")
+    public ResponseEntity<EduVO> eduInsert(@RequestBody EduVO eduVO) {
+        System.out.println(eduVO);
+
+
+        LocalDate graduationDate = convertStringToLocalDate(String.valueOf(eduVO.getGraduationDate()));
+        eduVO.setGraduationDate(graduationDate);
+
+
+        // 데이터 처리 후 업데이트
+        int result = userService.insertEdu(eduVO);
+        if (result > 0) {
+            log.info("학력 insert 성공");
+        } else {
+            log.error("학력 insert 실패");
+        }
+
+        return ResponseEntity.ok(eduVO);
+    }
+
+    @PostMapping("/eduUpdate")
+    public ResponseEntity<EduVO> eduUpdate(@RequestBody EduVO eduVO) {
+        System.out.println(eduVO);
+
+        LocalDate graduationDate = convertStringToLocalDate(String.valueOf(eduVO.getGraduationDate()));
+        eduVO.setGraduationDate(graduationDate);
+
+        int result = userService.updateEdu(eduVO);
+        if (result > 0) {
+            log.info("학력 수정 성공");
+        } else {
+            log.error("학력 수정 실패");
+        }
+        return ResponseEntity.ok(eduVO);
+    }
+
+    @PostMapping("/licenseInsert")
+    public ResponseEntity<LicenseVO> licenseInsert(@RequestBody LicenseVO licenseVO) {
+        System.out.println(licenseVO);
+
+
+        LocalDate acquisitionDate = convertStringToLocalDate(String.valueOf(licenseVO.getAcquisition()));
+        LocalDate expirationDate = convertStringToLocalDate(String.valueOf(licenseVO.getExpiration()));
+        licenseVO.setAcquisition(acquisitionDate);
+        licenseVO.setExpiration(expirationDate);
+
+
+        // 데이터 처리 후 업데이트
+        int result = userService.insertLicense(licenseVO);
+        if (result > 0) {
+            log.info("학력 insert 성공");
+        } else {
+            log.error("학력 insert 실패");
+        }
+
+        return ResponseEntity.ok(licenseVO);
+    }
+
+    @PostMapping("/licenseUpdate")
+    public ResponseEntity<LicenseVO> licenseUpdate(@RequestBody LicenseVO licenseVO) {
+        System.out.println(licenseVO);
+
+        LocalDate acquisitionDate = convertStringToLocalDate(String.valueOf(licenseVO.getAcquisition()));
+        LocalDate expirationDate = convertStringToLocalDate(String.valueOf(licenseVO.getExpiration()));
+        licenseVO.setAcquisition(acquisitionDate);
+        licenseVO.setExpiration(expirationDate);
+
+        int result = userService.updateLicense(licenseVO);
+        if (result > 0) {
+            log.info("학력 수정 성공");
+        } else {
+            log.error("학력 수정 실패");
+        }
+        return ResponseEntity.ok(licenseVO);
+    }
+
+    @PostMapping("/licenseDelete")
+    public ResponseEntity<Map<String, String>> deleteLicense(@RequestBody LicenseVO licenseVO) {
+        Long licenseId = licenseVO.getLicenseId();
+        int result = userService.deleteLicense(licenseId);
+
+        if (result > 0) {
+            log.info("자격증 삭제 성공");
+            return ResponseEntity.ok(Map.of("message", "삭제 성공"));
+        } else {
+            log.error("자격증 삭제 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "삭제 실패"));
+        }
+    }
 
 
 }
+

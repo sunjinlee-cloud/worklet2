@@ -737,9 +737,11 @@
         margin: 15px 0;
     }
 
-    .sec03 .edit-edu-form.add {
+
+    .sec03 #eduEdit.add {
         display: flex;
     }
+
 
     .sec03 .edit-edu-form h5{
         margin-bottom: 10px;
@@ -1062,7 +1064,7 @@
         padding: 20px;
     }
 
-    .sec04 .edit-edu-form.add {
+    .sec04 #careerEdit.add {
         display: flex;
     }
 
@@ -2237,7 +2239,7 @@
         border-radius: 15px;
     }
 
-    .sec03 .edit-edu-form.add {
+    .sec03 #eduEdit.add {
         display: flex;
     }
 
@@ -2547,7 +2549,7 @@
         border-radius: 15px;
     }
 
-    .sec04 .edit-edu-form.add {
+    .sec04 #careerEdit.add {
         display: flex;
     }
 

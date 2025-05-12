@@ -1,6 +1,7 @@
 package com.project2.worklet.component;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,11 @@ public class EduVO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")// 졸업 여부 (졸업, 재학 등)
     private LocalDate graduationDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")// 졸업일
     private LocalDate createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")// 생성일
     private LocalDate updatedAt;  // 수정일
     private Long resumeId;
