@@ -338,15 +338,15 @@ button:focus-visible {
   }
 
   .fc-today-button .fc-button .fc-button-primary:active {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:focus {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:hover {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   /*모바일버튼*/
@@ -666,15 +666,15 @@ button:focus-visible {
   }
 
   .fc-today-button .fc-button .fc-button-primary:active {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:focus {
-    color: #000; !important;
+    color: #000 !important;
   }
 
   .fc-today-button .fc-button .fc-button-primary:hover {
-    color: #000; !important;
+    color: #000 !important;
   }
 
 
