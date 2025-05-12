@@ -14,8 +14,8 @@ plusBtn.forEach((btn) => {
     btn.addEventListener('click', () => {
         const section = btn.closest('section'); // 해당 버튼이 속한 섹션
         const form = section.querySelector('.add-edu-form');
-        form.classList.add('add');
-        form.style.display = 'block'; // 또는 'flex', 상황에 따라
+        form.classList.toggle('add');
+        //form.style.display = 'block'; // 또는 'flex', 상황에 따라
     });
 });
 
@@ -82,77 +82,262 @@ plusBtn.forEach((btn) => {
 // 취소 버튼 클릭 시 해당 섹션의 폼만 닫기
 cancelBtn.forEach((btn) => {
     btn.addEventListener('click', () => {
-        const form = btn.closest('.add-edu-form');
-        form.classList.remove('add');
-        form.style.display = 'none';
+        // 어떤 버튼인지에 따라 careerEdit 또는 eduEdit을 닫기
+        const careerForm = document.getElementById('careerEdit');
+        const eduForm = document.getElementById('eduEdit');
+const careerAdd=document.getElementById("careerAdd");
+const addEduForm=document.getElementById("addEduForm");
+
+        // 버튼이 careerForm 안에 있으면
+        if (careerForm.contains(btn)) {
+            careerForm.classList.remove('add');
+            // careerForm.style.display = 'none';
+        }
+
+        // 버튼이 eduForm 안에 있으면
+        if (eduForm.contains(btn)) {
+            eduForm.classList.remove('add');
+            // eduForm.style.display = 'none';
+        }
+        // 버튼이 careerForm 안에 있으면
+        if (careerAdd.contains(btn)) {
+            careerAdd.classList.remove('add');
+            // careerAdd.style.display = 'none';
+        }
+
+        // 버튼이 eduForm 안에 있으면
+        if (addEduForm.contains(btn)) {
+            addEduForm.classList.remove('add');
+            // addEduForm      .style.display = 'none';
+        }
     });
 });
+
 
 
 sec03BtnSave.addEventListener('click', function () {
     let schoolName = document.querySelector(".add-edu-form input[name='schoolName']").value;
     let major = document.querySelector(".add-edu-form input[name='major']").value;
     let part = document.querySelector(".add-edu-form .part").value;
-    let draduation = document.querySelector(".add-edu-form .graduation").value;
+    let degreeType = document.getElementById("degreeType").value;
     let graduationdate = document.querySelector(".add-edu-form input[name='graduationDate']").value;
+    let graduationStatus = document.getElementById("graduationStatus").value;
+    let userNum = document.querySelector("input[name='userNum']").value;
+    let resumeId=document.querySelector("input[name='resumeId']").value;
+    let addeduForm = document.querySelector(".sec03 .add-edu-form");
+    let eduForm=document.getElementById("eduForm");
 
     console.log(schoolName);
     console.log(major);
     console.log(part);
-    console.log(draduation);
+    console.log(degreeType);
     console.log(graduationdate);
 
-    if (!schoolName || !major || !part || !draduation) {
+    if (!schoolName || !major || !part || !degreeType) {
         alert('학교명, 이수형태, 학력구분, 졸업여부를 모두 입력해주세요.');
         return;
     }
 
+    const data = {
+        schoolName: schoolName,
+        major: major,
+        part: part,
+        degreeType: degreeType,
+        graduationDate: graduationdate,
+        graduationStatus: graduationStatus,
+        userNum: userNum,
+        resumeId: resumeId
+    };
 
-    const div = document.createElement('div');
-    div.classList.add('education', 'flex');
-    div.innerHTML = `
-                    <div class="school">
-                        <h4>${schoolName}</h4>
-                        <p>${major}</p>
-                    </div>
-                    <div class="edu-info">
-                        <div>
-                            <span>${part}</span>
-                            <span>${draduation}</span>
+    // AJAX 요청 보내기
+    fetch("/user/eduInsert", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("삽입된 학력 정보:", result);
+
+            const educationList = document.getElementById("educationList");
+
+            const div = document.createElement("div");
+            div.classList.add("education", "flex");
+
+            div.dataset.graduationdate = result.graduationdate;
+
+            div.innerHTML = `
+                        <div class="school">
+                            <input type="hidden" name="educationId" value="${result.educationId}" id="eduId">
+                            <h4>${result.schoolName}</h4>
+                            <p>${result.major}</p>
                         </div>
-                        <p class="graduration">${graduationdate} 졸업</p>
-                    </div>
-                    <img src="../image/pencil.png" alt="">
-`;
+                        <div class="edu-info">
+                            <div>
+                                <span>${result.part}</span>
+                                <span>${result.degreeType}</span>
+                                <span>${result.graduationStatus || '미입력'}</span>
+                            </div>
+                            <p class="graduration">${result.graduationDate} 졸업</p>
+                        </div>
+                        <img src="../image/pencil.png" alt="" class="pencil">
+                        <form action="/user/deleteEdu/${result.educationId}" method="POST">
+                            <input type="hidden" name="resumeId" value="${new URLSearchParams(window.location.search).get('uniqueTime')}">
+                            <button type="submit" class="delete-btn">
+                                <i class="fa-solid fa-x"></i>
+                            </button>
+                        </form>
+    `;
 
-    console.log(schoolList);
-
-    if (schoolList) { // schoolList가 존재하는 경우에만 appendChild 실행
-        schoolList.appendChild(div);
-    } else {
-        console.log("schoolList 요소를 찾을 수 없습니다.");
-    }
-
-    document.querySelector(".add-edu-form input[name='schoolName']").value = '';
-    document.querySelector(".add-edu-form input[name='major']").value = '';
-    document.querySelector(".add-edu-form .part").value = '';
-    document.querySelector(".add-edu-form .graduation").value = '';
-    document.querySelector(".add-edu-form input[name='graduationDate']").value = ''
-
+            educationList.appendChild(div);
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
     // 폼 숨기기
-    addEduForm.forEach(form => {
-        form.classList.remove('add');
-        form.style.display = 'none';
-    });
+
+    addeduForm.classList.remove("add");
+    eduForm.reset();
 })
 
+document.getElementById("educationList").addEventListener("click", function (event) {
+    const form = document.getElementById('eduEdit'); // 경력 수정용 폼
+    form.classList.add('add'); // 폼 보여주기
 
+    if (event.target.classList.contains("pencil")) {
+        const btn = event.target;
+        const eduDiv = btn.closest('.education');
+
+        // const educationId = eduDiv.querySelector('input[name="educationId"]').value;
+        // console.log(educationId)
+        const schoolName = eduDiv.querySelector('.school h4')?.innerText.trim() || '';
+        const major = eduDiv.querySelector('.school p')?.innerText.trim() || '';
+        const part = eduDiv.querySelector('.edu-info span:nth-child(1)')?.innerText.trim() || '';
+        const degreeType = eduDiv.querySelector('.edu-info span:nth-child(2)')?.innerText.trim() || '';
+        const graduationStatus = eduDiv.querySelector('.edu-info span:nth-child(3)')?.innerText.trim() || '';
+        const graduationDate = eduDiv.dataset.graduationDate;
+        const educationId = eduDiv.querySelector("#eduId").value;
+
+        const eduEditForm = document.getElementById('eduEditForm');
+
+
+        // 값 채워주기
+        console.log("------>>", educationId);
+        eduEditForm.querySelector("#schoolEduId").value = educationId;
+        document.getElementById("fake").value=educationId;
+        eduEditForm.querySelector('input[name="schoolName"]').value = schoolName;
+        eduEditForm.querySelector('input[name="major"]').value = major;
+        eduEditForm.querySelector('select[name="part"]').value = part;
+        eduEditForm.querySelector('select[name="degreeType"]').value = degreeType;
+        eduEditForm.querySelector('input[name="graduationDate"]').value = graduationDate;
+        eduEditForm.querySelector('select[name="graduationStatus"]').value = graduationStatus;
+
+        console.log("삽   갔는지 확인:",eduEditForm.querySelector("#schoolEduId").value)
+    }
+});
+
+let saveEducationBtn=document.getElementById("saveEducationBtn");
+saveEducationBtn.addEventListener('click',function () {
+    const eduEditForm = document.getElementById("eduEditForm");
+
+    let schoolNameEdit = document.getElementById("schoolNameEdit").value;
+    let majorEdit = document.getElementById("majorEdit").value;
+    let partEdit = document.getElementById("partEdit").value;
+    let degreeEdit = document.getElementById("degreeEdit").value;
+    let graduationStatusEdit = document.getElementById("graduationStatusEdit").value;
+    let graduationDateEdit = document.getElementById("graduationDateEdit").value;
+    let userNum = document.getElementById("schoolUserNum").value;
+    let resumeId = document.getElementById("schoolResumeId").value;
+    let eduEdit = document.getElementById("eduEdit");
+    let educationId = document.querySelector("#schoolEduId").value;
+    let fakeId=document.getElementById("fake").value;
+    console.log("fake-value>>>>>>>"+fakeId)
+    console.log("!!!!!!!!!!!!!!!!!->> ", educationId)
+
+    if (!schoolNameEdit || !majorEdit || !partEdit || !degreeEdit) {
+        alert('학교명, 이수형태, 학력구분, 졸업여부를 모두 입력해주세요.');
+        return;
+    }
+
+    const data = {
+        schoolName: schoolNameEdit,
+        major: majorEdit,
+        part: partEdit,
+        degreeType: degreeEdit,
+        graduationDate: graduationDateEdit,
+        graduationStatus: graduationStatusEdit,
+        userNum: userNum,
+        resumeId: resumeId,
+        educationId: fakeId
+    };
+
+    console.log(data);
+    // AJAX 요청 보내기
+    fetch("/user/eduUpdate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("수정된 학력 정보:"+ result);
+
+            // 기존 학력 div 갱신
+            const eduDiv = document.querySelector(`input[name="educationId"][value="${result.educationId}"]`)?.closest(".education");
+
+            console.log("eduDiv>>"+eduDiv);
+
+            if (!eduDiv) {
+                console.error("학력 요소를 찾을 수 없습니다.");
+                return;
+            }
+
+            eduDiv.querySelector(".school h4").innerText = result.schoolName;
+            eduDiv.querySelector(".school p").innerText = result.major;
+
+            const spans = eduDiv.querySelectorAll(".edu-info span");
+            spans[0].innerText = result.part;
+            spans[1].innerText = result.degreeType;
+            spans[2].innerText = result.graduationStatus;
+
+            eduDiv.querySelector(".graduration").innerText = result.graduationDate;
+
+            console.log("result.educationId:", result.educationId);
+            const targetInput = document.querySelector(`input[name="educationId"][value="${result.educationId}"]`);
+            console.log("찾은 input:", targetInput);
+
+            // 폼 숨기기 및 초기화
+            eduEdit.classList.remove("add");
+           document.getElementById("eduEditForm").reset();
+
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
+})
+
+// 경력 추가
 sec04BtnSave.addEventListener('click', function () {
-    let companyName = document.querySelector(".companyName").value;
+    let companyName = document.querySelector(".company-name").value;
     let department = document.querySelector(".department").value;
     let joinDate = document.querySelector("input[name='joinDate']").value;
     let quitDate = document.querySelector("input[name='quitDate']").value;
     let position = document.querySelector("input[name='position']").value;
+    let userNum = document.querySelector("input[name='userNum']").value;
+    let jobDescription= document.getElementById("myText").value;
+    let resumeId=document.querySelector("input[name='resumeId']").value;
+    let addeduForm = document.querySelector(".sec04 .add-edu-form");
+    let careerForm=document.getElementById("careerForm");
 
     console.log(companyName);
     console.log(department);
@@ -166,37 +351,175 @@ sec04BtnSave.addEventListener('click', function () {
         return;
     }
 
-    const div = document.createElement('div');
-    div.classList.add('education', 'flex');
-    div.innerHTML = `
-     <div class="school">
-                        <h4>${companyName}</h4>
-                        <p>${department}</p>
-                    </div>
-                    <div class="edu-info">
-                        <span>${joinDate} ~ ${quitDate}</span>
-                        <span>${position}</span>
-                    </div>
-                    <img src="../image/pencil.png" alt="">
-`;
+    const data = {
+        companyName: companyName,
+        department: department,
+        joinDate: joinDate,
+        quitDate: quitDate,
+        position:position,
+        userNum:userNum,
+        jobDescription:jobDescription,
+        resumeId:resumeId
+    };
 
-    comList.appendChild(div);
+    // AJAX 요청 보내기
+    fetch("/user/careerInsert", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("삽입된 경력 정보:", result);
 
-    document.querySelector('.companyName').value = '';
-    document.querySelector('.department').value = '';
-    document.querySelector('input[name="joinDate"]').value = '';
-    document.querySelector('input[name="quitDate"]').value = '';
-    document.querySelector('input[name="position"]').value = '';
-    document.querySelector('.sec04 textarea').value = '';
-    document.querySelector('#charCount').textContent = '0';
+            const comList = document.querySelector(".com-list");
 
+            const div = document.createElement("div");
+            div.classList.add("education", "flex");
+
+            div.dataset.joinDate = result.joinDate;
+            div.dataset.quitDate = result.quitDate;
+
+            div.innerHTML = `
+                <div class="school">
+                <input type="hidden" name="careerId" value="${result.careerId}" >
+                    <h4>${result.companyName}</h4>
+                    <p>${result.department}</p>
+                </div>
+                <div class="edu-info">
+                    <span>${result.joinDate} ~ ${result.quitDate}</span>
+                    <span>${result.position}</span>
+                    <p class="job_description">${result.jobDescription}</p>
+                </div>
+                <img src="../image/pencil.png" alt="" class="pencil">
+                <form action="/user/deleteCareer/${result.careerNum}" method="POST">
+                    <input type="hidden" name="resumeId" value="${new URLSearchParams(window.location.search).get('uniqueTime')}">
+                    <button type="submit" class="delete-btn">
+                        <i class="fa-solid fa-x"></i>
+                    </button>
+                </form>
+    `;
+
+            comList.appendChild(div);
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
     // 폼 숨기기
-    addEduForm.forEach(form => {
-        form.classList.remove('add');
-        form.style.display = 'none';
-    });
 
+    addeduForm.classList.remove('add');
+    careerForm.reset();
 })
+
+document.getElementById("careerList").addEventListener("click", function (event) {
+    const form = document.getElementById('careerEdit'); // 경력 수정용 폼
+    form.classList.add('add'); // 폼 보여주기
+
+    if (event.target.classList.contains("pencil")) {
+        const btn = event.target;
+        const careerDiv = btn.closest('.education');
+        const careerId = careerDiv.querySelector('input[name="careerId"]').value;
+console.log("careerId"+careerId);
+        const companyName = careerDiv.querySelector('.school h4')?.innerText.trim() || '';
+        const department = careerDiv.querySelector('.school p')?.innerText.trim() || '';
+        const joinDate = careerDiv.dataset.joinDate;
+        const quitDate = careerDiv.dataset.quitDate;
+        const position = careerDiv.querySelector('.edu-info span:nth-child(2)')?.innerText.trim() || '';
+        const jobDescription = careerDiv.querySelector('.job_description')?.innerText.trim() || '';
+
+
+
+        const careerEditForm = document.getElementById('careerEditForm');
+        // 값 채워주기
+        careerEditForm.querySelector('input[name="careerId"]').value = careerId;
+        careerEditForm.querySelector('input[name="companyName"]').value = companyName;
+        careerEditForm.querySelector('input[name="department"]').value = department;
+        careerEditForm.querySelector('input[name="joinDate"]').value = joinDate;
+        careerEditForm.querySelector('input[name="quitDate"]').value = quitDate;
+        careerEditForm.querySelector('input[name="position"]').value = position;
+        careerEditForm.querySelector('textarea[name="jobDescription"]').value = jobDescription;
+
+    }
+});
+
+let editCareerBtn = document.getElementById("editCareerBtn");
+
+editCareerBtn.addEventListener('click', function () {
+    const careerEditForm = document.getElementById('careerEditForm');
+
+    let companyName = document.getElementById("comName").value;
+    let department = document.getElementById("comDepartment").value;
+    let joinDate = document.getElementById("comJoinDate").value;
+    let quitDate = document.getElementById("comQuitDate").value;
+    let position = document.getElementById("comPosition").value;
+    let userNum = document.getElementById("comUserNum").value;
+    let jobDescription = document.getElementById("myText2").value;
+    let resumeId = document.getElementById("conResumeId").value;
+    // let addeduForm = careerEditForm.closest(".add-edu-form") || document.querySelector(".add-edu-form");
+    let careerEdit = document.getElementById("careerEdit");
+
+    let careerId = careerEditForm.querySelector("input[name='careerId']").value;
+
+    if (!department || !joinDate || !quitDate || !position) {
+        alert('부서, 입사일, 퇴사일, 직급 모두 입력해주세요.');
+        return;
+    }
+
+    const data = {
+        companyName: companyName,
+        department: department,
+        joinDate: joinDate,
+        quitDate: quitDate,
+        position: position,
+        userNum: userNum,
+        jobDescription: jobDescription,
+        resumeId: resumeId,
+        careerId: careerId
+    };
+console.log(data);
+    fetch("/user/careerUpdate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("수정된 경력 정보:", result);
+
+            // 수정 대상 경력 div 찾기
+            const careerDiv = document.querySelector(`input[name="careerId"][value="${result.careerId}"]`)?.closest(".education");
+
+            if (!careerDiv) {
+                console.error("수정할 기존 경력 요소를 찾지 못했습니다.");
+                return;
+            }
+
+            // 값 갱신
+            careerDiv.querySelector(".school h4").innerText = result.companyName;
+            careerDiv.querySelector(".school p").innerText = result.department;
+            careerDiv.querySelector(".edu-info span:nth-child(1)").innerText = `${result.joinDate} ~ ${result.quitDate}`;
+            careerDiv.querySelector(".edu-info span:nth-child(2)").innerText = result.position;
+            careerDiv.querySelector(".job_description").innerText = result.jobDescription;
+
+            // 폼 숨기기 및 초기화
+            careerEdit.classList.remove('add');
+            careerEditForm.reset();
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
+});
+
 
 
 
@@ -237,7 +560,7 @@ const licenseCancelBtn = document.querySelector('.sec05 .addCancel');
 const editDel = document.querySelector('.sec05 .editDel');
 const licenseList = document.querySelector('.sec05 .license-list');
 
-// 추가
+// 자격증 추가
 plusBtn05.addEventListener('click', () => {
 
     licenseForm.classList.add('add');
@@ -257,43 +580,267 @@ editDel.addEventListener('click', () => {
 
 // '저장' 버튼 누르면 리스트에 카드형태로 추가
 licenseSaveBtn.addEventListener('click', () => {
-    const name = document.querySelector('.license-name').value.trim();
-    const org = document.querySelector('.license-org').value.trim();
-    const start = document.querySelector('input[name="acquisition"]').value.trim();
-    const end = document.querySelector('input[name="expiration"]').value.trim();
+    let licenseName = document.querySelector('.liName').value.trim();
+    let licenseOrg = document.querySelector('.license-org').value.trim();
+    let acquisition = document.querySelector('input[name="acquisition"]').value.trim();
+    let expiration = document.querySelector('input[name="expiration"]').value.trim();
+    let userNum = document.querySelector("input[name='userNum']").value
+    let resumeId=document.querySelector("input[name='resumeId']").value;
+    let licenseAdd=document.getElementById("licenseAdd");
+    let form=document.getElementById("licenseForm");
 
-    console.log(name);
-    console.log(org);
-    console.log(start);
-    console.log(end);
+    console.log(licenseName);
+    console.log(licenseOrg);
+    console.log(acquisition);
+    console.log(expiration);
+    console.log(userNum)
+    console.log(resumeId)
+    console.log(userNum)
 
-    if (!name || !org || !start) {
+    if (!licenseName || !licenseOrg || !acquisition || !expiration) {
         alert('자격증명, 발급기관, 취득일을 모두 입력해주세요.');
         return;
     }
 
-    // 카드형식 li 만들기
-    const li = document.createElement('li');
-    li.classList.add('license-card');
-    li.innerHTML = `
-        <h3 class="name">${name}</h3>
-        <span class="org">${org}</span>
-        <p class="date">${start} ${end ? `~ ${end}` : ''}</p>
-         <img src="../image/pencil.png" alt="" class="licensePencil">
-    `;
+    const data = {
+        licenseName: licenseName,
+        licenseOrg: licenseOrg,
+        acquisition: acquisition,
+        expiration: expiration,
+        userNum:userNum,
+        resumeId:resumeId
+    };
 
-    licenseList.appendChild(li);
+    // AJAX 요청 보내기
+    fetch("/user/licenseInsert", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("삽입된 자격증 정보:", result);
 
-    // 입력값 초기화
-    document.querySelector('.license-name').value = '';
-    document.querySelector('.license-org').value = '';
-    document.querySelector('input[name="acquisition"]').value = '';
-    document.querySelector('input[name="expiration"]').value = '';
+            const licenseList = document.querySelector(".license-list");
 
+            const div = document.createElement("div");
+            div.classList.add("license-card");
+
+            div.dataset.acquisition = result.acquisition;
+            div.dataset.expiration = result.expiration;
+
+            let resumeId = new URLSearchParams(window.location.search).get('uniqueTime');
+            div.innerHTML = `
+                            <input type="hidden" name="licenseId" value="${result.licenseId}" >
+                          <h3 class="name">${result.licenseName}</h3>
+                          <span class="org">${result.licenseOrg}</span>
+                          <p class="date">${result.acquisition} ~ ${result.expiration}</p>
+                          <img src="../image/pencil.png" alt="" class="licensePencil">
+                          <form id="licenseDeleteBtn">
+                                 <input type="hidden" name="resumeId" value="${resumeId}">
+                                <button type="submit" class="delete-btn">
+                                     <i class="fa-solid fa-x"></i>
+                                </button>
+                          </form>
+                `;
+
+            licenseList.appendChild(div);
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
     // 폼 숨기기
-    licenseForm.style.display = 'none';
-    licenseForm.classList.remove('show');
+
+    licenseForm.classList.remove('add');
+    form.reset();
+
+
 });
+
+document.getElementById("licenseId").addEventListener('click',function (){
+    licenseEditForm.classList.add('add');
+
+    if (event.target.classList.contains("licensePencil")) {
+        const btn = event.target;
+        const licenseDiv = btn.closest('.license-card');
+        const licenseId= licenseDiv.querySelector('input[name="licenseId"]').value;
+        const licenseName = licenseDiv.querySelector('.name').textContent;
+        const licenseOrg = licenseDiv.querySelector('.org').textContent;
+        const acquisition = licenseDiv.dataset.acquisition;
+        const expiration = licenseDiv.dataset.expiration;
+
+        console.log("licenseId"+licenseId);
+        console.log("licenseName"+licenseName);
+        console.log("licenseOrg"+licenseOrg);
+
+        const licenseEditForm=document.getElementById("licenseEditForm");
+
+        licenseEditForm.querySelector('input[name="licenseId"]').value=licenseId;
+        licenseEditForm.querySelector('input[name="licenseName"]').value=licenseName;
+        licenseEditForm.querySelector('input[name="licenseOrg"]').value=licenseOrg;
+        licenseEditForm.querySelector('input[name="acquisition"]').value=acquisition;
+        licenseEditForm.querySelector('input[name="expiration"]').value=expiration;
+
+
+
+    }
+})
+
+let licenseEditBtn= document.getElementById("licenseEditBtn");
+licenseEditBtn.addEventListener('click',function (){
+    const licenseEditForm = document.getElementById("licenseEditForm");
+
+    let licenseName = document.getElementById("editLicenseName").value;
+    let licenseOrg = document.getElementById("editLicenseOrg").value;
+    let acquisition = document.getElementById("editAcquisition").value;
+    let expiration = document.getElementById("editExpiration").value;
+    let userNum = document.getElementById("licenseUserNum").value;
+    let resumeId = document.getElementById("licenseResumeId").value;
+    let licenseId = licenseEditForm.querySelector("input[name='licenseId']").value;
+
+    let licenseEdit = document.getElementById("licenseEdit");
+
+    if (!licenseName || !licenseOrg || !acquisition || !expiration) {
+        alert('자격증명, 발급기관, 취득일을 모두 입력해주세요.');
+        return;
+    }
+
+    const data = {
+        licenseName: licenseName,
+        licenseOrg: licenseOrg,
+        acquisition: acquisition,
+        expiration: expiration,
+        userNum:userNum,
+        resumeId:resumeId,
+        licenseId:licenseId
+    };
+    console.log(data);
+
+    fetch("/user/licenseUpdate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => {
+            if (!res.ok) throw new Error("서버 응답 실패");
+            return res.json();
+        })
+        .then(result => {
+            console.log("수정된 자격증 정보:", result);
+
+            // 수정 대상 경력 div 찾기
+            const licenseDiv = document.querySelector(`input[name="licenseId"][value="${result.licenseId}"]`)?.closest(".license-card");
+
+            if (!licenseDiv) {
+                console.error("수정할 기존 자격증 요소를 찾지 못했습니다.");
+                return;
+            }
+
+            // 값 갱신
+            licenseDiv.querySelector(".name").innerText = result.licenseName;
+            licenseDiv.querySelector(".org").innerText = result.licenseOrg;
+            licenseDiv.querySelector(".date").innerText = `${result.acquisition} ~ ${result.expiration}`;
+
+
+            // 폼 숨기기 및 초기화
+            licenseEdit.classList.remove('add');
+            licenseEditForm.reset();
+        })
+        .catch(err => {
+            console.error("오류 발생:", err);
+        });
+
+})
+
+
+// 자격증 삭제
+document.querySelector(".license-list").addEventListener("submit", function (event) {
+    if (event.target.id === "licenseDeleteBtn") {
+        event.preventDefault(); // 중요! 기본 submit 막기
+
+        const confirmed = confirm("정말 삭제하시겠습니까?");
+        if (!confirmed) return;
+
+        const licenseCard = event.target.closest(".license-card");
+        const licenseId = licenseCard.querySelector('input[name="licenseId"]').value;
+        // const userNum = YOUR_USER_NUM_VALUE; // 필요 시 정의된 값 넣기
+
+        const data = {
+            licenseId: licenseId
+        };
+
+        fetch("/user/licenseDelete", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("서버 응답 실패");
+                return res.json();
+            })
+            .then(result => {
+                console.log("삭제 완료", result);
+                licenseCard.remove(); // 삭제 성공 시 카드 제거
+            })
+            .catch(err => {
+                console.error("삭제 중 에러:", err);
+                alert("삭제 실패");
+            });
+    }
+});
+
+// 사진 추가
+document.getElementById('my-picture-input').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // 미리보기 보여주기
+    const preview = document.getElementById('preview-image');
+    if (preview) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';  // 미리보기 이미지를 보이게 함
+    }
+
+    // hidden input에서 userNum 값을 가져오기
+    const userNum = document.getElementById("pictureUserNum").value;
+    const resumeId = document.getElementById("pictureResumeId").value;
+
+    console.log("userNum>>>>"+userNum);
+    console.log("resumeId>>>>>>>"+resumeId);
+    // AJAX로 파일 업로드
+    const formData = new FormData();
+    formData.append("photo", file);
+    formData.append("userNum", userNum);
+    formData.append("resumeId", resumeId);
+
+    fetch("/user/uploadPhoto", {
+        method: "POST",
+        body: formData
+    })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("업로드 성공!");
+                // 필요하면 data.photoPath 등을 resumeVO에 저장하도록 처리
+            } else {
+                alert("업로드 실패!");
+            }
+        })
+        .catch(err => {
+            console.error("에러:", err);
+            alert("업로드 중 에러 발생");
+        });
+});
+
 
 
 
@@ -383,6 +930,7 @@ document.querySelectorAll('.tag').forEach(tag => {
     const newEdu = document.createElement("div");
     newEdu.className = "education flex";
     newEdu.innerHTML = `
+    <input type="hidden" name="educationId">
             <div class="school">
                 <h4>${schoolName}</h4>
                 <p>${major}</p>
@@ -499,6 +1047,11 @@ document.getElementById("educationList").addEventListener("click", function (eve
         const form = document.querySelector('.edit-edu-form');
         form.classList.add('add'); // 폼 보여주기
 
+        const addEduForm= document.getElementById("addEduForm");
+        addEduForm.classList.toggle('add');
+
+
+
         // 값 채워주기
         form.querySelector('input[name="educationId"]').value = educationId;
         form.querySelector('.input-school').value = schoolName;
@@ -525,29 +1078,29 @@ document.getElementById("saveEducationBtn").addEventListener("click", function (
         graduationStatus: form.querySelector('.grad').value,
         graduationDate: form.querySelector('input[name="graduationDate"]').value
     };
-
+    console.log(data);
     // AJAX 요청 보내기
-    fetch("/educationEdit.do", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    })
-        .then(res => {
-            if (!res.ok) throw new Error("서버 응답 실패");
-            return res.json();
-        })
-        .then(result => {
-            if (result.success) {
-                alert("수정 성공!");
-                location.reload(); // 필요하면 새로고침
-            } else {
-                alert("수정 실패: " + result.message);
-            }
-        })
-        .catch(err => {
-            console.error("오류 발생:", err);
-            alert("에러 발생!");
-        });
+    // fetch("/educationEdit.do", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(data)
+    // })
+    //     .then(res => {
+    //         if (!res.ok) throw new Error("서버 응답 실패");
+    //         return res.json();
+    //     })
+    //     .then(result => {
+    //         if (result.success) {
+    //             alert("수정 성공!");
+    //             location.reload(); // 필요하면 새로고침
+    //         } else {
+    //             alert("수정 실패: " + result.message);
+    //         }
+    //     })
+    //     .catch(err => {
+    //         console.error("오류 발생:", err);
+    //         alert("에러 발생!");
+    //     });
 });

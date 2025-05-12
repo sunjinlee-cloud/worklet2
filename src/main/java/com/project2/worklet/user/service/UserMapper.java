@@ -3,7 +3,9 @@ import com.project2.worklet.component.*;
 import com.project2.worklet.util_interceptor.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +40,10 @@ public interface UserMapper {
     List<EduVO> getUserEducation(int userNum, Long resumeId);
 
     // 경력 조회 추가
-    List<CareerVO> getUserCareer(int userNum);
+    List<CareerVO> getUserCareer(int userNum, Long resumeId);
 
     // 자격증 조회 추가
-    List<LicenseVO> getUserLicenses(int userNum);
+    List<LicenseVO> getUserLicenses(int userNum, Long resumeId);
 
     int deleteEducation(Long educationId);
 
@@ -67,6 +69,7 @@ public interface UserMapper {
     List<JobPostingVO2> getRecommendedJob(@Param("preferredJobTypes") List<String> preferredJobTypes,
                                          @Param("cri") Criteria cri);
 
-
+    // 사진 추가
+    void updatePhotoPath(@Param("userNum") int userNum, @Param("photoPath") String photoPath, @Param("resumeId") Long resumeId);
 
 }
