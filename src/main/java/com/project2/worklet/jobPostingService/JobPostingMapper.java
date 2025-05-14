@@ -23,7 +23,8 @@ public interface JobPostingMapper {
 
 
     int scrapJob(@Param("userId") String userId,
-                 @Param("empNo") String empNoToScrap);
+                 @Param("empNo") String empNoToScrap,
+                 @Param("color") String color);
     int unscrapJob(@Param("userId") String userId,
                    @Param("empNo") String empNoToScrap);
 

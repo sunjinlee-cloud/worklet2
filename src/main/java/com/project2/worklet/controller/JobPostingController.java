@@ -65,10 +65,16 @@ public class JobPostingController {
             @RequestParam String userId) {
 
         // 전달받은 값 출력 (디버깅용)
-        System.out.println("empNoToScrap: " + empNoToScrap);
-        System.out.println("userId: " + userId);
+//        System.out.println("empNoToScrap: " + empNoToScrap);
+//        System.out.println("userId: " + userId);
 
-        int result = jobPostingService.scrapJob(userId,empNoToScrap);
+        String[] letters = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+        String color = "#";
+        for(var i = 0; i < 6; i++) {
+            color += letters[(int) Math.floor(Math.random() * 16)]; //랜덤색상생성
+        }
+
+        int result = jobPostingService.scrapJob(userId,empNoToScrap,color);
         System.out.println("result는 : "+result);
 
         // 성공적으로 처리되었음을 알리는 응답 반환

@@ -71,15 +71,15 @@ public class ResumeController {
         );
 
         UserVO vo = (UserVO) session.getAttribute("loginUser");
-        System.out.println("resumevo는 "+resumeVO.toString());
-        System.out.println("uservo는 "+vo.toString());
-        System.out.println("eduvo는 "+resumeVO.getEducationList().toString());
-        System.out.println("careervo는 "+resumeVO.getCareerList().toString());
-        System.out.println("licensevo는 "+resumeVO.getLicenseList().toString());
-
+//        System.out.println("resumevo는 "+resumeVO.toString());
+//        System.out.println("uservo는 "+vo.toString());
+//        System.out.println("eduvo는 "+resumeVO.getEducationList().toString());
+//        System.out.println("careervo는 "+resumeVO.getCareerList().toString());
+//        System.out.println("licensevo는 "+resumeVO.getLicenseList().toString());
+//        System.out.println("이력서 제목 들어옴? "+resumeVO.getTitle());
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("resume_title", resumeVO.getTitle());
+        parameters.put("resumeTitle", resumeVO.getTitle());
         parameters.put("userName", vo.getUserName());
         parameters.put("userBirthday", vo.getUserBirthday());
         parameters.put("userAddress", vo.getUserAddress());
@@ -99,16 +99,13 @@ public class ResumeController {
             parameters.put("resumeCarWorkCont"+(i+1), resumeVO.getCareerList().get(i).getJobDescription());
 
         }
+        for(int i = 0; i<resumeVO.getLicenseList().size(); i++){
+            parameters.put("resumeCertRegDate"+(i+1),
+                    String.valueOf(resumeVO.getLicenseList().get(i).getAcquisition()));
+            parameters.put("resumeCertName"+(i+1), resumeVO.getLicenseList().get(i).getLicenseName());
+            parameters.put("resumeCertFrom"+(i+1), resumeVO.getLicenseList().get(i).getLicenseOrg());
 
-        parameters.put("resumeCertRegDate1", "2020.01");
-        parameters.put("resumeCertRegDate2", "2024.04");
-        parameters.put("resumeCertRegDate3", "2024.11");
-        parameters.put("resumeCertName1", "정보처리기사");
-        parameters.put("resumeCertName2", "토익 950");
-        parameters.put("resumeCertName3", "리눅스마스터 2급");
-        parameters.put("resumeCertFrom1", "한국산업인력공단");
-        parameters.put("resumeCertFrom2", "YBM토익");
-        parameters.put("resumeCertFrom3", "KAIT");
+        }
         parameters.put("resumeEarlyLife", resumeVO.getResumeEarlyLife());
         parameters.put("resumeStrengthWeakness", resumeVO.getResumeStrengthWeakness());
         parameters.put("resumeSchoolCareer", resumeVO.getResumeSchoolCareer());

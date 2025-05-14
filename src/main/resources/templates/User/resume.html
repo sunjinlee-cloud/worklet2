@@ -569,10 +569,13 @@
         });
     });
 
-    document.getElementById("downloadPDF").addEventListener("click", async function () {
-        // 각 textarea 값 추출
-        const inputs = {};
-        inputs["resume_title"] =  document.getElementById("resume-title").value;
+
+        document.getElementById("downloadResumeBtn").addEventListener("click", async function () {
+            // 각 textarea 값 추출
+            const inputs = {};
+            inputs["resume_title"] = document.getElementById("resume-title").value;
+            console.log(document.getElementById("resume-title").value);
+
 
         document.querySelectorAll(".writeBox").forEach(textarea => {
             const key = textarea.getAttribute("data-type");

@@ -202,8 +202,8 @@ public class JobPostingServiceImpl implements JobPostingService {
 
 
 
-    public int scrapJob(String userId, String empNoToScrap) {
-        return mapper.scrapJob(userId, empNoToScrap);
+    public int scrapJob(String userId, String empNoToScrap, String color) {
+        return mapper.scrapJob(userId, empNoToScrap, color);
     }
     @Override
     public int unscrapJob(String userId, String empNoToScrap) {
