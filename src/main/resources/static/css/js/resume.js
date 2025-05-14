@@ -893,7 +893,7 @@ document.querySelectorAll('.tag').forEach(tag => {
         document.getElementById("prosAndCons2").value = document.getElementById("pros-and-cons").value;
         document.getElementById("aspiration2").value = document.getElementById("aspiration").value;
 
-        popup.style.display = "none";
+         popup.style.display = "none";
         hiddenForm.submit();
     });
 

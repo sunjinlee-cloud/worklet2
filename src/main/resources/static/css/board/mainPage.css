@@ -601,6 +601,7 @@
 
     #sec03 .sec03_mobile_slide .swiper-slide:hover h3 {
         transform: translateY(-60px);
+
     }
 
     #sec03 .sec03_mobile_slide .swiper-slide:hover p {
@@ -1262,7 +1263,8 @@
     }
 
     #sec03 .sec03_pc_slide .swiper-slide:hover h3 {
-        transform: translateY(-60px);
+        display: none
+        /*transform: translateY(-60px);*/
     }
 
     #sec03 .sec03_pc_slide .swiper-slide:hover p {
