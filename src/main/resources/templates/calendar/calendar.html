@@ -24,6 +24,7 @@
 
     <div id="mobileCalendarButton" >
         <div>
+            <button type="button" id="allPosting">전체</button>
             <button type="button" id="mobileOpenJobPosting">공채정보</button>
             <button type="button" id="mobileJobPosting">채용정보</button>
             <button type="button" id="mobileStartDate">시작일</button>
@@ -35,8 +36,7 @@
 
 
     <div id="titleToolTip"></div>
-    <div id="explanationToolTip" style="display: block; position:absolute; border:none; padding: 10px; z-index:10000;
-                                        left: 1400px">
+    <div id="explanationToolTip">
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; background-color: green"></span>
         <span style="display: inline-block">: 공고 시작일</span>
         <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; margin-left: 10px; background-color: red"></span>
@@ -52,25 +52,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-
-        // //디버깅
-        // $.ajax({
-        //     url: '/calendar/events',  // 서버에서 이벤트 데이터를 가져오는 URL
-        //     type: 'GET',
-        //     success: function(data) {
-        //         console.log("Received events:", data);  // 여기에 데이터 확인 로그 추가
-        //         // 데이터를 받아오면, 이를 화면에 표시하는 함수 호출
-        //         renderCalendarEvents(data);  // 받은 데이터를 render 함수로 전달
-        //     },
-        //     error: function(error) {
-        //         console.error("Error fetching events:", error);  // 오류가 발생하면 콘솔에 로그 출력
-        //     }
-        // });
-
-
-
-
-
     var Calendar = FullCalendar.Calendar;
     var Draggable = FullCalendar.Draggable;
 
@@ -78,6 +59,10 @@
     var calendarEl = document.getElementById('calendar');
     var tooltip = document.getElementById('titleToolTip');
     var explanationToolTip = document.getElementById('explanationToolTip');
+
+        if (tooltip && tooltip.parentNode !== document.body) {
+            document.body.appendChild(tooltip);
+        }
 
     // initialize the external events
     // -----------------------------------------------------------------
@@ -227,10 +212,9 @@
                 }
         }
 
-
-
-
         var calendar = new Calendar(calendarEl, {
+
+
             locale: 'ko',
             headerToolbar: {
                 left: window.innerWidth < 767 ? '' : 'allPosting,openJobPosting,jobPosting,startDay,endDay',
@@ -302,23 +286,27 @@
                     mainEl.appendChild(colorDot);
                     mainEl.appendChild(titleSpan);
 
-
                     titleSpan.addEventListener('mouseenter', function () {
-
                         var rect = titleSpan.getBoundingClientRect();
 
                         tooltip.innerHTML = info.event.title;
                         tooltip.style.position = 'absolute';
-                        tooltip.style.zIndex = '9999';
+                        tooltip.style.setProperty('z-index', '2147483647', 'important');
                         tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
                         tooltip.style.left = (rect.left + window.scrollX) + 'px';
                         tooltip.style.minWidth = rect.width + 'px';
                         tooltip.style.backgroundColor = 'var(--sub-color2)';
                         tooltip.style.color = '#000';
-
                         tooltip.style.display = 'block';
 
-                        titleSpan.style.cursor = 'pointer'
+                        titleSpan.style.cursor = 'pointer';
+
+                        setTimeout(function () {
+                            var popovers = document.querySelectorAll('.fc-popover');
+                            for (var i = 0; i < popovers.length; i++) {
+                                popovers[i].style.zIndex = '1000';
+                            }
+                        }, 0);
 
 
                     });
@@ -592,7 +580,7 @@
 
 <script th:src="@{/css/js/header.js}"></script>
 
-<!--
+
 <div class="selectDate"></div>
 
 <div class="blankBox">
@@ -627,7 +615,7 @@
     </div>
 
 </div>
--->
+
 
 <div class="goPostingPageBox">
     <button type="button" id="goPostingPage">상세검색</button>
