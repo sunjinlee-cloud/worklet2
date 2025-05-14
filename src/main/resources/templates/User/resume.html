@@ -19,31 +19,31 @@
     <div th:replace="include/header :: headerFragment"></div>
 
     <div class="content-wrap flex">
-        <div class="save-sticky">
+        <div id="stick-content">
+            <div class="save-sticky">
+                <div class="save-wrapper">
+                    <div class="save" id="saveBtn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
 
-            <div class="save-wrapper">
-                <div class="save" id="saveBtn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <!-- save 내부에 popup 위치시킴 -->
-                <div class="popup" id="savePopup">
-                    <div class="downloadResume">
-                        <div class="downInfo">
-                            <p>
-                                안녕하세요. 채용 플랫폼 워클렛입니다.<br>
-                                이력서를 파일로 저장하여 쉽게 이력서를 보내세요.
-                            </p>
+                        <div class="popup" id="savePopup">
+                            <div class="downloadResume">
+                                <div class="downInfo">
+                                    <p>
+                                        안녕하세요. 채용 플랫폼 워클렛입니다. 📢<br>
+                                        이력서를 파일로 저장하여 쉽게 이력서를 보내세요.
+                                    </p>
+                                </div>
+                                <button id="downloadResumeBtn">이력서 파일로 저장</button>
+                            </div>
+                            <button id="saveResumeBtn">이력서 저장</button>
                         </div>
-                        <button id="downloadResumeBtn">이력서 파일로 저장</button>
                     </div>
-                    <button id="saveResumeBtn">이력서 저장</button>
+
                 </div>
             </div>
         </div>
-
 
 
         <div class="left-sticky">
@@ -166,7 +166,7 @@
                             <input type="file" id="my-picture-input" name="photo" accept="image/*"  class="file-input">
 
                         </label>
-<!--                        <img id="preview-image" src="" alt="미리보기" style="display:none;" />-->
+                        <!--                        <img id="preview-image" src="" alt="미리보기" style="display:none;" />-->
                         <img src="../image/pencil.png" alt="" class="pencil modifyPencil">
                         <input type="hidden" name="resumeId" th:value="${param.uniqueTime}"id="pictureResumeId"/>
                         <input type="hidden" name="userNum" th:value="${userVO.userNum}" id="pictureUserNum"/>
@@ -512,7 +512,7 @@
                 </div>
 
             </section>
-<!--            <input type="button" id="downloadPDF" class="downloadPDF" value="작성한 이력서 pdf로 다운로드">-->
+
         </div>
     </div>
     <form action="/user/saveResume" method="post" id="hiddenForm">
@@ -532,42 +532,43 @@
 <script src="../css/js/header.js"></script>
 <script src="../css/js/resume.js"></script>
 
-    <script>
-        document.querySelectorAll('.preview-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const textarea = this.previousElementSibling;
-                const content = textarea.value;
-                const name = textarea.getAttribute('data-name');
+<script>
+    document.querySelectorAll('.preview-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const textarea = this.previousElementSibling;
+            const content = textarea.value;
+            const name = textarea.getAttribute('data-name');
 
-                // 로딩 스피너를 해당 텍스트 영역 아래에 표시
-                const spinner = textarea.nextElementSibling.nextElementSibling; // "spinner" 클래스를 찾음
+            // 로딩 스피너를 해당 텍스트 영역 아래에 표시
+            const spinner = textarea.nextElementSibling.nextElementSibling; // "spinner" 클래스를 찾음
 
-                // 스피너 보이기
-                spinner.style.display = "block";
-                textarea.innerText = ""; // 이전 결과 지우기
+            // 스피너 보이기
+            spinner.style.display = "block";
+            textarea.innerText = ""; // 이전 결과 지우기
 
 
-                fetch('submitresume', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        content: content,
-                        name: name
-                    })
+            fetch('submitresume', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: content,
+                    name: name
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        spinner.style.display = "none";
-                        textarea.value = data.result || '응답이 없습니다.';
-                    })
-                    .catch(error => {
-                        console.error('에러 발생:', error);
-                        textarea.value = '오류가 발생했습니다.';
-                    });
-            });
+            })
+                .then(response => response.json())
+                .then(data => {
+                    spinner.style.display = "none";
+                    textarea.value = data.result || '응답이 없습니다.';
+                })
+                .catch(error => {
+                    console.error('에러 발생:', error);
+                    textarea.value = '오류가 발생했습니다.';
+                });
         });
+    });
+
 
         document.getElementById("downloadResumeBtn").addEventListener("click", async function () {
             // 각 textarea 값 추출
@@ -575,119 +576,120 @@
             inputs["resume_title"] = document.getElementById("resume-title").value;
             console.log(document.getElementById("resume-title").value);
 
-            document.querySelectorAll(".writeBox").forEach(textarea => {
-                const key = textarea.getAttribute("data-type");
-                const valuee = textarea.value;
-                inputs[key] = valuee;
 
-            });
+        document.querySelectorAll(".writeBox").forEach(textarea => {
+            const key = textarea.getAttribute("data-type");
+            const valuee = textarea.value;
+            inputs[key] = valuee;
 
-            const educationList = [];
-
-            document.querySelectorAll(".school-list .education").forEach(eduEl => {
-                const schoolName = eduEl.querySelector("h4")?.textContent.trim();
-                const major = eduEl.querySelector("p")?.textContent.trim();
-
-                const spans = eduEl.querySelectorAll(".edu-info span");
-                const part = spans[0]?.textContent.trim();
-                const degreeType = spans[1]?.textContent.trim();
-                const graduationStatus = spans[2]?.textContent.trim();
-
-                const graduationDate = eduEl.querySelector(".graduration")?.textContent.trim();
-
-                educationList.push({
-                    schoolName,
-                    major,
-                    part,
-                    degreeType,
-                    graduationStatus,
-                    graduationDate
-                });
-            });
-
-            inputs["educationList"] = educationList;
-
-            const careerList = [];
-
-            document.querySelectorAll(".com-list .education").forEach(careerEl => {
-                const companyName = careerEl.querySelector("h4")?.textContent.trim();
-                const department = careerEl.querySelector("p")?.textContent.trim();
-
-                const spanEls = careerEl.querySelectorAll(".edu-info span");
-                const joinQuit = spanEls[0]?.textContent.trim().split(" ~ ");
-                const joinDate = joinQuit?.[0];
-                const quitDate = joinQuit?.[1];
-
-                const position = spanEls[1]?.textContent.trim();
-
-                const jobDescription = careerEl.querySelector(".job_description")?.textContent.trim();
-
-                careerList.push({
-                    companyName,
-                    department,
-                    joinDate,
-                    quitDate,
-                    position,
-                    jobDescription
-                });
-            });
-
-            inputs["careerList"] = careerList;
-
-            const licenseList = [];
-
-            document.querySelectorAll(".license-card").forEach(licenseEl => {
-                const licenseName = licenseEl.querySelector(".name")?.textContent.trim();
-                const licenseOrg = licenseEl.querySelector(".org")?.textContent.trim();
-
-                const dateText = licenseEl.querySelector(".date")?.textContent.trim();
-                let acquisition = "", expiration = "";
-                if (dateText.includes("~")) {
-                    const dates = dateText.split("~").map(d => d.trim());
-                    acquisition = dates[0];
-                    expiration = dates[1];
-                }
-
-                licenseList.push({
-                    licenseName,
-                    licenseOrg,
-                    acquisition,
-                    expiration
-                });
-            });
-
-            inputs["licenseList"] = licenseList;
-
-            console.log(inputs);
-
-            // Ajax 요청 보내기
-            fetch("/generatepdf", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(inputs)
-            })
-                .then(response => {
-                    if (!response.ok) throw new Error("PDF 생성 실패");
-                    return response.blob();
-                })
-                .then(blob => {
-                    // Blob으로 다운로드 처리
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "이력서.pdf";
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                })
-                .catch(error => {
-                    console.error("에러:", error);
-                    alert("PDF 생성 중 오류 발생");
-                });
         });
-    </script>
+
+        const educationList = [];
+
+        document.querySelectorAll(".school-list .education").forEach(eduEl => {
+            const schoolName = eduEl.querySelector("h4")?.textContent.trim();
+            const major = eduEl.querySelector("p")?.textContent.trim();
+
+            const spans = eduEl.querySelectorAll(".edu-info span");
+            const part = spans[0]?.textContent.trim();
+            const degreeType = spans[1]?.textContent.trim();
+            const graduationStatus = spans[2]?.textContent.trim();
+
+            const graduationDate = eduEl.querySelector(".graduration")?.textContent.trim();
+
+            educationList.push({
+                schoolName,
+                major,
+                part,
+                degreeType,
+                graduationStatus,
+                graduationDate
+            });
+        });
+
+        inputs["educationList"] = educationList;
+
+        const careerList = [];
+
+        document.querySelectorAll(".com-list .education").forEach(careerEl => {
+            const companyName = careerEl.querySelector("h4")?.textContent.trim();
+            const department = careerEl.querySelector("p")?.textContent.trim();
+
+            const spanEls = careerEl.querySelectorAll(".edu-info span");
+            const joinQuit = spanEls[0]?.textContent.trim().split(" ~ ");
+            const joinDate = joinQuit?.[0];
+            const quitDate = joinQuit?.[1];
+
+            const position = spanEls[1]?.textContent.trim();
+
+            const jobDescription = careerEl.querySelector(".job_description")?.textContent.trim();
+
+            careerList.push({
+                companyName,
+                department,
+                joinDate,
+                quitDate,
+                position,
+                jobDescription
+            });
+        });
+
+        inputs["careerList"] = careerList;
+
+        const licenseList = [];
+
+        document.querySelectorAll(".license-card").forEach(licenseEl => {
+            const licenseName = licenseEl.querySelector(".name")?.textContent.trim();
+            const licenseOrg = licenseEl.querySelector(".org")?.textContent.trim();
+
+            const dateText = licenseEl.querySelector(".date")?.textContent.trim();
+            let acquisition = "", expiration = "";
+            if (dateText.includes("~")) {
+                const dates = dateText.split("~").map(d => d.trim());
+                acquisition = dates[0];
+                expiration = dates[1];
+            }
+
+            licenseList.push({
+                licenseName,
+                licenseOrg,
+                acquisition,
+                expiration
+            });
+        });
+
+        inputs["licenseList"] = licenseList;
+
+        console.log(inputs);
+
+        // Ajax 요청 보내기
+        fetch("/generatepdf", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(inputs)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("PDF 생성 실패");
+                return response.blob();
+            })
+            .then(blob => {
+                // Blob으로 다운로드 처리
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "이력서.pdf";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(error => {
+                console.error("에러:", error);
+                alert("PDF 생성 중 오류 발생");
+            });
+    });
+</script>
 
 </body>
 
