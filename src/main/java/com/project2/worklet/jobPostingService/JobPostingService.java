@@ -15,7 +15,7 @@ public interface JobPostingService {
     public List<JobPostingVO2> getRecentJobPostings();
 
 
-    int scrapJob(String userId, String empNoToScrap);
+    int scrapJob(String userId, String empNoToScrap, String color);
     int unscrapJob(String userId, String empNoToScrap);
 
 

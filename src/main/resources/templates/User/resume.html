@@ -511,7 +511,7 @@
                 </div>
 
             </section>
-            <input type="button" id="downloadPDF" class="downloadPDF" value="작성한 이력서 pdf로 다운로드">
+<!--            <input type="button" id="downloadPDF" class="downloadPDF" value="작성한 이력서 pdf로 다운로드">-->
         </div>
     </div>
     <form action="/user/saveResume" method="post" id="hiddenForm">
@@ -568,10 +568,11 @@
             });
         });
 
-        document.getElementById("downloadPDF").addEventListener("click", async function () {
+        document.getElementById("downloadResumeBtn").addEventListener("click", async function () {
             // 각 textarea 값 추출
             const inputs = {};
-            inputs["resume_title"] =  document.getElementById("resume-title").value;
+            inputs["resume_title"] = document.getElementById("resume-title").value;
+            console.log(document.getElementById("resume-title").value);
 
             document.querySelectorAll(".writeBox").forEach(textarea => {
                 const key = textarea.getAttribute("data-type");
