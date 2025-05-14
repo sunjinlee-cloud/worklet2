@@ -3,8 +3,10 @@ package com.project2.worklet.user.service;
 
 import com.project2.worklet.component.*;
 import com.project2.worklet.util_interceptor.Criteria;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -44,13 +46,13 @@ public interface UserService {
     int updateCareer(CareerVO career);
 
     // 학력 조회 추가
-    List<EduVO> getUserEducation(int userNum);
+    List<EduVO> getUserEducation(int userNum, Long resumeId);
 
     // 경력 조회 추가
-    List<CareerVO> getUserCareer(int userNum);
+    List<CareerVO> getUserCareer(int userNum, Long resumeId);
 
     // 자격증 조회 추가
-    List<LicenseVO> getUserLicenses(int userNum);
+    List<LicenseVO> getUserLicenses(int userNum, Long resumeId);
 
     // 학력 삭제
     int deleteEducation(Long educationId);
@@ -75,6 +77,10 @@ public interface UserService {
 
     //추천공고
     List<JobPostingVO2> getRecommendedJob(List<String> preferredJobTypes, Criteria cri);
+
+
+    // 사진 추가
+    String saveProfileImage(MultipartFile file, int userNum, Long resumeId) throws IOException;
 
 
 }

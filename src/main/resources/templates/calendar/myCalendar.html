@@ -55,6 +55,10 @@
     var calendarEl = document.getElementById('calendar');
     var tooltip = document.getElementById('titleToolTip');
 
+        if (tooltip && tooltip.parentNode !== document.body) {
+            document.body.appendChild(tooltip);
+        }
+
     var currentEventMode = null;
 
     // initialize the external events
@@ -367,6 +371,7 @@
                 //     eventMain.appendChild(heart);
                 // }
                 // // ⭐ 즐겨찾기 하트 추가 끝
+                console.log(info.event.extendedProps);
 
                 var mainEl = info.el.querySelector('.fc-event-main');
                 if (!mainEl) return;
@@ -430,7 +435,7 @@
 
                     tooltip.innerHTML = info.event.title;
                     tooltip.style.position = 'absolute';
-                    tooltip.style.zIndex = '9999';
+                    tooltip.style.setProperty('z-index', '2147483647', 'important');
                     tooltip.style.top = (rect.top + window.scrollY - 150) + 'px';
                     tooltip.style.left = (rect.left + window.scrollX) + 'px';
                     tooltip.style.minWidth = rect.width + 'px';
@@ -439,6 +444,14 @@
                     tooltip.style.display = 'block';
 
                     titleSpan.style.cursor = 'pointer';
+
+                    setTimeout(function () {
+                        var popovers = document.querySelectorAll('.fc-popover');
+                        for (var i = 0; i < popovers.length; i++) {
+                            popovers[i].style.zIndex = '1000';
+                        }
+                    }, 0);
+
                 });
 
                 titleSpan.addEventListener('mouseleave', function () {
@@ -467,13 +480,12 @@
 
                     var bgColor = info.event.extendedProps.color;
                     if(bgColor) {
-                        console.log("색상 값: ", bgColor);
                         mainEl.style.backgroundColor = bgColor;
                     } else {
-                        mainEl.style.backgroundColor = '#e4e4e4';
+                        mainEl.style.backgroundColor = 'rgba(255, 255, 255, 0)';
                     }
 
-                    mainEl.style.borderRadius = "5px";
+                    mainEl.style.borderRadius = "7px";
                     mainEl.style.paddingTop = "3px";
                     mainEl.style.paddingBottom = "3px";
 

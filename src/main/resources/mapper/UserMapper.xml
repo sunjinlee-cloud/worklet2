@@ -92,7 +92,7 @@
     </update>
 
     <!-- 학력 추가 -->
-    <insert id="insertEdu" parameterType="com.project2.worklet.component.EduVO">
+    <insert id="insertEdu" parameterType="com.project2.worklet.component.EduVO" useGeneratedKeys="true" keyProperty="educationId">
         INSERT INTO education (
             user_num,
             school_name,
@@ -137,7 +137,7 @@
     </update>
 
     <!-- 경력 추가 -->
-    <insert id="insertCareer" parameterType="com.project2.worklet.component.CareerVO">
+    <insert id="insertCareer" parameterType="com.project2.worklet.component.CareerVO"  useGeneratedKeys="true" keyProperty="careerId">
         INSERT INTO career (
             user_num,
             company_name,
@@ -178,12 +178,12 @@
     </update>
 
     <select id="getUserEducation" resultType="com.project2.worklet.component.EduVO">
-        SELECT * FROM education WHERE user_num = #{userNum}
+        SELECT * FROM education WHERE user_num = #{userNum} AND RESUME_ID = #{resumeId}
     </select>
 
 
     <select id="getUserCareer" resultType="com.project2.worklet.component.CareerVO">
-        SELECT * FROM career WHERE user_num = #{userNum}
+        SELECT * FROM career WHERE user_num = #{userNum} AND RESUME_ID = #{resumeId}
     </select>
 
 
@@ -217,7 +217,7 @@
     </update>
 
     <!--  자격증 추가  -->
-    <insert id="insertLicense" parameterType="com.project2.worklet.component.LicenseVO">
+    <insert id="insertLicense" parameterType="com.project2.worklet.component.LicenseVO" useGeneratedKeys="true" keyProperty="licenseId">
         INSERT INTO license (
             user_num,
             license_name,
@@ -236,7 +236,7 @@
     </insert>
 
     <select id="getUserLicenses" resultType="com.project2.worklet.component.LicenseVO">
-        SELECT * FROM license WHERE user_num = #{userNum}
+        SELECT * FROM license WHERE user_num = #{userNum} AND RESUME_ID = #{resumeId}
     </select>
 
     <!--  자격증 수정  -->
@@ -299,4 +299,15 @@
         order by j1.emp_seq_no desc
         limit 0, 4;
     </select>
+
+
+    <!-- 사진 경로 업데이트 -->
+    <update id="updatePhotoPath" parameterType="map">
+        UPDATE resume
+        SET
+            photo_path = #{photoPath}
+        WHERE resume_id = #{resumeId}
+    </update>
+
+
 </mapper>
