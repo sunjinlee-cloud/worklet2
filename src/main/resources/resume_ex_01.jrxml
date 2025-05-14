@@ -34,7 +34,8 @@
 	<parameter name="resumeStrengthWeakness" class="java.lang.String"/>
 	<parameter name="resumeSchoolCareer" class="java.lang.String"/>
 	<parameter name="resumeApplyAfterDream" class="java.lang.String"/>
-	<parameter name="resume_title" class="java.lang.String"/>
+	<parameter name="resumeTitle" class="java.lang.String"/>
+	<parameter name="shit" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -47,12 +48,12 @@
 				<reportElement x="350" y="20" width="89" height="100" uuid="2036cb83-9964-4562-905c-941709b9c37e"/>
 				<imageExpression><![CDATA["C:/Users/user/Desktop/worklet/src/main/resources/static/image/background_img.png"]]></imageExpression>
 			</image>
-			<textField>
+			<textField isStretchWithOverflow="true" >
 				<reportElement x="79" y="74" width="260" height="30" uuid="e358535b-e569-44a1-b3cd-9e44c6501d51"/>
 				<textElement>
-					<font size="16"/>
+					<font fontName="KR_맑은고딕" size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{resume_title}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{resumeTitle}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -236,7 +237,7 @@
 				<textFieldExpression><![CDATA[$P{resumeEduPeriod1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="88" y="58" width="100" height="16" uuid="2f115dd6-af3b-4651-8966-8c2808b7418c">
+				<reportElement x="88" y="58" width="100" height="16" isRemoveLineWhenBlank="true" uuid="2f115dd6-af3b-4651-8966-8c2808b7418c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -254,7 +255,7 @@
 				<textFieldExpression><![CDATA[$P{resumeEduCont1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="190" y="58" width="268" height="16" uuid="85c4610e-a5ee-4729-9e11-60c3d40f5432">
+				<reportElement x="190" y="58" width="268" height="16" isRemoveLineWhenBlank="true" uuid="85c4610e-a5ee-4729-9e11-60c3d40f5432">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -319,22 +320,22 @@
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="191" y="120" width="269" height="1" forecolor="#E3E3E3" uuid="2b4aedae-0bfd-44c1-934e-21e61074f7a5">
+				<reportElement x="191" y="120" width="269" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="2b4aedae-0bfd-44c1-934e-21e61074f7a5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="191" y="143" width="269" height="1" forecolor="#E3E3E3" uuid="cd1268c8-578b-40c4-bd87-1f2d5b966e51">
+				<reportElement x="191" y="143" width="269" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="cd1268c8-578b-40c4-bd87-1f2d5b966e51">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="89" y="121" width="81" height="1" forecolor="#E3E3E3" uuid="4a77863c-b09a-4dd7-be55-91a64dac1bc7">
+				<reportElement x="89" y="121" width="81" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="4a77863c-b09a-4dd7-be55-91a64dac1bc7">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<staticText>
-				<reportElement x="191" y="106" width="40" height="14" uuid="c715dcfb-eb85-404c-8a32-f6b2e46c4c90">
+				<reportElement x="191" y="106" width="40" height="14" isRemoveLineWhenBlank="true" uuid="c715dcfb-eb85-404c-8a32-f6b2e46c4c90">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -343,14 +344,14 @@
 				<text><![CDATA[직장명]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="191" y="128" width="49" height="16" uuid="d4dd6b45-2ad3-4a34-965d-c597d90b7a78"/>
+				<reportElement x="191" y="128" width="49" height="16" isRemoveLineWhenBlank="true" uuid="d4dd6b45-2ad3-4a34-965d-c597d90b7a78"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
 				</textElement>
 				<text><![CDATA[담당직무]]></text>
 			</staticText>
 			<line>
-				<reportElement x="191" y="161" width="269" height="1" forecolor="#E3E3E3" uuid="1ee9b322-cc9e-49ea-b26c-fdf74c20c425">
+				<reportElement x="191" y="161" width="269" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="1ee9b322-cc9e-49ea-b26c-fdf74c20c425">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
@@ -364,7 +365,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCarPeriod1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="88" y="107" width="122" height="14" uuid="6ccb3052-5592-4a3c-bc8e-1179b55e8c06">
+				<reportElement x="88" y="107" width="122" height="14" isRemoveLineWhenBlank="true" uuid="6ccb3052-5592-4a3c-bc8e-1179b55e8c06">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$P{resumeCarPeriod2}]]></textFieldExpression>
@@ -379,7 +380,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCarBusiName1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="249" y="104" width="158" height="16" uuid="958b0b0e-7c23-4541-b292-21292c9d92d0">
+				<reportElement x="249" y="104" width="158" height="16" isRemoveLineWhenBlank="true" uuid="958b0b0e-7c23-4541-b292-21292c9d92d0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -388,7 +389,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCarBusiName2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="249" y="127" width="198" height="33" uuid="f5d655c4-908d-4ae3-af10-52778e17d105">
+				<reportElement x="249" y="127" width="198" height="33" isRemoveLineWhenBlank="true" uuid="f5d655c4-908d-4ae3-af10-52778e17d105">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -457,12 +458,12 @@
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="86" y="96" width="391" height="1" forecolor="#E3E3E3" uuid="50c633f2-9520-4c6e-8046-abdb1460404f">
+				<reportElement x="86" y="96" width="391" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="50c633f2-9520-4c6e-8046-abdb1460404f">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="86" y="119" width="391" height="1" forecolor="#E3E3E3" uuid="45e14ecd-065d-4ed7-952a-04b26ed262e4">
+				<reportElement x="86" y="119" width="391" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="45e14ecd-065d-4ed7-952a-04b26ed262e4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
@@ -472,7 +473,7 @@
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="88" y="144" width="391" height="1" forecolor="#E3E3E3" uuid="5372a262-b138-4eaa-96df-4c9aa042c3ab">
+				<reportElement x="88" y="144" width="391" height="1" isRemoveLineWhenBlank="true" forecolor="#E3E3E3" uuid="5372a262-b138-4eaa-96df-4c9aa042c3ab">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
@@ -486,7 +487,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertRegDate1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="97" y="81" width="125" height="14" uuid="004d2316-a95a-4010-ab55-26721f29e07a">
+				<reportElement x="97" y="81" width="125" height="14" isRemoveLineWhenBlank="true" uuid="004d2316-a95a-4010-ab55-26721f29e07a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -495,7 +496,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertRegDate2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="96" y="104" width="118" height="14" uuid="413e7e38-41d2-40da-bc38-291f802b8067">
+				<reportElement x="96" y="104" width="118" height="14" isRemoveLineWhenBlank="true" uuid="413e7e38-41d2-40da-bc38-291f802b8067">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -504,7 +505,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertRegDate3}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="97" y="130" width="124" height="14" uuid="67641d0c-dc06-4832-b044-5f66cf95a056">
+				<reportElement x="97" y="130" width="124" height="14" isRemoveLineWhenBlank="true" uuid="67641d0c-dc06-4832-b044-5f66cf95a056">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -513,7 +514,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertRegDate4}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="82" width="126" height="14" uuid="9ad652bb-7b2f-4423-a243-c3762b7eab89">
+				<reportElement x="200" y="82" width="126" height="14" isRemoveLineWhenBlank="true" uuid="9ad652bb-7b2f-4423-a243-c3762b7eab89">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -522,7 +523,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertName2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="105" width="126" height="14" uuid="b9f05ea4-9092-4a08-9116-6360796fecc8">
+				<reportElement x="200" y="105" width="126" height="14" isRemoveLineWhenBlank="true" uuid="b9f05ea4-9092-4a08-9116-6360796fecc8">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -531,7 +532,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertName3}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="200" y="130" width="126" height="14" uuid="13b032e5-23e7-49c0-955f-e9e5062f36a1">
+				<reportElement x="200" y="130" width="126" height="14" isRemoveLineWhenBlank="true" uuid="13b032e5-23e7-49c0-955f-e9e5062f36a1">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -549,7 +550,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertName1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="369" y="82" width="100" height="14" uuid="dcafc736-787c-4d81-ba56-93512892afdf">
+				<reportElement x="369" y="82" width="100" height="14" isRemoveLineWhenBlank="true" uuid="dcafc736-787c-4d81-ba56-93512892afdf">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -558,7 +559,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertFrom2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="369" y="105" width="100" height="14" uuid="33df66b0-3f70-4c76-8c4e-9d732715169c">
+				<reportElement x="369" y="105" width="100" height="14" isRemoveLineWhenBlank="true" uuid="33df66b0-3f70-4c76-8c4e-9d732715169c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -567,7 +568,7 @@
 				<textFieldExpression><![CDATA[$P{resumeCertFrom3}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="369" y="130" width="100" height="14" uuid="43fe8b31-d29a-465b-bca6-2436977a9a38">
+				<reportElement x="369" y="130" width="100" height="14" isRemoveLineWhenBlank="true" uuid="43fe8b31-d29a-465b-bca6-2436977a9a38">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -614,7 +615,7 @@
 				</textElement>
 				<text><![CDATA[성장과정]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" >
 				<reportElement stretchType="ElementGroupHeight" x="180" y="60" width="288" height="152" uuid="23e19fa4-59d0-4a1d-83d2-545ea6f61005"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
@@ -639,7 +640,7 @@
 				</textElement>
 				<text><![CDATA[학창 시절 및 경력]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" >
 				<reportElement x="181" y="7" width="288" height="148" uuid="4b245edc-fdfe-4735-bfd3-eaf68f74acbe"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
@@ -661,7 +662,7 @@
 				</textElement>
 				<text><![CDATA[성격의 장단점]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" >
 				<reportElement x="180" y="9" width="288" height="152" uuid="22d6bf22-7ff0-4909-9e88-2ecb3d177daf"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
@@ -688,7 +689,7 @@
 				</textElement>
 				<text><![CDATA[입사후 포부]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true"  isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="180" y="7" width="288" height="153" isPrintWhenDetailOverflows="true" uuid="dda5a85b-b62f-474a-9b51-de6aba270084"/>
 				<textElement>
 					<font fontName="KR_맑은고딕"/>
